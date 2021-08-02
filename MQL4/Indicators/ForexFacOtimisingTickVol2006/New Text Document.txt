@@ -1,0 +1,8 @@
+"C:\REPO\MQL4_APP_EXT\MQL4\Indicators\ForexFacOtimisingTickVol2006\TVI_Histogram.ex4"
+"C:\REPO\MQL4_APP_EXT\MQL4\Indicators\ForexFacOtimisingTickVol2006\#4X 3 Semafor Alert.ex4"
+"C:\REPO\MQL4_APP_EXT\MQL4\Indicators\ForexFacOtimisingTickVol2006\BBands_Stop_v1_with_alert.ex4"
+"C:\REPO\MQL4_APP_EXT\MQL4\Indicators\ForexFacOtimisingTickVol2006\Round Numbers 5 digit.ex4"
+"C:\REPO\MQL4_APP_EXT\MQL4\Indicators\ForexFacOtimisingTickVol2006\Trix4Kids.ex4"
+"C:\REPO\MQL4_APP_EXT\MQL4\Indicators\ForexFacOtimisingTickVol2006\TVI. 0 Alert.ex4"
+"C:\REPO\MQL4_APP_EXT\MQL4\Indicators\ForexFacOtimisingTickVol2006\TVI.ex4"
+"C:\REPO\MQL4_APP_EXT\MQL4\Indicators\ForexFacOtimisingTickVol2006\TVI_2color.ex4"
