@@ -1,0 +1,9 @@
+
+"E:\NoScan\_TransferToFromMaster\Trading\Course 2 ExactTrading\CreamTopping CT\MT4\MQL4\Inidicators\ExactTrading Config\Sessions.ex4"
+"E:\NoScan\_TransferToFromMaster\Trading\Course 2 ExactTrading\CreamTopping CT\MT4\MQL4\Inidicators\ExactTrading Config\Ex_Trend_v1.0.ex4"
+"E:\NoScan\_TransferToFromMaster\Trading\Course 2 ExactTrading\CreamTopping CT\MT4\MQL4\Inidicators\ExactTrading Config\Ex_Trend_v1.0.mq4"
+"E:\NoScan\_TransferToFromMaster\Trading\Course 2 ExactTrading\CreamTopping CT\MT4\MQL4\Inidicators\ExactTrading Config\HighLow_v1.6.ex4"
+"E:\NoScan\_TransferToFromMaster\Trading\Course 2 ExactTrading\CreamTopping CT\MT4\MQL4\Inidicators\ExactTrading Config\Night-Nurse-Extra.ex4"
+"E:\NoScan\_TransferToFromMaster\Trading\Course 2 ExactTrading\CreamTopping CT\MT4\MQL4\Inidicators\ExactTrading Config\Range+bar+chart.ex4"
+"E:\NoScan\_TransferToFromMaster\Trading\Course 2 ExactTrading\CreamTopping CT\MT4\MQL4\Inidicators\ExactTrading Config\RangeBar.ex4"
+
