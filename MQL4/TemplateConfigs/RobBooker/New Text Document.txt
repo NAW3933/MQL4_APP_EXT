@@ -1,2 +1,0 @@
-"C:\REPO\MQL4_APP_EXT\MQL4\Indicators\RobBooker\Daily Pivot Points.ex4"
-"C:\REPO\MQL4_APP_EXT\MQL4\Indicators\RobBooker\KD and Reversal Tabs 3.5.ex4"
