@@ -1,0 +1,2 @@
+"C:\REPO\MQL4_APP_EXT\MQL4\Indicators\The Forex Guy Tools\Market Analytics.ex4"
+"C:\REPO\MQL4_APP_EXT\MQL4\Indicators\The Forex Guy Tools\Battle Station.ex4"

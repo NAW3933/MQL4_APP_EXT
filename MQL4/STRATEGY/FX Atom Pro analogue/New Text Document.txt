@@ -1,0 +1,6 @@
+"C:\REPO\MQL4_APP_EXT\MQL4\Indicators\FX Atom Pro analogue\templates"
+"C:\REPO\MQL4_APP_EXT\MQL4\Indicators\FX Atom Pro analogue\MQL4"
+"C:\REPO\MQL4_APP_EXT\MQL4\Indicators\FX Atom Pro analogue\MQL4\Indicators\SuperTrend.mq4"
+"C:\REPO\MQL4_APP_EXT\MQL4\Indicators\FX Atom Pro analogue\MQL4\Indicators\MTF_SuperTrend.mq4"
+"C:\REPO\MQL4_APP_EXT\MQL4\Indicators\FX Atom Pro analogue\templates\Super Trend template.tpl"
+"C:\REPO\MQL4_APP_EXT\MQL4\Indicators\FX Atom Pro analogue\templates\ST + MTF ST_H4 template.tpl"
