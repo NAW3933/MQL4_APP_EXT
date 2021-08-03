@@ -6,3 +6,4 @@
 "C:\REPO\MQL4_APP_EXT\MQL4\Indicators\ForexFacOtimisingTickVol2006\TVI. 0 Alert.ex4"
 "C:\REPO\MQL4_APP_EXT\MQL4\Indicators\ForexFacOtimisingTickVol2006\TVI.ex4"
 "C:\REPO\MQL4_APP_EXT\MQL4\Indicators\ForexFacOtimisingTickVol2006\TVI_2color.ex4"
+
