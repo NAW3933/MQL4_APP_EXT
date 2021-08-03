@@ -2,7 +2,8 @@
 //| Website:    http://forexsb.com/                                    |
 //| Support:    http://forexsb.com/forum/                              |
 //| License:    Proprietary under the following circumstances:         |
-//|                                                                    |
+//|              
+                                                      |
 //| This code is a part of Forex Strategy Builder. It is free for      |
 //| use as an integral part of Forex Strategy Builder.                 |
 //| One can modify it in order to improve the code or to fit it for    |
