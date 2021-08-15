@@ -1,4 +1,6 @@
-﻿$Depth = 3
+﻿
+
+$Depth = 3
 $Root = 'C:\forexcollection\2020'
 $Targe
 
@@ -16,7 +18,7 @@ ForEach ($SubDir in ($DirObjects | ?{$_.PSIsContainer})){
     
     $ex4Files = Get-ChildItem $SubDir -Filter *.ex4| Measure-Object | %{$_.Count}
     
-    if(($FileCount=1) -And ($FolderCount=1))
+    if(($FileCount.ToDecimal()=1) -And ($FolderCount=1))
     {
         ''
         $SubDir.Name
