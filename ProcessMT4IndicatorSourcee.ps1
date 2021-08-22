@@ -1,22 +1,16 @@
-﻿#C# stuff
-<#
-Add-Type -TypeDefinition @"
-     using System;
-     using System.IO;
-
-     class 
-"@
-#>
-#Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-#$Depth = 3
+﻿
 $ZipSource = '_3rdPartyMT4Code\forexcollection\2020'
 $TrgtRt = '..\_MQL4_PREBUILD'
 $MQLFilesNum= 0
 $EX4FileNum=0
 
 #PROCESSING forexcollection
-#1.Create a temp folder
+#1.Create a temp folder to unzip contents
 $TrgtRt = $TrgtRt + '\temp'  
+
+If(Test-Path -Path $TrgtRt\Unpacked.txt){
+}
+end
 <#
 Remove-Item $TrgtRt -Recurse -Force
 New-item $TrgtRt -ItemType directory
@@ -39,12 +33,7 @@ ForEach ($SubDir in ($DirObjects)) { # | ?{$_.PSIsContainer})){
     $NoOfex4Files = [System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.ex4')| Measure-Object| %{$_.Count}
     $NoOfmq4Files = [System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.mq4')| Measure-Object| %{$_.Count}
     $NoOfSubFolder = [System.IO.Directory]::EnumerateDirectories($SubDir.FullName, '*')| Measure-Object| %{$_.Count}
-   
-    ## NOT THIS $NoOfSubFolder= [System.IO.DirectoryInfo]::new($SubDir.FullName)::GetDirectories| Measure-Object| %{$_.Count}
-    #SOL2 $NoOfSubFolder= (Get-ChildItem $SubDir.FullName -Recurse -Directory | Measure-Object).Count
-    #SOL3 $NoOfSubFolder = Get-ChildItem $SubDir.FullName -Recurse |? { $_.PSIsContainer } |Measure-Object |select -Expand Count
-
-
+    
     $SubDir.FullName
     'Item ' + $ItemPos + ' ' + ' of ' + $LastPos + ': ex4 =' +  $NoOfex4Files + ': mq4 =' + $NoOfmq4Files + ': SubFolders =' +  $NoOfSubFolder
     $ItemPos = $ItemPos+1
