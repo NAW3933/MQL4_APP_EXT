@@ -1,4 +1,5 @@
-﻿
+﻿Set-ExecutionPolicy -ExecutionPolicy AllSigned -Scope Process
+
 $ZipSource = '_3rdPartyMT4Code\forexcollection\2020'
 $TrgtRt = '..\_MQL4_PREBUILD'
 $MQLFilesNum= 0
@@ -8,22 +9,23 @@ $EX4FileNum=0
 #1.Create a temp folder to unzip contents
 $TrgtRt = $TrgtRt + '\temp'  
 
-If(Test-Path -Path $TrgtRt\Unpacked.txt){
-}
-end
-<#
-Remove-Item $TrgtRt -Recurse -Force
-New-item $TrgtRt -ItemType directory
 
-$DirObjects=Get-ChildItem -Directory $ZipSource -Depth 1
-ForEach ($SubDir in ($DirObjects | ?{$_.PSIsContainer})){
-    $SubDir.FullName
-    Get-ChildItem  -Path $ZipSource\$SubDir -Filter '*.zip' |Foreach-Object{
-        'Unzipping '+$_.FullName
-        Expand-Archive -Path $_.FullName -DestinationPath $TrgtRt -Force
+If (-not(Test-Path -Path $TrgtRt\Unpacked.txt)){
+
+    Remove-Item $TrgtRt -Recurse -Force
+    New-item $TrgtRt -ItemType directory
+
+    $DirObjects=Get-ChildItem -Directory $ZipSource -Depth 1
+    ForEach ($SubDir in ($DirObjects | ?{$_.PSIsContainer})){
+        $SubDir.FullName
+        Get-ChildItem  -Path $ZipSource\$SubDir -Filter '*.zip' |Foreach-Object{
+            'Unzipping '+$_.FullName
+            Expand-Archive -Path $_.FullName -DestinationPath $TrgtRt -Force
+        }
     }
 }
-#>
+
+
 
 $DirObjects=Get-ChildItem -Directory $TrgtRt 
 $LastPos = $DirObjects.Count
