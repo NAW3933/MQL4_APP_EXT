@@ -1,11 +1,57 @@
-﻿
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-$Depth = 3
-$Root = 'C:\forexcollection\2020'
-$TrgtRt = 'C:\forexcollection\temp\Indicators'
+﻿#C# stuff
+<#
+Add-Type -TypeDefinition @"
+     using System;
+     using System.IO;
+
+     class 
+"@
+#>
+#Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+#$Depth = 3
+$ZipSource = '_3rdPartyMT4Code\forexcollection\2020'
+$TrgtRt = '..\_MQL4_PREBUILD'
 $MQLFilesNum= 0
 $EX4FileNum=0
 
+#PROCESSING forexcollection
+#1.Create a temp folder
+$TrgtRt = $TrgtRt + '\temp'  
+<#
+Remove-Item $TrgtRt -Recurse -Force
+New-item $TrgtRt -ItemType directory
+
+$DirObjects=Get-ChildItem -Directory $ZipSource -Depth 1
+ForEach ($SubDir in ($DirObjects | ?{$_.PSIsContainer})){
+    $SubDir.FullName
+    Get-ChildItem  -Path $ZipSource\$SubDir -Filter '*.zip' |Foreach-Object{
+        'Unzipping '+$_.FullName
+        Expand-Archive -Path $_.FullName -DestinationPath $TrgtRt -Force
+    }
+}
+#>
+
+$DirObjects=Get-ChildItem -Directory $TrgtRt 
+$LastPos = $DirObjects.Count
+$ItemPos =1
+ForEach ($SubDir in ($DirObjects)) { # | ?{$_.PSIsContainer})){
+
+    $NoOfex4Files = [System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.ex4')| Measure-Object| %{$_.Count}
+    $NoOfmq4Files = [System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.mq4')| Measure-Object| %{$_.Count}
+    $NoOfSubFolder = [System.IO.Directory]::EnumerateDirectories($SubDir.FullName, '*')| Measure-Object| %{$_.Count}
+   
+    ## NOT THIS $NoOfSubFolder= [System.IO.DirectoryInfo]::new($SubDir.FullName)::GetDirectories| Measure-Object| %{$_.Count}
+    #SOL2 $NoOfSubFolder= (Get-ChildItem $SubDir.FullName -Recurse -Directory | Measure-Object).Count
+    #SOL3 $NoOfSubFolder = Get-ChildItem $SubDir.FullName -Recurse |? { $_.PSIsContainer } |Measure-Object |select -Expand Count
+
+
+    $SubDir.FullName
+    'Item ' + $ItemPos + ' ' + ' of ' + $LastPos + ': ex4 =' +  $NoOfex4Files + ': mq4 =' + $NoOfmq4Files + ': SubFolders =' +  $NoOfSubFolder
+    $ItemPos = $ItemPos+1
+
+}
+
+<#
 $Levels = '/*' * 2
 $DirObjects=Get-ChildItem -Directory $Root/$Levels
 ForEach ($SubDir in ($DirObjects | ?{$_.PSIsContainer})){
@@ -50,7 +96,7 @@ ForEach ($SubDir in ($DirObjects | ?{$_.PSIsContainer})){
                    Move-Item -Path $_.FullName -Destination $TrgtRt
             }    
     }
-
+    #>
     <#
     if (-not(Test-Path -Path $SubDir/Indicator)){  
         $SubDir.FullName
@@ -58,6 +104,6 @@ ForEach ($SubDir in ($DirObjects | ?{$_.PSIsContainer})){
         #"Path doesn't exist."
     }
     #>
-    
-}
+
+
 
