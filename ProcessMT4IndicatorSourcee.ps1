@@ -1,4 +1,4 @@
-﻿#Set-ExecutionPolicy -ExecutionPolicy AllSigned -Scope Process
+﻿#Set-ExecutionPolicy  RemoteSigned -Scope LocalMachine
 #Get-ExecutionPolicy
 #Get-ExecutionPolicy -List
 
