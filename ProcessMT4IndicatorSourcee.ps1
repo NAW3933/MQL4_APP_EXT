@@ -1,4 +1,6 @@
-﻿Set-ExecutionPolicy -ExecutionPolicy AllSigned -Scope Process
+﻿#Set-ExecutionPolicy -ExecutionPolicy AllSigned -Scope Process
+#Get-ExecutionPolicy
+#Get-ExecutionPolicy -List
 
 $ZipSource = '_3rdPartyMT4Code\forexcollection\2020'
 $TrgtRt = '..\_MQL4_PREBUILD'
