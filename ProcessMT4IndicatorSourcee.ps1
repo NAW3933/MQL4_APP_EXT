@@ -1,20 +1,22 @@
-﻿#Set-ExecutionPolicy  RemoteSigned -Scope LocalMachine
-#Get-ExecutionPolicy
-#Get-ExecutionPolicy -List
+﻿#Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy Undefined
+#Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 
-$ZipSource = '_3rdPartyMT4Code\forexcollection\2020'
-$TrgtRt = '..\_MQL4_PREBUILD'
-$MQLFilesNum= 0
+#Get-ExecutionPolicy -List
+# Determine script location for PowerShell
+
+$ZipSource = $PSScriptRoot+'\_3rdPartyMT4Code\forexcollection\2020'
+$TrgtRt = $PSScriptRoot + '\..\_MQL4_PREBUILD'
+$MQLFilesNum=0
 $EX4FileNum=0
+
 
 #PROCESSING forexcollection
 #1.Create a temp folder to unzip contents
 $TrgtRt = $TrgtRt + '\temp'  
 
-
-If (-not(Test-Path -Path $TrgtRt\Unpacked.txt)){
-
-    Remove-Item $TrgtRt -Recurse -Force
+If (-not( Test-Path -Path $TrgtRt)){
+    
+    #Remove-Item $TrgtRt -Recurse -Force
     New-item $TrgtRt -ItemType directory
 
     $DirObjects=Get-ChildItem -Directory $ZipSource -Depth 1
@@ -26,7 +28,9 @@ If (-not(Test-Path -Path $TrgtRt\Unpacked.txt)){
         }
     }
 }
-
+else{
+    Write-Host('It looks like forexcollection\2020 has been unzipped')
+}
 
 
 $DirObjects=Get-ChildItem -Directory $TrgtRt 
