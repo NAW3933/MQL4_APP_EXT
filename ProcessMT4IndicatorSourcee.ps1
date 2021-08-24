@@ -26,7 +26,9 @@ If (-not( Test-Path -Path $TrgtRt)){
             'Unzipping '+$_.FullName
             Expand-Archive -Path $_.FullName -DestinationPath $TrgtRt -Force
         }
+
     }
+  
 }
 else{
     Write-Host('It looks like forexcollection\2020 has been unzipped')
@@ -47,6 +49,9 @@ ForEach ($SubDir in ($DirObjects)) { # | ?{$_.PSIsContainer})){
     $ItemPos = $ItemPos+1
 
 }
+
+#Now extract
+
 
 <#
 $Levels = '/*' * 2
