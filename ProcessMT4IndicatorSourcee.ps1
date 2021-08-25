@@ -1,26 +1,32 @@
-﻿#Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy Undefined
+﻿#RUN AS ADMINISTRATOR
+#Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy Undefined
 #Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 #$PSVersionTable
 #Get-ExecutionPolicy -List
-Invoke-WebRequest -Uri "http://system.data.sqlite.org/blobs/1.0.113.0/sqlite-netFx45-binary-x64-2012-1.0.113.0.zip" -OutFile C:\CODE\MQL4_APP_EXT\Dependancies\SQLLite\sqlite.zip
-Expand-Archive C:\CODE\MQL4_APP_EXT\Dependancies\SQLLite\sqlite.zip -DestinationPath C:\CODE\MQL4_APP_EXT\Dependancies\SQLLite\sqlite.net -Force
-[Reflection.Assembly]::LoadFile("C:\CODE\MQL4_APP_EXT\Dependancies\SQLLite\sqlite.net\System.Data.SQLite.dll")
+#Invoke-WebRequest -Uri "http://system.data.sqlite.org/blobs/1.0.113.0/sqlite-netFx45-binary-x64-2012-1.0.113.0.zip" -OutFile C:\CODE\MQL4_APP_EXT\Dependancies\SQLLite\sqlite.zip
+#Expand-Archive C:\CODE\MQL4_APP_EXT\Dependancies\SQLLite\sqlite.zip -DestinationPath C:\CODE\MQL4_APP_EXT\Dependancies\SQLLite\sqlite.net -Force
+#[Reflection.Assembly]::LoadFile("C:\CODE\MQL4_APP_EXT\Dependancies\SQLLite\sqlite.net\System.Data.SQLite.dll")
 
 [System.Data.SQLite.SQLiteConnection]::CreateFile($sDatabasePath)
-$sDatabasePath="C:\CODE\MQL4_APP_EXT\Dependancies\SQLLite\ForexCollection2000.sqlite"
+$sDatabasePath = "C:\CODE\MQL4_APP_EXT\Dependancies\SQLLite\ForexCollection2000.sqlite"
 [System.Data.SQLite.SQLiteConnection]::CreateFile($sDatabasePath)
-$sDatabaseConnectionString=[string]::Format("data source={0}",$sDatabasePath)
+$sDatabaseConnectionString = [string]::Format("data source={0}", $sDatabasePath)
 $oSQLiteDBConnection = New-Object System.Data.SQLite.SQLiteConnection
 $oSQLiteDBConnection.ConnectionString = $sDatabaseConnectionString
 $oSQLiteDBConnection.open()
 
-#$PSScriptRoot+'\Dependancies\SQLLite\sqlite3.dll'
-#Install-Module -Name PackageManagement -Scope CurrentUser -Force
-#Import-Module PSSQLite
+$oSQLiteDBCommand=$oSQLiteDBConnection.CreateCommand()
+$oSQLiteDBCommand.Commandtext="create table IndicatorFolder 
+    (   index int, 
+        name varchar(100), 
+        EX4 int,
+        MQL4 int,
+        SubFolders int )"
+$oSQLiteDBCommand.CommandType = [System.Data.CommandType]::Text
+$oSQLiteDBCommand.ExecuteNonQuery()
+
 $ZipSource = $PSScriptRoot+'\_3rdPartyMT4Code\forexcollection\2020'
 $TrgtRt = $PSScriptRoot + '\..\_MQL4_PREBUILD'
-$MQLFilesNum=0
-$EX4FileNum=0
 
 #PROCESSING forexcollection
 #1.Create a temp folder to unzip contents
@@ -32,7 +38,7 @@ If (-not( Test-Path -Path $TrgtRt)){
     New-item $TrgtRt -ItemType directory
 
     $DirObjects=Get-ChildItem -Directory $ZipSource -Depth 1
-    ForEach ($SubDir in ($DirObjects | ?{$_.PSIsContainer})){
+    ForEach ($SubDir in ($DirObjects | Where-Object{$_.PSIsContainer})){
         $SubDir.FullName
         Get-ChildItem  -Path $ZipSource\$SubDir -Filter '*.zip' |Foreach-Object{
             'Unzipping '+$_.FullName
@@ -50,18 +56,23 @@ $LastPos = $DirObjects.Count
 $ItemPos =1
 ForEach ($SubDir in ($DirObjects)) { # | ?{$_.PSIsContainer})){
 
-    $NoOfex4Files = [System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.ex4')| Measure-Object| %{$_.Count}
-    $NoOfmq4Files = [System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.mq4')| Measure-Object| %{$_.Count}
-    $NoOfSubFolder = [System.IO.Directory]::EnumerateDirectories($SubDir.FullName, '*')| Measure-Object| %{$_.Count}
+    $NoOfex4Files = [System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.ex4')| Measure-Object| ForEach-Object{$_.Count}
+    $NoOfmq4Files = [System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.mq4')| Measure-Object| ForEach-Object{$_.Count}
+    $NoOfSubFolder = [System.IO.Directory]::EnumerateDirectories($SubDir.FullName, '*')| Measure-Object| ForEach-Object{$_.Count}
     
     $SubDir.FullName
     'Item ' + $ItemPos + ' ' + ' of ' + $LastPos + ': ex4 =' +  $NoOfex4Files + ': mq4 =' + $NoOfmq4Files + ': SubFolders =' +  $NoOfSubFolder
     $ItemPos = $ItemPos+1
 
+    <#
+    $oSQLiteDBCommand.Commandtext="INSERT INTO IndicatorFolder (NAME , EX4, EX4, MQL4) VALUES (@BandName, @MyScore)";
+    $oSQLiteDBCommand.Parameters.AddWithValue("BandName", "Kataklysm");
+    $oSQLiteDBCommand.Parameters.AddWithValue("MyScore", 10);
+    $oSQLiteDBCommand.ExecuteNonQuery()
+    #>
 }
 
-#Now extract
-
+$oSQLiteDBConnection.Close()
 
 <#
 $Levels = '/*' * 2
