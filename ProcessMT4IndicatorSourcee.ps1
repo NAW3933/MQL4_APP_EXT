@@ -1,14 +1,15 @@
 ﻿#Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy Undefined
 #Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
-
+#$PSVersionTable
 #Get-ExecutionPolicy -List
 # Determine script location for PowerShell
-
+Add-Type -Path 'C:\CODE\MQL4_APP_EXT\Dependancies\SQLLite\sqlite3.dll'
+#$PSScriptRoot+'\Dependancies\SQLLite\sqlite3.dll'
+Install-Package LiteDB -Version 5.0.11
 $ZipSource = $PSScriptRoot+'\_3rdPartyMT4Code\forexcollection\2020'
 $TrgtRt = $PSScriptRoot + '\..\_MQL4_PREBUILD'
 $MQLFilesNum=0
 $EX4FileNum=0
-
 
 #PROCESSING forexcollection
 #1.Create a temp folder to unzip contents
@@ -26,9 +27,7 @@ If (-not( Test-Path -Path $TrgtRt)){
             'Unzipping '+$_.FullName
             Expand-Archive -Path $_.FullName -DestinationPath $TrgtRt -Force
         }
-
     }
-  
 }
 else{
     Write-Host('It looks like forexcollection\2020 has been unzipped')
