@@ -28,6 +28,7 @@ $env:COMPUTERNAME
 $machine = "$env:COMPUTERNAME"
 $server  = New-Object Microsoft.Sqlserver.Management.Smo.Server("$machine")
 $server.ConnectionContext.LoginSecure=$true;
+$database  = $server.Databases["Indicators"]
 
 $ZipSource = $PSScriptRoot+'\_3rdPartyMT4Code\forexcollection\2020'
 $TrgtRt = $PSScriptRoot + '\..\_MQL4_PREBUILD'
@@ -65,14 +66,12 @@ ForEach ($SubDir in ($DirObjects)) { # | ?{$_.PSIsContainer})){
     $CountTotalFiles = [System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.*')| Measure-Object| ForEach-Object{$_.Count}
     
     $SubDir.FullName
-    'Item ' + $ItemPos + ' ' + ' of ' + $LastPos + ': ex4 =' +  $NoOfex4Files + ': mq4 =' + $NoOfmq4Files 
-    ':RemainingFiles ='+ $CountTotalFiles 
-    ': SubFolders =' +  $NoOfSubFolder
+    'Item ' + $ItemPos + ' ' + ' of ' + $LastPos + ': ex4 =' +  $NoOfex4Files + ': mq4 =' + $NoOfmq4Files +' : TotalFileCount ='+ $CountTotalFiles + ': SubFolders =' +  $NoOfSubFolder
     $ItemPos = $ItemPos+1
 
     $command   =    "insert into dbo.ForexCollection(Name, NoOfex4, NoOfMq4, NoSubFolder,TotalCountOfFiles)
                     values ('$SubDir', $NoOfex4Files, $NoOfmq4Files, $NoOfSubFolder, $CountTotalFiles);"
-
+    
     $database.ExecuteNonQuery($command)
 }
 
