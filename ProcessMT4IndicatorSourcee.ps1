@@ -3,27 +3,31 @@
 #Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 #$PSVersionTable
 #Get-ExecutionPolicy -List
-#Invoke-WebRequest -Uri "http://system.data.sqlite.org/blobs/1.0.113.0/sqlite-netFx45-binary-x64-2012-1.0.113.0.zip" -OutFile C:\CODE\MQL4_APP_EXT\Dependancies\SQLLite\sqlite.zip
-#Expand-Archive C:\CODE\MQL4_APP_EXT\Dependancies\SQLLite\sqlite.zip -DestinationPath C:\CODE\MQL4_APP_EXT\Dependancies\SQLLite\sqlite.net -Force
-#[Reflection.Assembly]::LoadFile("C:\CODE\MQL4_APP_EXT\Dependancies\SQLLite\sqlite.net\System.Data.SQLite.dll")
 
-[System.Data.SQLite.SQLiteConnection]::CreateFile($sDatabasePath)
-$sDatabasePath = "C:\CODE\MQL4_APP_EXT\Dependancies\SQLLite\ForexCollection2000.sqlite"
-[System.Data.SQLite.SQLiteConnection]::CreateFile($sDatabasePath)
-$sDatabaseConnectionString = [string]::Format("data source={0}", $sDatabasePath)
-$oSQLiteDBConnection = New-Object System.Data.SQLite.SQLiteConnection
-$oSQLiteDBConnection.ConnectionString = $sDatabaseConnectionString
-$oSQLiteDBConnection.open()
+$assemblies = 
+    "Microsoft.SqlServer.ConnectionInfo", 
+    "Microsoft.SqlServer.ConnectionInfoExtended", 
+    "Microsoft.SqlServer.Dmf", 
+    "Microsoft.SqlServer.Management.Collector", 
+    "Microsoft.SqlServer.Management.CollectorEnum", 
+    "Microsoft.SqlServer.Management.RegisteredServers", 
+    "Microsoft.SqlServer.Management.Sdk.Sfc", 
+    "Microsoft.SqlServer.RegSvrEnum", 
+    "Microsoft.SqlServer.ServiceBrokerEnum", 
+    "Microsoft.SqlServer.Smo", 
+    "Microsoft.SqlServer.SmoExtended", 
+    "Microsoft.SqlServer.SqlEnum", 
+    "Microsoft.SqlServer.SqlWmiManagement", 
+    "Microsoft.SqlServer.WmiEnum"
 
-$oSQLiteDBCommand=$oSQLiteDBConnection.CreateCommand()
-$oSQLiteDBCommand.Commandtext="create table IndicatorFolder 
-    (   index int, 
-        name varchar(100), 
-        EX4 int,
-        MQL4 int,
-        SubFolders int )"
-$oSQLiteDBCommand.CommandType = [System.Data.CommandType]::Text
-$oSQLiteDBCommand.ExecuteNonQuery()
+foreach ($assembly in $assemblies) 
+{
+    [void][Reflection.Assembly]::LoadWithPartialName($assembly)
+}
+$env:COMPUTERNAME
+$machine = "$env:COMPUTERNAME"
+$server  = New-Object Microsoft.Sqlserver.Management.Smo.Server("$machine")
+$server.ConnectionContext.LoginSecure=$true;
 
 $ZipSource = $PSScriptRoot+'\_3rdPartyMT4Code\forexcollection\2020'
 $TrgtRt = $PSScriptRoot + '\..\_MQL4_PREBUILD'
@@ -50,7 +54,6 @@ else{
     Write-Host('It looks like forexcollection\2020 has been unzipped')
 }
 
-
 $DirObjects=Get-ChildItem -Directory $TrgtRt 
 $LastPos = $DirObjects.Count
 $ItemPos =1
@@ -59,20 +62,19 @@ ForEach ($SubDir in ($DirObjects)) { # | ?{$_.PSIsContainer})){
     $NoOfex4Files = [System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.ex4')| Measure-Object| ForEach-Object{$_.Count}
     $NoOfmq4Files = [System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.mq4')| Measure-Object| ForEach-Object{$_.Count}
     $NoOfSubFolder = [System.IO.Directory]::EnumerateDirectories($SubDir.FullName, '*')| Measure-Object| ForEach-Object{$_.Count}
+    $CountTotalFiles = [System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.*')| Measure-Object| ForEach-Object{$_.Count}
     
     $SubDir.FullName
-    'Item ' + $ItemPos + ' ' + ' of ' + $LastPos + ': ex4 =' +  $NoOfex4Files + ': mq4 =' + $NoOfmq4Files + ': SubFolders =' +  $NoOfSubFolder
+    'Item ' + $ItemPos + ' ' + ' of ' + $LastPos + ': ex4 =' +  $NoOfex4Files + ': mq4 =' + $NoOfmq4Files 
+    ':RemainingFiles ='+ $CountTotalFiles 
+    ': SubFolders =' +  $NoOfSubFolder
     $ItemPos = $ItemPos+1
 
-    <#
-    $oSQLiteDBCommand.Commandtext="INSERT INTO IndicatorFolder (NAME , EX4, EX4, MQL4) VALUES (@BandName, @MyScore)";
-    $oSQLiteDBCommand.Parameters.AddWithValue("BandName", "Kataklysm");
-    $oSQLiteDBCommand.Parameters.AddWithValue("MyScore", 10);
-    $oSQLiteDBCommand.ExecuteNonQuery()
-    #>
-}
+    $command   =    "insert into dbo.ForexCollection(Name, NoOfex4, NoOfMq4, NoSubFolder,TotalCountOfFiles)
+                    values ('$SubDir', $NoOfex4Files, $NoOfmq4Files, $NoOfSubFolder, $CountTotalFiles);"
 
-$oSQLiteDBConnection.Close()
+    $database.ExecuteNonQuery($command)
+}
 
 <#
 $Levels = '/*' * 2
