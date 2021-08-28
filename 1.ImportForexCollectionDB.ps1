@@ -29,6 +29,8 @@ $machine = "$env:COMPUTERNAME"
 $server  = New-Object Microsoft.Sqlserver.Management.Smo.Server("$machine")
 $server.ConnectionContext.LoginSecure=$true;
 $database  = $server.Databases["Indicators"]
+$command   = "Delete from dbo.ForexCollection" 
+$database.ExecuteNonQuery($command)
 
 $ZipSource = $PSScriptRoot+'\_3rdPartyMT4Code\forexcollection\2020'
 $TrgtRt = $PSScriptRoot + '\..\_MQL4_PREBUILD'
@@ -59,6 +61,16 @@ $DirObjects=Get-ChildItem -Directory $TrgtRt
 $LastPos = $DirObjects.Count
 $ItemPos =1
 ForEach ($SubDir in ($DirObjects)) { # | ?{$_.PSIsContainer})){
+
+    foreach ($2 in ([System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.txt'))){
+        [System.IO.File]::Delete($2)
+    } 
+    foreach ($2 in ([System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.htm'))){
+        [System.IO.File]::Delete($2)
+    }
+    foreach ($2 in ([System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.html'))){
+        [System.IO.File]::Delete($2)
+    }
 
     $NoOfex4Files = [System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.ex4')| Measure-Object| ForEach-Object{$_.Count}
     $NoOfmq4Files = [System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.mq4')| Measure-Object| ForEach-Object{$_.Count}
