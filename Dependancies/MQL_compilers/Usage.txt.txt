@@ -1,0 +1,6 @@
+mql.exe [<flags>] filename.mq5
+        /mql5     - compile mql5 source
+        /mql4     - compile mql4 source
+        /s        - syntax check only
+        /i:<path> - set working directory
+        /o        - use code optimizer

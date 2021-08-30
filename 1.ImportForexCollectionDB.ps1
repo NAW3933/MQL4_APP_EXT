@@ -29,8 +29,6 @@ $machine = "$env:COMPUTERNAME"
 $server  = New-Object Microsoft.Sqlserver.Management.Smo.Server("$machine")
 $server.ConnectionContext.LoginSecure=$true;
 $database  = $server.Databases["Indicators"]
-$command   = "Delete from dbo.ForexCollection" 
-$database.ExecuteNonQuery($command)
 
 $ZipSource = $PSScriptRoot+'\_3rdPartyMT4Code\forexcollection\2020'
 $TrgtRt = $PSScriptRoot + '\..\_MQL4_PREBUILD'
@@ -41,106 +39,120 @@ $TrgtRt = $TrgtRt + '\temp'
 
 If (-not( Test-Path -Path $TrgtRt)){
     
+    $command   = "Delete from dbo.ForexCollection" 
+    $database.ExecuteNonQuery($command)
+
     #Remove-Item $TrgtRt -Recurse -Force
     New-item $TrgtRt -ItemType directory
 
-    $DirObjects=Get-ChildItem -Directory $ZipSource -Depth 1
+    $DirObjects=Get-ChildItem -Directory $PSScriptRoot+ $ZipSource -Depth 1
     ForEach ($SubDir in ($DirObjects | Where-Object{$_.PSIsContainer})){
         $SubDir.FullName
-        Get-ChildItem  -Path $ZipSource\$SubDir -Filter '*.zip' |Foreach-Object{
+        Get-ChildItem  -Path $PSScriptRoot+$ZipSource\$SubDir -Filter '*.zip' |Foreach-Object{
             'Unzipping '+$_.FullName
             Expand-Archive -Path $_.FullName -DestinationPath $TrgtRt -Force
         }
     }
+
 }
 else{
-    Write-Host('It looks like forexcollection\2020 has been unzipped')
+    Write-Host('It looks like forexcollection\2020 has been unzipped.')
 }
 
 $DirObjects=Get-ChildItem -Directory $TrgtRt 
 $LastPos = $DirObjects.Count
 $ItemPos =1
-ForEach ($SubDir in ($DirObjects)) { # | ?{$_.PSIsContainer})){
+
+#Check stage 1
+$command = 'If(Select count([1_DeleteInstaltionManTxt] ) from dbo.ForexCollection where [1_DeleteInstaltionManTxt]=1)>1
+            BEgin
+                Select 1
+            End 
+            Else
+            Begin
+                Select 0
+            End'
+
+$DataTable = $database.ExecuteWithResults($command)
+$Stage1=$DataTable.Tables[0].Rows[0].Column1
+
+if($Stage1=0){
+    ForEach ($SubDir in ($DirObjects)) { # | ?{$_.PSIsContainer})){
 
     
-    foreach ($2 in ([System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.txt'))){
-        [System.IO.File]::Delete($2)
-    } 
-    foreach ($2 in ([System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.htm'))){
-        [System.IO.File]::Delete($2)
-    }
-    foreach ($2 in ([System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.html'))){
-        [System.IO.File]::Delete($2)
-    }
+        foreach ($2 in ([System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.txt'))){
+            [System.IO.File]::Delete($2)
+        } 
+        foreach ($2 in ([System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.htm'))){
+            [System.IO.File]::Delete($2)
+        }
+        foreach ($2 in ([System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.html'))){
+            [System.IO.File]::Delete($2)
+        }
     
-    $NoOfex4Files = [System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.ex4')| Measure-Object| ForEach-Object{$_.Count}
-    $NoOfmq4Files = [System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.mq4')| Measure-Object| ForEach-Object{$_.Count}
-    $NoOfSubFolder = [System.IO.Directory]::EnumerateDirectories($SubDir.FullName, '*')| Measure-Object| ForEach-Object{$_.Count}
-    $CountTotalFiles = [System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.*')| Measure-Object| ForEach-Object{$_.Count}
+        $NoOfex4Files = [System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.ex4')| Measure-Object| ForEach-Object{$_.Count}
+        $NoOfmq4Files = [System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.mq4')| Measure-Object| ForEach-Object{$_.Count}
+        $NoOfSubFolder = [System.IO.Directory]::EnumerateDirectories($SubDir.FullName, '*')| Measure-Object| ForEach-Object{$_.Count}
+        $CountTotalFiles = [System.IO.Directory]::EnumerateFiles($SubDir.FullName, '*.*')| Measure-Object| ForEach-Object{$_.Count}
     
-    $SubDir.FullName
-    'Item ' + $ItemPos + ' ' + ' of ' + $LastPos + ': ex4 =' +  $NoOfex4Files + ': mq4 =' + $NoOfmq4Files +' : TotalFileCount ='+ $CountTotalFiles + ': SubFolders =' +  $NoOfSubFolder
-    $ItemPos = $ItemPos+1
+        $SubDir.FullName
+        'Item ' + $ItemPos + ' ' + ' of ' + $LastPos + ': ex4 =' +  $NoOfex4Files + ': mq4 =' + $NoOfmq4Files +' : TotalFileCount ='+ $CountTotalFiles + ': SubFolders =' +  $NoOfSubFolder
+        $ItemPos = $ItemPos+1
 
-    $command   =    "insert into dbo.ForexCollection(Name, NoOfex4, NoOfMq4, NoSubFolder,TotalCountOfFiles)
-                    values ('$SubDir', $NoOfex4Files, $NoOfmq4Files, $NoOfSubFolder, $CountTotalFiles);"
+        $command   =    "insert into dbo.ForexCollection(Name, NoOfex4, NoOfMq4, NoSubFolder,TotalCountOfFiles)
+                        values ('$SubDir', $NoOfex4Files, $NoOfmq4Files, $NoOfSubFolder, $CountTotalFiles);"
     
-    $database.ExecuteNonQuery($command)
+        $database.ExecuteNonQuery($command)
+    }
+
+    #Mark unwanted folders
+    $command   =    "Update dbo.ForexCollection 
+                    Set [1_DeleteInstaltionManTxt] = 1 where
+                    NoOfEx4 =0 and NoSubFolder=0 and NoofMQ4=0 and TotalCountOfFiles=0
+                    "
+    
+    $dataset = $database.ExecuteNonQuery($command)
+}
+else{
+    Write-Host('Stage 1 aleady complete.')
 }
 
-<#
-$Levels = '/*' * 2
-$DirObjects=Get-ChildItem -Directory $Root/$Levels
-ForEach ($SubDir in ($DirObjects | ?{$_.PSIsContainer})){
+#Chceck stage 2 Build MT4 scripts
+$command = 'If(Select count([2_DeleteEx4] ) from dbo.ForexCollection where [1_DeleteInstaltionManTxt]=1)>1
+            BEgin
+                Select 1
+            End 
+            Else
+            Begin
+                Select 0
+            End'
 
-    $ObjectCount = Get-ChildItem $SubDir -Recurse | Measure-Object | %{$_.Count}
-    $FolderCount = Get-ChildItem $SubDir -Recurse -Directory | Measure-Object| %{$_.Count}
-    $FilesCount = Get-ChildItem $SubDir -Recurse -File | Measure-Object| %{$_.Count}
-    
-    $MQLFilesNum= Get-ChildItem $SubDir -Recurse -File -Filter *.MQ4| Measure-Object| %{$_.Count}
-    $EX4FileNum = Get-ChildItem $SubDir -Recurse -File -Filter *.EX4| Measure-Object| %{$_.Count}
+$DataTable = $database.ExecuteWithResults($command)
+$Stage2=$DataTable.Tables[0].Rows[0].Column1
+
+$Levels = '/*' * 2
+$DirObjects=Get-ChildItem -Directory $$TrgtRt/$Levels
+ForEach ($SubDir in ($DirObjects | ?{$_.PSIsContainer})){
 
 
     if(($FilesCount -gt 0) -And ($FolderCount -eq 0))
     {
- 
-        #$FolderCount
-        #$FileCount
-        
-        #''
-        #$SubDir.Name
-        #'-----------------------------------------------------------------------------'
-        #Get-ChildItem -Path $SubDir.FullName -Recurse | Where-Object {$_.PSIsContainer -eq $false}  
-        #$MQLFilesNum.ToString() + ' MQL files'
-        #$EX4FileNum.ToString() + ' EX4 files'
-        
+    
         if($MQLFilesNum -eq $EX4FileNum)
         {
             Get-ChildItem -Filter "*.mq4"|Foreach-Object{
                    Remove-Item $_.BaseName+".ex4";
                    Move-Item -Path $_.FullName -Destination $TrgtRt
             }
-
-            #Get-ChildItem -Filter "*.mq4"|Foreach-Object{
-            #       Move-Item -Path $($_.FullName) -Destination $dstDir
-            #}            
+            
         }
 
     }
-    if(($FilesCount -gt 0) -And ($FolderCount -eq 0))
-    {
-            Get-ChildItem |Foreach-Object{
-                   Move-Item -Path $_.FullName -Destination $TrgtRt
-            }    
-    }
-    #>
-    <#
-    if (-not(Test-Path -Path $SubDir/Indicator)){  
-        $SubDir.FullName
-    } else {
-        #"Path doesn't exist."
-    }
-    #>
+}
+#Check for compilers 
 
 
+
+
+#>
 
