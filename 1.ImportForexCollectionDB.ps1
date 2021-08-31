@@ -1,4 +1,90 @@
-﻿#RUN AS ADMINISTRATOR
+﻿class BackgroundJob
+{
+    # Properties
+    hidden $PowerShell = [powershell]::Create()
+    hidden $Handle = $null
+    hidden $Runspace = $null
+    $Result = $null
+    $RunspaceID = $This.PowerShell.Runspace.ID
+    $PSInstance = $This.PowerShell
+ 
+    # Constructor (just code block)
+    BackgroundJob ([scriptblock]$Code)
+    {
+        $This.PowerShell.AddScript($Code)
+    }
+ 
+    # Constructor (code block + arguments)
+    BackgroundJob ([scriptblock]$Code,$Arguments)
+    {
+        $This.PowerShell.AddScript($Code)
+        foreach ($Argument in $Arguments)
+        {
+            $This.PowerShell.AddArgument($Argument)
+        }
+    }
+ 
+    # Constructor (code block + arguments + functions)
+    BackgroundJob ([scriptblock]$Code,$Arguments,$Functions)
+    {
+        $InitialSessionState = [System.Management.Automation.Runspaces.InitialSessionState]::CreateDefault()
+        $Scope = [System.Management.Automation.ScopedItemOptions]::AllScope
+        foreach ($Function in $Functions)
+        {
+            $FunctionName = $Function.Split('\')[1]
+            $FunctionDefinition = Get-Content $Function -ErrorAction Stop
+            $SessionStateFunction = New-Object -TypeName System.Management.Automation.Runspaces.SessionStateFunctionEntry -ArgumentList $FunctionName, $FunctionDefinition, $Scope, $null
+            $InitialSessionState.Commands.Add($SessionStateFunction)
+        }
+        $This.Runspace = [runspacefactory]::CreateRunspace($InitialSessionState)
+        $This.PowerShell.Runspace = $This.Runspace
+        $This.Runspace.Open()
+        $This.PowerShell.AddScript($Code)
+        foreach ($Argument in $Arguments)
+        {
+            $This.PowerShell.AddArgument($Argument)
+        }
+    }
+ 
+    # Start Method
+    Start()
+    {
+        $THis.Handle = $This.PowerShell.BeginInvoke()
+    }
+ 
+    # Stop Method
+    Stop()
+    {
+        $This.PowerShell.Stop()
+    }
+ 
+    # Receive Method
+    [object]Receive()
+    {
+        $This.Result = $This.PowerShell.EndInvoke($This.Handle)
+        return $This.Result
+    }
+ 
+    # Remove Method
+    Remove()
+    {
+        $This.PowerShell.Dispose()
+        If ($This.Runspace)
+        {
+            $This.Runspace.Dispose()
+        }
+    }
+ 
+    # Get Status Method
+    [object]GetStatus()
+    {
+        return $This.PowerShell.InvocationStateInfo
+    }
+}
+
+
+
+#RUN AS ADMINISTRATOR
 #Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy Undefined
 #Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 #$PSVersionTable
@@ -150,9 +236,27 @@ ForEach ($SubDir in ($DirObjects | ?{$_.PSIsContainer})){
     }
 }
 #Check for compilers 
+<#
+mql.exe [<flags>] filename.mq5
+        /mql5     - compile mql5 source
+        /mql4     - compile mql4 source
+        /s        - syntax check only
+        /i:<path> - set working directory
+        /o        - use code optimizer
+#>
+#C:\Program Files\MetaTrader 5\metaeditor64.exe {[Path][Indicator Name].mql4} /mql4 /i:[Path]/log:[Indicator Name].log /compile
+#eg
 
+#queue the jobs
+# How many jobs we should run simultaneously
+$maxConcurrentJobs = 3;
+$command="Select * from dbo.ForexCollection where [1_DeleteInstaltionManTxt]=1"
+$DataResults = $database.ExecuteWithResults($command)
 
-
-
+$data = $DataResults.Tables[0]
+$queue = [System.Collections.Queue]::Synchronized( (New-Object System.Collections.Queue) )
+foreach($row in $data){
+    
+}
 #>
 
