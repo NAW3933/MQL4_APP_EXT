@@ -30,7 +30,7 @@ $server  = New-Object Microsoft.Sqlserver.Management.Smo.Server("$machine")
 $server.ConnectionContext.LoginSecure=$true;
 $database  = $server.Databases["Indicators"]
 
-$startjob=2
+$startjob=3
 
 #JOB 1 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 If ($startjob -lt 2){
