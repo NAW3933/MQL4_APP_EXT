@@ -4,5 +4,3 @@ mql.exe [<flags>] filename.mq5
         /s        - syntax check only
         /i:<path> - set working directory
         /o        - use code optimizer
-
-https://stackoverflow.com/questions/14539064/how-to-compile-an-mql4-file-with-a-command-line-tool#:~:text=Metatrader%204%20Command%20Line%20utility%20for%20compiling%20MT4,%5BArg1%5D%20%3D%20Path%20to%20MT4%20application%20directory%20echo.
