@@ -65,58 +65,60 @@ If ($startjob -lt 2){
 }
 
 #Job 2 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+If ($startjob -lt 3){
+    $command   =    "Delete from dbo.ForexCollection"
+    $dataset = $database.ExecuteNonQuery($command)
+    'Updating database.  Processing...'
 
-$command   =    "Delete from dbo.ForexCollection"
-$dataset = $database.ExecuteNonQuery($command)
-'Updating database.  Processing...'
+    Get-ChildItem -Path $TrgtRt -Recurse -Directory |ForEach-Object{
 
-Get-ChildItem -Path $TrgtRt -Recurse -Directory |ForEach-Object{
-
-    Try{
-        foreach ($2 in ([System.IO.Directory]::EnumerateFiles($_.FullName, '*.txt'))){
-            [System.IO.File]::Delete($2)
-        } 
-        foreach ($2 in ([System.IO.Directory]::EnumerateFiles($_.FullName, '*.htm'))){
-            [System.IO.File]::Delete($2)
-        }
-        foreach ($2 in ([System.IO.Directory]::EnumerateFiles($_.FullName, '*.html'))){
-            [System.IO.File]::Delete($2)
-        }
+        Try{
+            foreach ($2 in ([System.IO.Directory]::EnumerateFiles($_.FullName, '*.txt'))){
+                [System.IO.File]::Delete($2)
+            } 
+            foreach ($2 in ([System.IO.Directory]::EnumerateFiles($_.FullName, '*.htm'))){
+                [System.IO.File]::Delete($2)
+            }
+            foreach ($2 in ([System.IO.Directory]::EnumerateFiles($_.FullName, '*.html'))){
+                [System.IO.File]::Delete($2)
+            }
     
-        #$_.FullName
-        $NoOfex4Files = [System.IO.Directory]::EnumerateFiles($_.FullName, '*.ex4')| Measure-Object| ForEach-Object{$_.Count}
-        $NoOfmq4Files = [System.IO.Directory]::EnumerateFiles($_.FullName, '*.mq4')| Measure-Object| ForEach-Object{$_.Count}
-        $NoOfSubFolder = [System.IO.Directory]::EnumerateDirectories($_.FullName, '*')| Measure-Object| ForEach-Object{$_.Count}
-        $CountTotalFiles = [System.IO.Directory]::EnumerateFiles($_.FullName, '*.*')| Measure-Object| ForEach-Object{$_.Count}
+            #$_.FullName
+            $NoOfex4Files = [System.IO.Directory]::EnumerateFiles($_.FullName, '*.ex4')| Measure-Object| ForEach-Object{$_.Count}
+            $NoOfmq4Files = [System.IO.Directory]::EnumerateFiles($_.FullName, '*.mq4')| Measure-Object| ForEach-Object{$_.Count}
+            $NoOfSubFolder = [System.IO.Directory]::EnumerateDirectories($_.FullName, '*')| Measure-Object| ForEach-Object{$_.Count}
+            $CountTotalFiles = [System.IO.Directory]::EnumerateFiles($_.FullName, '*.*')| Measure-Object| ForEach-Object{$_.Count}
  
-        #$SubDir.FullName
-        #'Item ' + $ItemPos + ' ' + ' of ' + $LastPos + ': ex4 =' +  $NoOfex4Files + ': mq4 =' + $NoOfmq4Files +' : TotalFileCount ='+ $CountTotalFiles + ': SubFolders =' +  $NoOfSubFolder
-        $ItemPos = $ItemPos+1
+            #$SubDir.FullName
+            #'Item ' + $ItemPos + ' ' + ' of ' + $LastPos + ': ex4 =' +  $NoOfex4Files + ': mq4 =' + $NoOfmq4Files +' : TotalFileCount ='+ $CountTotalFiles + ': SubFolders =' +  $NoOfSubFolder
+            $ItemPos = $ItemPos+1
 
         
-        $command   =   'insert into dbo.ForexCollection(Name, NoOfex4, NoOfMq4, NoSubFolder,TotalCountOfFiles) values (N''' + 
-                         $_.FullName.Replace("'", "''") + ''', ' + $NoOfex4Files+ ', ' + $NoOfmq4Files+ ', ' + $NoOfSubFolder+ ', ' + $CountTotalFiles + ')'
-        #$command
-        $dataset = $database.ExecuteNonQuery($command)
+            $command   =   'insert into dbo.ForexCollection(Name, NoOfex4, NoOfMq4, NoSubFolder,TotalCountOfFiles) values (N''' + 
+                             $_.FullName.Replace("'", "''") + ''', ' + $NoOfex4Files+ ', ' + $NoOfmq4Files+ ', ' + $NoOfSubFolder+ ', ' + $CountTotalFiles + ')'
+            #$command
+            $dataset = $database.ExecuteNonQuery($command)
 
-    }
-    Catch{
-        $_.Exception
-        $command
-        Break 
+        }
+        Catch{
+            $_.Exception
+            $command
+            Break 
+        }
     }
 }
 'FINISHED!'
 
 #Job 4 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-<#
+
 #Mark unwanted folders
+<#
 $command   =    "Update dbo.ForexCollection 
                 Set [1_DeleteInstaltionManTxt] = 1 where
                 NoOfEx4 =0 and NoSubFolder=0 and NoofMQ4=0 and TotalCountOfFiles=0
                 "
 $dataset = $database.ExecuteNonQuery($command)
-
+#>
 #Job 5 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
