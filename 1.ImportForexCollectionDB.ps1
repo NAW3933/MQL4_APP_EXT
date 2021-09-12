@@ -30,7 +30,7 @@ $server  = New-Object Microsoft.Sqlserver.Management.Smo.Server("$machine")
 $server.ConnectionContext.LoginSecure=$true;
 $database  = $server.Databases["Indicators"]
 
-$startjob=2
+$startjob=4
 
 
 If ($startjob -lt 2){
@@ -109,7 +109,7 @@ If ($startjob -lt 3){
     'FINISHED!'
 }
 
-
+<#
 If ($startjob -lt 4){
     '3.Mark unwanted folders. Processing... '
     $command   =    "Update dbo.ForexCollection 
@@ -119,10 +119,10 @@ If ($startjob -lt 4){
     $dataset = $database.ExecuteNonQuery($command)
     'Finished'
 }
+#>
 
-
-If ($startjob -lt 5){
-    '4.Delete .EX4 from base folders and move mq4 files to compiling folder.  Processing...'
+If ($startjob -lt 4){
+    '3.Delete .EX4 from base folders and child folders.  Processing...'
     Get-ChildItem -Path $TrgtRt -Recurse -Directory |ForEach-Object{
         Try{
                 
@@ -131,8 +131,22 @@ If ($startjob -lt 5){
                 [System.IO.File]::Delete($2.Replace('.mq4', 'ex4'))
             }
 
-            $CountTotalFiles = [System.IO.Directory]::EnumerateFiles($_.FullName, '*.*')| Measure-Object| ForEach-Object{$_.Count}
-            $CountTotalFiles 
+        }
+        Catch{
+            $_.Exception
+            Break 
+        }
+    }
+    'Finished.'
+}
+If ($startjob -lt 5){
+
+    '4.Process Remaining files.  This will be lengthy.  Processing...'
+    Get-ChildItem -Path $TrgtRt  -Directory |ForEach-Object{
+        Try{
+                
+ 
+
         }
         Catch{
             $_.Exception
