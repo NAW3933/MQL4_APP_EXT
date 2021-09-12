@@ -109,28 +109,16 @@ If ($startjob -lt 3){
     'FINISHED!'
 }
 
-<#
-If ($startjob -lt 4){
-    '3.Mark unwanted folders. Processing... '
-    $command   =    "Update dbo.ForexCollection 
-                    Set [1_DeleteInstaltionManTxt] = 1 where
-                    NoOfEx4 =0 and NoSubFolder=0 and NoofMQ4=0 and TotalCountOfFiles=0
-                    "
-    $dataset = $database.ExecuteNonQuery($command)
-    'Finished'
-}
-#>
 
 If ($startjob -lt 4){
     '3.Delete .EX4 from base folders and child folders.  Processing...'
     Get-ChildItem -Path $TrgtRt -Recurse -Directory |ForEach-Object{
-        Try{
+            Try{
                 
-            foreach ($2 in ([System.IO.Directory]::EnumerateFiles($_.FullName, '*.mq4'))){
-                #Base Folder
-                [System.IO.File]::Delete($2.Replace('.mq4', 'ex4'))
+                foreach ($2 in ([System.IO.Directory]::EnumerateFiles($_.FullName, '*.mq4'))){
+                    #Base Folder
+                    [System.IO.File]::Delete($2.Replace('.mq4', 'ex4'))
             }
-
         }
         Catch{
             $_.Exception
@@ -139,14 +127,14 @@ If ($startjob -lt 4){
     }
     'Finished.'
 }
+
+
 If ($startjob -lt 5){
 
     '4.Process Remaining files.  This will be lengthy.  Processing...'
     Get-ChildItem -Path $TrgtRt  -Directory |ForEach-Object{
         Try{
-                
- 
-
+                    
         }
         Catch{
             $_.Exception
@@ -155,3 +143,4 @@ If ($startjob -lt 5){
     }
     'Finished.'
 }
+
