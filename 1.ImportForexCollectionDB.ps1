@@ -160,7 +160,15 @@ If ($startjob -lt 4){
                     }
                     
                     [System.IO.File]::Copy($2,  $MoveTo,1)
+                    
+                    #$CMD = 'C:\CODE\metaeditor.exe'
+                    #$arg1=' /compile:C:\CODE\_MQL4_PREBUILD\temp\Accelerator Oscillator Forex Indicator\indicator\Accelerator.mq4 /log'
+                    #$arg2=' /include:C:\Users\Amos\AppData\Roaming\MetaQuotes\Terminal\73A0F6A7AFD1C71F9BDB0DDF74C5C5F2\MQL4 '  #path
+                    #$arg3=' /log'      #indicatorName.log
+                    ##$arg4='/s'         #Check syntaxg
+                    ##C:\Users\Amos\AppData\Roaming\MetaQuotes\Terminal\73A0F6A7AFD1C71F9BDB0DDF74C5C5F2\MQL4\Indicators
 
+                    #& $CMD $arg1 + $arg2 +$arg3 
                 } 
             }
            #$Job2command   =    ''
