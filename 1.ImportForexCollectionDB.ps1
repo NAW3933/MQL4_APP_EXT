@@ -190,9 +190,9 @@ If ($startjob -lt 4){
 
 If ($startjob -lt 5){
         
-        $DevMT4Path + $MT4Indis
         
-        Get-ChildItem -Path ($DevMT4Path) -Recurse -File|ForEach-Object{
+        
+        Get-ChildItem -Path ($DevMT4Path + $MT4Indis) -Recurse -File|ForEach-Object{
             $_.FullName
          }
         
