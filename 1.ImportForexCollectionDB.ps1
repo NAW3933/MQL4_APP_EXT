@@ -33,6 +33,11 @@ $server  = New-Object Microsoft.Sqlserver.Management.Smo.Server("$machine")
 $server.ConnectionContext.LoginSecure=$true;
 $database  = $server.Databases["Indicators"]
 
+enum ProcessStatus {
+    NoFiles = 0
+    CopiedToCompPath = 1
+}
+
 #Job1
     $ZipSource = $PSScriptRoot+'\_3rdPartyMT4Code\forexcollection\2020'
     $TrgtRt = $PSScriptRoot + '\..\_MQL4_PREBUILD'
@@ -44,7 +49,7 @@ $database  = $server.Databases["Indicators"]
     $MT4Indis = '\001\'
     $DevIndis = $DevMT4Path+$MT4Indis
 
-$startjob=3
+$startjob=4
 
 
 If ($startjob -lt 2){
@@ -140,9 +145,9 @@ If ($startjob -lt 4){
                             ,[TotalCountOfFiles]
                             ,[Name]
                             FROM [Indicators].[dbo].[ForexCollection]'
-            $IndicatorPath                
+                           
             $dataTab= $database.ExecuteWithResults($command)
-            #$IndicatorPath
+            
             ForEach($Row in $dataTab.tables[0].Select("NoOfMq4 = 1 and TotalCountOfFiles=1")){
                
                 foreach ($2 in ([System.IO.Directory]::EnumerateFiles($Row.Name, '*.mq4'))){
@@ -150,7 +155,7 @@ If ($startjob -lt 4){
                     $SubFolder = $2.Substring($2.LastIndexOf('\')+1,1)
                     $FileName = $2.Substring($2.LastIndexOf('\')+1)
                     $MoveTo=$DevIndis+ $SubFolder+'\'+$FileName
-                 $DevIndis+ $SubFolder
+                   
                     If(![System.IO.Directory]::Exists($DevIndis+ $SubFolder)){
                         [System.IO.Directory]::CreateDirectory($DevIndis+ $SubFolder)
                     }
@@ -162,7 +167,11 @@ If ($startjob -lt 4){
                     
                     [System.IO.File]::Copy($2,  $MoveTo)
                     
-
+                    $Command = 'Update [Indicators].[dbo].[ForexCollection] ' +
+                                'Set Status = ' + [ProcessStatus]::CopiedToCompPath.value__ +
+                                ' Where Name=''' + $Row.Name + ''''
+                    $Command
+                    $dataTab= $database.ExecuteWithResults($command)
                 } 
             }
            #$Job2command   =    ''
@@ -177,8 +186,20 @@ If ($startjob -lt 4){
     'Finished.'
 }
 
-Function  BuildMT4($Compile){
-    $CMD = 'C:\CODE\metaeditor.exe'
+
+
+If ($startjob -lt 5){
+        
+        $DevMT4Path + $MT4Indis
+        
+        Get-ChildItem -Path ($DevMT4Path) -Recurse -File|ForEach-Object{
+            $_.FullName
+         }
+        
+}
+<#
+BuildMT4($Compile){
+    $CMD = 'C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Global Prime - MetaTrader 4 DEV\metaeditor.exe'
     $arg1=' /compile:'+ $Compile +' /log'
     $arg2=' /include:C:\Users\Amos\AppData\Roaming\MetaQuotes\Terminal\73A0F6A7AFD1C71F9BDB0DDF74C5C5F2\MQL4 '  #path
     #$arg3=' /log'      #indicatorName.log
@@ -187,3 +208,4 @@ Function  BuildMT4($Compile){
 
     & $CMD $arg1 + $arg2 +$arg3    
 }
+#>
