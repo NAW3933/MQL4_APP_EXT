@@ -17,8 +17,8 @@ if (Get-ChildItem $sqlpsreg -ErrorAction "SilentlyContinue")
 }  
 else  
 {  
-    $item = Get-ItemProperty $sqlpsreg  
-    $sqlpsPath = [System.IO.Path]::GetDirectoryName($item.Path)  
+    #$item = Get-ItemProperty C:\Windows\Microsoft.NET\assembly\GAC_MSIL\Microsoft.SqlServer.Smo\v4.0_15.0.0.0__89845dcd8080cc91 
+    $sqlpsPath = [System.IO.Path]::GetDirectoryName('C:\Windows\Microsoft.NET\assembly\GAC_MSIL\Microsoft.SqlServer.Smo\v4.0_15.0.0.0__89845dcd8080cc91') #$item.Path)  
 }  
   
 $assemblylist =
@@ -143,7 +143,7 @@ If ($startjob -lt 3){
             #'Item ' + $ItemPos + ' ' + ' of ' + $LastPos + ': ex4 =' +  $NoOfex4Files + ': mq4 =' + $NoOfmq4Files +' : TotalFileCount ='+ $CountTotalFiles + ': SubFolders =' +  $NoOfSubFolder
             $ItemPos = $ItemPos+1
 
-            $command   =   'insert into dbo.ForexCollection(Name, NoOfex4, NoOfMq4, NoSubFolder,TotalCountOfFiles) values (N''' + 
+            $command   =   'insert into dbo.ForexCollection(Name, NoOfEx4, NoOfMq4, NoSubFolder,TotalCountOfFiles) values (N''' + 
                              $_.FullName.Replace("'", "''") + ''', ' + $NoOfex4Files+ ', ' + $NoOfmq4Files+ ', ' + $NoOfSubFolder+ ', ' + $CountTotalFiles + ')'
             $dataset = $database.ExecuteNonQuery($command)
             
@@ -221,7 +221,7 @@ If ($startjob -lt 5){
             $_.FullName
          }
 }
-<#
+
 BuildMT4($Compile){
     $CMD = 'C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Global Prime - MetaTrader 4 DEV\metaeditor.exe'
     $arg1=' /compile:'+ $Compile +' /log'
@@ -232,4 +232,4 @@ BuildMT4($Compile){
 
     & $CMD $arg1 + $arg2 +$arg3    
 }
-#>
+
