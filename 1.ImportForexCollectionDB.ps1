@@ -1,32 +1,59 @@
-﻿#RUN AS ADMINISTRATOR
-#Set-ExecutionPolicy -Scope LocalMachine -ExecutionPolicy Undefined
-#Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+﻿#Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 #$PSVersionTable
 #Get-ExecutionPolicy -List
+#Install-Module -Name SqlServer -RequiredVersion 21.1.18256
 
+#import SQL Server module
 chdir C:\CODE\_MQL4_PREBUILD
 
-$assemblies = 
-    "Microsoft.SqlServer.ConnectionInfo", 
-    "Microsoft.SqlServer.ConnectionInfoExtended", 
-    "Microsoft.SqlServer.Dmf", 
-    "Microsoft.SqlServer.Management.Collector", 
-    "Microsoft.SqlServer.Management.CollectorEnum", 
-    "Microsoft.SqlServer.Management.RegisteredServers", 
-    "Microsoft.SqlServer.Management.Sdk.Sfc", 
-    "Microsoft.SqlServer.RegSvrEnum", 
-    "Microsoft.SqlServer.ServiceBrokerEnum", 
-    "Microsoft.SqlServer.Smo", 
-    "Microsoft.SqlServer.SmoExtended", 
-    "Microsoft.SqlServer.SqlEnum", 
-    "Microsoft.SqlServer.SqlWmiManagement", 
-    "Microsoft.SqlServer.WmiEnum"
+# Loads the SQL Server Management Objects (SMO)  
+$ErrorActionPreference = "Stop"
+  
+$sqlpsreg="HKLM:\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.SqlServer.Management.PowerShell.sqlps"  
 
-foreach ($assembly in $assemblies) 
-{
-    [void][Reflection.Assembly]::LoadWithPartialName($assembly)
-}
+if (Get-ChildItem $sqlpsreg -ErrorAction "SilentlyContinue")  
+{  
+    throw "SQL Server Provider for Windows PowerShell is not installed."  
+}  
+else  
+{  
+    $item = Get-ItemProperty $sqlpsreg  
+    $sqlpsPath = [System.IO.Path]::GetDirectoryName($item.Path)  
+}  
+  
+$assemblylist =
+"Microsoft.SqlServer.Management.Common",  
+"Microsoft.SqlServer.Smo",  
+"Microsoft.SqlServer.Dmf ",  
+"Microsoft.SqlServer.Instapi ",  
+"Microsoft.SqlServer.SqlWmiManagement ",  
+"Microsoft.SqlServer.ConnectionInfo ",  
+"Microsoft.SqlServer.SmoExtended ",  
+"Microsoft.SqlServer.SqlTDiagM ",  
+"Microsoft.SqlServer.SString ",  
+"Microsoft.SqlServer.Management.RegisteredServers ",  
+"Microsoft.SqlServer.Management.Sdk.Sfc ",  
+"Microsoft.SqlServer.SqlEnum ",  
+"Microsoft.SqlServer.RegSvrEnum ",  
+"Microsoft.SqlServer.WmiEnum ",  
+"Microsoft.SqlServer.ServiceBrokerEnum ",  
+"Microsoft.SqlServer.ConnectionInfoExtended ",  
+"Microsoft.SqlServer.Management.Collector ",  
+"Microsoft.SqlServer.Management.CollectorEnum",  
+"Microsoft.SqlServer.Management.Dac",  
+"Microsoft.SqlServer.Management.DacEnum",  
+"Microsoft.SqlServer.Management.Utility"  
+  
+foreach ($asm in $assemblylist)  
+{  
+    $asm = [Reflection.Assembly]::LoadWithPartialName($asm)  
+}  
 
+ 
+##Push-Location  
+#cd $sqlpsPath  
+##update-FormatData -prependpath SQLProvider.Format.ps1xml
+#Pop-Location  
 
 $machine = "$env:COMPUTERNAME"
 $server  = New-Object Microsoft.Sqlserver.Management.Smo.Server("$machine")
@@ -189,13 +216,10 @@ If ($startjob -lt 4){
 
 
 If ($startjob -lt 5){
-        
-        
-        
+ 
         Get-ChildItem -Path ($DevMT4Path + $MT4Indis) -Recurse -File|ForEach-Object{
             $_.FullName
          }
-        
 }
 <#
 BuildMT4($Compile){
