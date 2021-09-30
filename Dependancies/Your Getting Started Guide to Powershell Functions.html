@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)https://adamtheautomator.com/powershell-functions/ -->
+<html class="no-js" lang="en-US" prefix="og: https://ogp.me/ns#" data-darkreader-mode="dynamic" data-darkreader-scheme="dark"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style class="darkreader darkreader--fallback" media="screen"></style><style class="darkreader darkreader--text" media="screen"></style><style class="darkreader darkreader--invert" media="screen">.jfk-bubble.gtx-bubble, .captcheck_answer_label > input + img, span#closed_text > img[src^="https://www.gstatic.com/images/branding/googlelogo"], span[data-href^="https://www.hcaptcha.com/"] > #icon, #bit-notification-bar-iframe, ::-webkit-calendar-picker-indicator, embed[type="application/pdf"] {
+    filter: invert(100%) hue-rotate(180deg) contrast(90%) !important;
+}</style><style class="darkreader darkreader--inline" media="screen">[data-darkreader-inline-bgcolor] {
+  background-color: var(--darkreader-inline-bgcolor) !important;
+}
+[data-darkreader-inline-bgimage] {
+  background-image: var(--darkreader-inline-bgimage) !important;
+}
+[data-darkreader-inline-border] {
+  border-color: var(--darkreader-inline-border) !important;
+}
+[data-darkreader-inline-border-bottom] {
+  border-bottom-color: var(--darkreader-inline-border-bottom) !important;
+}
+[data-darkreader-inline-border-left] {
+  border-left-color: var(--darkreader-inline-border-left) !important;
+}
+[data-darkreader-inline-border-right] {
+  border-right-color: var(--darkreader-inline-border-right) !important;
+}
+[data-darkreader-inline-border-top] {
+  border-top-color: var(--darkreader-inline-border-top) !important;
+}
+[data-darkreader-inline-boxshadow] {
+  box-shadow: var(--darkreader-inline-boxshadow) !important;
+}
+[data-darkreader-inline-color] {
+  color: var(--darkreader-inline-color) !important;
+}
+[data-darkreader-inline-fill] {
+  fill: var(--darkreader-inline-fill) !important;
+}
+[data-darkreader-inline-stroke] {
+  stroke: var(--darkreader-inline-stroke) !important;
+}
+[data-darkreader-inline-outline] {
+  outline-color: var(--darkreader-inline-outline) !important;
+}
+[data-darkreader-inline-stopcolor] {
+  stop-color: var(--darkreader-inline-stopcolor) !important;
+}</style><style class="darkreader darkreader--variables" media="screen">:root {
+   --darkreader-neutral-background: #131516;
+   --darkreader-neutral-text: #d8d4cf;
+   --darkreader-selection-background: #004daa;
+   --darkreader-selection-text: #e8e6e3;
+}</style><style class="darkreader darkreader--root-vars" media="screen"></style><script async="" defer="" src="./Your Getting Started Guide to Powershell Functions_files/gdpr.bundle.js.download"></script><script type="text/javascript" src="./Your Getting Started Guide to Powershell Functions_files/web-vitals.umd.js.download" defer=""></script><script type="text/javascript" src="./Your Getting Started Guide to Powershell Functions_files/prebid.min.js.download"></script><script type="text/javascript" src="./Your Getting Started Guide to Powershell Functions_files/gpt.js.download"></script><script type="text/javascript" src="./Your Getting Started Guide to Powershell Functions_files/gdpr-liveramp.js.download"></script><script type="text/javascript" src="./Your Getting Started Guide to Powershell Functions_files/adthrive.min.js.download"></script><script type="text/javascript" async="" src="./Your Getting Started Guide to Powershell Functions_files/analytics.js.download"></script><script class="darkreader darkreader--proxy">(function injectProxy() {
+        document.dispatchEvent(
+            new CustomEvent("__darkreader__inlineScriptsAllowed")
+        );
+        const addRuleDescriptor = Object.getOwnPropertyDescriptor(
+            CSSStyleSheet.prototype,
+            "addRule"
+        );
+        const insertRuleDescriptor = Object.getOwnPropertyDescriptor(
+            CSSStyleSheet.prototype,
+            "insertRule"
+        );
+        const deleteRuleDescriptor = Object.getOwnPropertyDescriptor(
+            CSSStyleSheet.prototype,
+            "deleteRule"
+        );
+        const removeRuleDescriptor = Object.getOwnPropertyDescriptor(
+            CSSStyleSheet.prototype,
+            "removeRule"
+        );
+        const shouldWrapDocStyleSheets =
+            location.hostname.endsWith("pushbullet.com") ||
+            location.hostname.endsWith("ilsole24ore.com") ||
+            location.hostname.endsWith("allegro.pl");
+        const documentStyleSheetsDescriptor = shouldWrapDocStyleSheets
+            ? Object.getOwnPropertyDescriptor(Document.prototype, "styleSheets")
+            : null;
+        const cleanUp = () => {
+            Object.defineProperty(
+                CSSStyleSheet.prototype,
+                "addRule",
+                addRuleDescriptor
+            );
+            Object.defineProperty(
+                CSSStyleSheet.prototype,
+                "insertRule",
+                insertRuleDescriptor
+            );
+            Object.defineProperty(
+                CSSStyleSheet.prototype,
+                "deleteRule",
+                deleteRuleDescriptor
+            );
+            Object.defineProperty(
+                CSSStyleSheet.prototype,
+                "removeRule",
+                removeRuleDescriptor
+            );
+            document.removeEventListener("__darkreader__cleanUp", cleanUp);
+            document.removeEventListener(
+                "__darkreader__addUndefinedResolver",
+                addUndefinedResolver
+            );
+            if (shouldWrapDocStyleSheets) {
+                Object.defineProperty(
+                    Document.prototype,
+                    "styleSheets",
+                    documentStyleSheetsDescriptor
+                );
+            }
+        };
+        const addUndefinedResolver = (e) => {
+            customElements.whenDefined(e.detail.tag).then(() => {
+                document.dispatchEvent(
+                    new CustomEvent("__darkreader__isDefined", {
+                        detail: {tag: e.detail.tag}
+                    })
+                );
+            });
+        };
+        document.addEventListener("__darkreader__cleanUp", cleanUp);
+        document.addEventListener(
+            "__darkreader__addUndefinedResolver",
+            addUndefinedResolver
+        );
+        const updateSheetEvent = new Event("__darkreader__updateSheet");
+        function proxyAddRule(selector, style, index) {
+            addRuleDescriptor.value.call(this, selector, style, index);
+            if (
+                this.ownerNode &&
+                !this.ownerNode.classList.contains("darkreader")
+            ) {
+                this.ownerNode.dispatchEvent(updateSheetEvent);
+            }
+            return -1;
+        }
+        function proxyInsertRule(rule, index) {
+            const returnValue = insertRuleDescriptor.value.call(
+                this,
+                rule,
+                index
+            );
+            if (
+                this.ownerNode &&
+                !this.ownerNode.classList.contains("darkreader")
+            ) {
+                this.ownerNode.dispatchEvent(updateSheetEvent);
+            }
+            return returnValue;
+        }
+        function proxyDeleteRule(index) {
+            deleteRuleDescriptor.value.call(this, index);
+            if (
+                this.ownerNode &&
+                !this.ownerNode.classList.contains("darkreader")
+            ) {
+                this.ownerNode.dispatchEvent(updateSheetEvent);
+            }
+        }
+        function proxyRemoveRule(index) {
+            removeRuleDescriptor.value.call(this, index);
+            if (
+                this.ownerNode &&
+                !this.ownerNode.classList.contains("darkreader")
+            ) {
+                this.ownerNode.dispatchEvent(updateSheetEvent);
+            }
+        }
+        function proxyDocumentStyleSheets() {
+            const docSheets = documentStyleSheetsDescriptor.get.call(this);
+            const filtered = [...docSheets].filter((styleSheet) => {
+                return !styleSheet.ownerNode.classList.contains("darkreader");
+            });
+            return Object.setPrototypeOf(filtered, StyleSheetList.prototype);
+        }
+        Object.defineProperty(
+            CSSStyleSheet.prototype,
+            "addRule",
+            Object.assign({}, addRuleDescriptor, {value: proxyAddRule})
+        );
+        Object.defineProperty(
+            CSSStyleSheet.prototype,
+            "insertRule",
+            Object.assign({}, insertRuleDescriptor, {value: proxyInsertRule})
+        );
+        Object.defineProperty(
+            CSSStyleSheet.prototype,
+            "deleteRule",
+            Object.assign({}, deleteRuleDescriptor, {value: proxyDeleteRule})
+        );
+        Object.defineProperty(
+            CSSStyleSheet.prototype,
+            "removeRule",
+            Object.assign({}, removeRuleDescriptor, {value: proxyRemoveRule})
+        );
+        if (shouldWrapDocStyleSheets) {
+            Object.defineProperty(
+                Document.prototype,
+                "styleSheets",
+                Object.assign({}, documentStyleSheetsDescriptor, {
+                    get: proxyDocumentStyleSheets
+                })
+            );
+        }
+    })()</script><style class="darkreader darkreader--user-agent" media="screen">html {
+    background-color: #181a1b !important;
+}
+html, body, input, textarea, select, button {
+    background-color: #181a1b;
+}
+html, body, input, textarea, select, button {
+    border-color: #736b5e;
+    color: #e8e6e3;
+}
+a {
+    color: #3391ff;
+}
+table {
+    border-color: #545b5e;
+}
+::placeholder {
+    color: #b2aba1;
+}
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+    background-color: #555b00 !important;
+    color: #e8e6e3 !important;
+}
+::-webkit-scrollbar {
+    background-color: #202324;
+    color: #aba499;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #454a4d;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #575e62;
+}
+::-webkit-scrollbar-thumb:active {
+    background-color: #484e51;
+}
+::-webkit-scrollbar-corner {
+    background-color: #181a1b;
+}
+::selection {
+    background-color: #004daa !important;
+    color: #e8e6e3 !important;
+}
+::-moz-selection {
+    background-color: #004daa !important;
+    color: #e8e6e3 !important;
+}</style>
+
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="x-dns-prefetch-control" content="on">
+<meta name="format-detection" content="telephone=no">
+<link rel="profile" href="https://gmpg.org/xfn/11">
+<link rel="shortcut icon" href="https://adamtheautomator.com/wp-content/themes/adam-the-automator/assets/images/favicon.ico">
+<meta name="theme-color" content="#0344ae">
+<link rel="manifest" href="https://adamtheautomator.com/wp-content/themes/adam-the-automator/manifest.json">
+<link rel="icon" sizes="192x192" href="https://images.adamtheautomator.com/image/upload/w_2000,f_auto,q_auto:420,fl_strip_profile,c_mfit/v1617480653/assets/maskable_icon_192">
+<link rel="apple-touch-icon" href="https://images.adamtheautomator.com/image/upload/w_2000,f_auto,q_auto:420,fl_strip_profile,c_mfit/v1617480653/assets/maskable_icon_192">
+<meta name="msapplication-square512x512logo" content="https://images.adamtheautomator.com/image/upload/w_2000,f_auto,q_auto:420,fl_strip_profile,c_mfit/v1617480653/assets/maskable_icon_512">
+<link rel="preconnect" href="https://images.adamtheautomator.com/">
+<link rel="preconnect" href="https://www.googletagmanager.com/">
+
+<script async="" src="./Your Getting Started Guide to Powershell Functions_files/ads.min.js.download"></script><script async="" src="./Your Getting Started Guide to Powershell Functions_files/gtm.js.download"></script><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K6C7SP6');</script>
+
+<style>
+	.adthrive-ad {
+		margin-top: 10px;
+		margin-bottom: 10px;
+		text-align: center;
+		overflow-x: visible;
+		clear: both;
+		line-height: 0;
+	}
+	.adthrive-home-ad {
+margin-top:15px;
+margin-bottom:15px;
+}
+
+.adthrive-sidebar.adthrive-stuck {
+margin-top: 65px;
+}
+
+.adthrive-wrapper-title-wrapper svg {
+  vertical-align: middle !important;
+  display: initial;
+}
+
+iframe[id^="google_ads_iframe"] {
+  display: initial;
+  vertical-align: initial;
+}
+
+.adthrive-player-container {
+  max-width: 500px;
+}
+
+.adthrive-sidebar-9 {
+  min-width: 300px;
+}</style><style class="darkreader darkreader--sync" media="screen"></style>
+<script>
+	window.adthriveCLS = {
+		enabledLocations: ['Content', 'Recipe'],
+		injectedSlots: [],
+		injectedFromPlugin: true,
+		branch: '756ce7c',bucket: 'prod',			};
+	window.adthriveCLS.siteAds = {"targeting":[{"value":"5e85f4e7732dec2bfd7ee752","key":"siteId"},{"value":"Adam the Automator","key":"siteName"},{"value":"AdThrive Edge","key":"service"},{"value":"on","key":"bidding"},{"value":null,"key":"dynamicVersion"},{"value":["Tech"],"key":"verticals"}],"siteId":"5e85f4e7732dec2bfd7ee752","siteName":"Adam the Automator","adOptions":{"theTradeDesk":true,"verizon":true,"undertone":true,"concert":false,"footerCloseButton":true,"teads":true,"pmp":true,"districtM":true,"thirtyThreeAcross":true,"removeVideoTitleWrapper":true,"pubMatic":true,"roundel":true,"infiniteScroll":false,"sonobi":true,"yieldmo":true,"footerSelector":"","amazonUAM":true,"gamMCMEnabled":true,"gamMCMChildNetworkCode":"22509993567","rubiconMediaMath":true,"rubicon":true,"conversant":false,"openx":true,"deepIntent":true,"unruly":true,"mediaGrid":true,"bRealTime":true,"gumgum":false,"comscoreFooter":true,"desktopInterstitial":false,"footerCloseButtonDesktop":false,"isAutoOptimized":false,"comscoreTAL":true,"brightroll":true,"targetaff":false,"advancePlaylistOptions":{"playlistPlayer":{"enabled":true},"relatedPlayer":{"enabled":true,"applyToFirst":true}},"kargo":true,"liveRampATS":false,"footerCloseButtonMobile":false,"allowSmallerAdSizes":true,"comscore":"Tech","mobileInterstitial":false,"tripleLift":true,"sovrn":true,"sensitiveCategories":["alc","conl","cosm","dat","dlu","drg","gamv","ske","tob","wtl"],"liveRamp":true,"mobileInterstitialBlockedPageSelectors":"","adthriveEmailIdentity":false,"criteo":true,"clsOptimizedAds":true,"padsquad":true,"verticals":["Tech"],"inImage":false,"advancePlaylist":true,"delayLoading":true,"inImageZone":null,"appNexus":true,"liveRampId":"","infiniteScrollRefresh":true,"indexExchange":true},"breakpoints":{"tablet":768,"desktop":1024},"video":{"contextual":{"autoplayCollapsibleEnabled":true,"overrideEmbedLocation":true,"defaultPlayerType":"collapse"},"autoplayPlaylistCollapsibleDesktop":{"pageSelector":"body.single","sticky":true,"elementSelector":".article__content > *","classNames":[],"skip":4,"position":"afterend","float":false,"enabled":true},"contextualAutoplayCollapsibleMobile":{"elementSelector":".article__content > p","skip":0,"pageSelector":null,"position":"afterend"},"partners":{"roundel":true,"oneVideo":false,"mediaGrid":true,"gumgum":false,"telaria":false,"districtM":true,"amazonUAM":false,"rubicon":true,"appNexus":true,"conversant":false,"tripleLift":true,"openx":true,"pubMatic":true,"indexExchange":true,"spotx":true},"sekindoMobilePlaylist":{"pageSelector":null,"elementSelector":null,"classNames":[],"skip":0,"position":"afterend","title":null,"enabled":false},"jwPlaylistId":"mPEH5Ms8","contextualAutoplayCollapsibleDesktop":{"elementSelector":".article__content > p","skip":0,"pageSelector":null,"position":"afterend"},"collapsible":{"footerSelector":"#footer","topMargin":0,"experiment":false,"desktopLocation":"bottom","mobileLocation":"bottom-left","mobileSize":"medium","saveVideoCloseState":false,"mobileLocationExperiment":false,"shuffle":true,"sidebarSelector":".sidebar","title":null},"autoplayPlaylistCollapsibleMobile":{"pageSelector":"body.single","experiment":false,"elementSelector":".article__content > *","classNames":[],"skip":4,"position":"afterend","enabled":false},"jwPlayerId":"ikjgg1Av","jwCollapsiblePlayerId":"jjaZt7HA","sekindoDesktopPlaylist":{"pageSelector":null,"elementSelector":null,"classNames":[],"skip":0,"position":"afterend","title":null,"enabled":false}},"version":"v1","adTypes":{"nativeMobileRecipe":true,"expandableFooter":true,"nativeDesktopSidebar":true,"nativeDesktopContent":true,"outstreamDesktop":true,"interscroller":true,"miniscroller":true,"nativeDesktopRecipe":true,"outstreamMobile":true,"animatedFooter":true,"nativeMobileContent":true},"adUnits":[{"sequence":1,"targeting":[{"value":["Sidebar"],"key":"location"}],"devices":["desktop"],"name":"Sidebar_1","sticky":false,"location":"Sidebar","dynamic":{"pageSelector":null,"min":0,"spacing":0,"max":1,"lazy":false,"elementSelector":".sidebar > *","skip":null,"classNames":[],"position":"afterend","every":1,"enabled":true},"adSizes":[[300,250],[250,250],[300,600],[120,240],[160,600],[300,1050],[336,280],[320,50],[320,100],[1,1],[300,420],[300,50]],"priority":299,"autosize":true},{"sequence":2,"targeting":[{"value":["Sidebar"],"key":"location"}],"devices":["desktop"],"name":"Sidebar_2","sticky":false,"location":"Sidebar","dynamic":{"pageSelector":null,"min":0,"spacing":0,"max":1,"lazy":false,"elementSelector":".sidebar > *","skip":null,"classNames":[],"position":"beforebegin","every":1,"enabled":true},"adSizes":[[300,250],[250,250],[300,600],[120,240],[160,600],[300,1050],[336,280],[320,50],[320,100],[1,1],[300,420],[300,50]],"priority":298,"autosize":true},{"sequence":9,"targeting":[{"value":["Sidebar"],"key":"location"},{"value":true,"key":"sticky"}],"devices":["desktop"],"name":"Sidebar_9","sticky":true,"location":"Sidebar","dynamic":{"pageSelector":null,"min":0,"spacing":0,"max":1,"lazy":false,"elementSelector":".sidebar","skip":0,"classNames":[],"position":"beforeend","every":1,"enabled":true},"stickyOverlapSelector":"#footer","adSizes":[[300,250],[250,250],[300,600],[120,240],[160,600],[300,1050],[336,280],[320,50],[320,100],[1,1],[300,420],[300,50]],"priority":291,"autosize":true},{"targeting":[{"value":["Content"],"key":"location"}],"devices":["tablet","desktop"],"name":"Content_468x60_728x90_970x90_1x1_300x50_728x250_970x250_1x2","sticky":false,"location":"Content","dynamic":{"pageSelector":"body.archive","min":0,"spacing":0,"max":5,"lazy":true,"lazyMax":5,"elementSelector":".post-card__large","skip":null,"classNames":["adthrive-home-ad"],"position":"afterend","every":1,"enabled":true},"adSizes":[[468,60],[728,90],[970,90],[1,1],[300,50],[728,250],[970,250],[1,2]],"priority":199,"autosize":true},{"targeting":[{"value":["Content"],"key":"location"}],"devices":["phone"],"name":"Content","sticky":false,"location":"Content","dynamic":{"pageSelector":"body.archive","min":0,"spacing":0,"max":9,"lazy":false,"elementSelector":".post-card","skip":null,"classNames":[],"position":"afterend","every":1,"enabled":true},"adSizes":[[120,240],[250,250],[300,250],[320,50],[320,100],[336,280],[468,60],[728,90],[970,90],[1,1],[300,300],[552,334],[300,50],[728,250],[970,250],[1,2]],"priority":199,"autosize":true},{"targeting":[{"value":["Content"],"key":"location"}],"devices":["desktop"],"name":"Content","sticky":false,"location":"Content","dynamic":{"pageSelector":"body.single, body.page","min":0,"spacing":1,"max":9,"lazy":true,"lazyMax":4,"elementSelector":".article__content > *","skip":6,"classNames":[],"position":"afterend","every":1,"enabled":true},"adSizes":[[120,240],[250,250],[300,250],[320,50],[320,100],[336,280],[468,60],[728,90],[970,90],[1,1],[300,300],[552,334],[300,50],[728,250],[970,250],[1,2]],"priority":199,"autosize":true},{"targeting":[{"value":["Content"],"key":"location"}],"devices":["tablet"],"name":"Content","sticky":false,"location":"Content","dynamic":{"pageSelector":"body.single, body.page","min":0,"spacing":0.7,"max":9,"lazy":true,"lazyMax":6,"elementSelector":".article__content > *","skip":6,"classNames":[],"position":"afterend","every":1,"enabled":true},"adSizes":[[120,240],[250,250],[300,250],[320,50],[320,100],[336,280],[468,60],[728,90],[970,90],[1,1],[300,300],[552,334],[300,50],[728,250],[970,250],[1,2]],"priority":199,"autosize":true},{"targeting":[{"value":["Content"],"key":"location"}],"devices":["phone"],"name":"Content","sticky":false,"location":"Content","dynamic":{"pageSelector":"body.single, body.page","min":0,"spacing":1,"max":6,"lazy":true,"lazyMax":6,"elementSelector":".article__content > *","skip":6,"classNames":[],"position":"afterend","every":1,"enabled":true},"adSizes":[[120,240],[250,250],[300,250],[320,50],[320,100],[336,280],[468,60],[728,90],[970,90],[1,1],[300,300],[552,334],[300,50],[728,250],[970,250],[1,2]],"priority":199,"autosize":true},{"targeting":[{"value":["Footer"],"key":"location"},{"value":true,"key":"sticky"}],"devices":["tablet","phone","desktop"],"name":"Footer","sticky":true,"location":"Footer","dynamic":{"pageSelector":null,"min":0,"spacing":0,"max":1,"lazy":false,"elementSelector":"body","skip":0,"classNames":[],"position":"beforeend","every":1,"enabled":true},"adSizes":[[320,50],[320,100],[728,90],[970,90],[468,60],[1,1],[300,50]],"priority":-1,"autosize":true},{"targeting":[{"value":["Below Post"],"key":"location"}],"devices":["tablet","desktop"],"name":"Below_Post","sticky":false,"location":"Below Post","dynamic":{"pageSelector":"body.single, body.page","min":0,"spacing":0,"max":0,"lazy":true,"lazyMax":1,"elementSelector":".article__content","skip":0,"classNames":[],"position":"beforeend","every":1,"enabled":true},"adSizes":[[120,240],[250,250],[300,250],[320,50],[320,100],[336,280],[468,60],[728,90],[1,1]],"priority":99,"autosize":true}],"videoPlayers":{"contextual":{"autoplayCollapsibleEnabled":true,"overrideEmbedLocation":true,"defaultPlayerType":"collapse"},"videoEmbed":"wordpress","footerSelector":"#footer","jwPlayer":{"apiSecret":"kFF3fvPIZpPIkjLs7H7EhyAh","apiKey":"z9kQyJgK","propertyId":"c46b9f3c-cb87-11ea-a8c9-4698a7e29686","enabled":true},"players":[{"devices":["desktop","mobile"],"description":"","id":2918431,"title":"Stationary related player - desktop and mobile","type":"stationaryRelated","enabled":true,"playerId":"ikjgg1Av"},{"playlistId":"","pageSelector":"","devices":["desktop"],"description":"","elementSelector":".article__content > p","skip":0,"id":2918432,"position":"afterend","title":"","type":"stickyRelated","enabled":true,"playerId":"ikjgg1Av"},{"playlistId":"","pageSelector":"","devices":["mobile"],"mobileLocation":"bottom-right","description":"","skip":0,"title":"","type":"stickyRelated","enabled":true,"elementSelector":".article__content > p","id":2918433,"position":"afterend","playerId":"ikjgg1Av"},{"playlistId":"mPEH5Ms8","pageSelector":"body.single","devices":["desktop"],"description":"","skip":4,"title":"","type":"stickyPlaylist","enabled":true,"footerSelector":"#footer","elementSelector":".article__content > *","id":2918434,"position":"afterend","saveVideoCloseState":false,"shuffle":true,"playerId":"jjaZt7HA"},{"playlistId":"mPEH5Ms8","pageSelector":"body.single","devices":["mobile"],"mobileLocation":"bottom-right","description":"","skip":4,"title":"","type":"stickyPlaylist","enabled":false,"footerSelector":"#footer","elementSelector":".article__content > *","id":2918435,"position":"afterend","saveVideoCloseState":false,"shuffle":true,"playerId":"jjaZt7HA"},{"playlistId":"mPEH5Ms8","pageSelector":"","devices":["desktop"],"description":"","elementSelector":"","skip":0,"id":2918436,"position":"afterend","title":"","type":"sekindo","enabled":false,"playerId":""},{"playlistId":"mPEH5Ms8","pageSelector":"","devices":["mobile"],"description":"","elementSelector":"","skip":0,"id":2918437,"position":"afterend","title":"","type":"sekindo","enabled":false,"playerId":""}]},"adDensityLayout":{"mobile":{"adDensity":0.26,"onePerViewport":false},"pageOverrides":[{"mobile":{"adDensity":0.3,"onePerViewport":false},"pageSelector":"body.archive","desktop":{"adDensity":0.3,"onePerViewport":false}}],"desktop":{"adDensity":0.26,"onePerViewport":false}}};</script>
+<script>
+(function(w, d) {
+	w.adthrive = w.adthrive || {};
+	w.adthrive.cmd = w.adthrive.cmd || [];
+	w.adthrive.plugin = 'adthrive-ads-1.1.2';
+	w.adthrive.host = 'ads.adthrive.com';
+
+	var s = d.createElement('script');
+	s.async = true;
+	s.referrerpolicy='no-referrer-when-downgrade';
+	s.src = 'https://' + w.adthrive.host + '/sites/5e85f4e7732dec2bfd7ee752/ads.min.js?referrer=' + w.encodeURIComponent(w.location.href) + (window.adthriveCLS && window.adthriveCLS.bucket !== 'prod' && window.adthriveCLS.branch ? '&commit=' + window.adthriveCLS.branch : '') + '&cb=' + (Math.floor(Math.random() * 100) + 1);
+	var n = d.getElementsByTagName('script')[0];
+	n.parentNode.insertBefore(s, n);
+})(window, document);
+</script>
+
+<title>Your Getting Started Guide to Powershell Functions</title>
+<meta name="description" content="Learn how to write better PowerShell code by building code in blocks with PowerShell functions in this step-by-step tutorial.">
+<meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large">
+<link rel="canonical" href="https://adamtheautomator.com/powershell-functions/">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Your Getting Started Guide to Powershell Functions">
+<meta property="og:description" content="Learn how to write better PowerShell code by building code in blocks with PowerShell functions in this step-by-step tutorial.">
+<meta property="og:url" content="https://adamtheautomator.com/powershell-functions/">
+<meta property="og:site_name" content="Adam the Automator">
+<meta property="article:tag" content="PowerShell">
+<meta property="article:section" content="IT Ops">
+<meta property="og:updated_time" content="2021-09-06T03:22:33-05:00">
+<meta property="og:image" content="https://adamtheautomator.com/wp-content/uploads/2019/06/5d238ae5c824b514689ea5ab.jpg">
+<meta property="og:image:secure_url" content="https://adamtheautomator.com/wp-content/uploads/2019/06/5d238ae5c824b514689ea5ab.jpg">
+<meta property="og:image:width" content="1080">
+<meta property="og:image:height" content="721">
+<meta property="og:image:alt" content="powershell functions">
+<meta property="og:image:type" content="image/jpeg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Your Getting Started Guide to Powershell Functions">
+<meta name="twitter:description" content="Learn how to write better PowerShell code by building code in blocks with PowerShell functions in this step-by-step tutorial.">
+<meta name="twitter:creator" content="@adbertram">
+<meta name="twitter:image" content="https://adamtheautomator.com/wp-content/uploads/2019/06/5d238ae5c824b514689ea5ab.jpg">
+<script type="application/ld+json" class="rank-math-schema-pro">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://adamtheautomator.com/#organization","name":"Adam the Automator","url":"https://adamtheautomator.com","logo":{"@type":"ImageObject","@id":"https://adamtheautomator.com/#logo","url":"https://adamtheautomator.com/wp-content/uploads/2021/08/maskable_icon_512.png","caption":"Adam the Automator","inLanguage":"en-US","width":"512","height":"512"}},{"@type":"WebSite","@id":"https://adamtheautomator.com/#website","url":"https://adamtheautomator.com","name":"Adam the Automator","publisher":{"@id":"https://adamtheautomator.com/#organization"},"inLanguage":"en-US"},{"@type":"ImageObject","@id":"https://adamtheautomator.com/wp-content/uploads/2019/06/5d238ae5c824b514689ea5ab.jpg","url":"https://adamtheautomator.com/wp-content/uploads/2019/06/5d238ae5c824b514689ea5ab.jpg","width":"1080","height":"721","inLanguage":"en-US"},{"@type":"Person","@id":"https://adamtheautomator.com/author/adam-bertram/","name":"Adam Bertram","url":"https://adamtheautomator.com/author/adam-bertram/","image":{"@type":"ImageObject","@id":"https://secure.gravatar.com/avatar/f21b5adac336b3678098de870efcf994?s=96&amp;d=mm&amp;r=g","url":"https://secure.gravatar.com/avatar/f21b5adac336b3678098de870efcf994?s=96&amp;d=mm&amp;r=g","caption":"Adam Bertram","inLanguage":"en-US"},"sameAs":["https://adamtheautomator.com","https://twitter.com/adbertram"],"worksFor":{"@id":"https://adamtheautomator.com/#organization"}},{"@type":"WebPage","@id":"https://adamtheautomator.com/powershell-functions/#webpage","url":"https://adamtheautomator.com/powershell-functions/","name":"Your Getting Started Guide to Powershell Functions","datePublished":"2021-01-31T11:45:23-06:00","dateModified":"2021-09-06T03:22:33-05:00","author":{"@id":"https://adamtheautomator.com/author/adam-bertram/"},"isPartOf":{"@id":"https://adamtheautomator.com/#website"},"primaryImageOfPage":{"@id":"https://adamtheautomator.com/wp-content/uploads/2019/06/5d238ae5c824b514689ea5ab.jpg"},"inLanguage":"en-US"},{"@type":"Article","headline":"Your Getting Started Guide to Powershell Functions","keywords":"powershell functions","datePublished":"2021-01-31T11:45:23-06:00","dateModified":"2021-09-06T03:22:33-05:00","author":{"@id":"https://adamtheautomator.com/author/adam-bertram/"},"publisher":{"@id":"https://adamtheautomator.com/#organization"},"description":"Learn how to write better PowerShell code by building code in blocks with PowerShell functions in this step-by-step tutorial.","name":"Your Getting Started Guide to Powershell Functions","@id":"https://adamtheautomator.com/powershell-functions/#richSnippet","isPartOf":{"@id":"https://adamtheautomator.com/powershell-functions/#webpage"},"image":{"@id":"https://adamtheautomator.com/wp-content/uploads/2019/06/5d238ae5c824b514689ea5ab.jpg"},"inLanguage":"en-US","mainEntityOfPage":{"@id":"https://adamtheautomator.com/powershell-functions/#webpage"}}]}</script>
+
+
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Your Getting Started Guide to Powershell Functions">
+<meta property="og:description" content="Once you get accustomed to writing PowerShell scripts, you need to learn about code modularization. Modularization is just a fancy word for creating code in building blocks...">
+<meta property="og:url" content="https://adamtheautomator.com/powershell-functions/">
+<meta property="og:site_name" content="Adam the Automator">
+<meta property="og:updated_time" content="2021-09-06T03:22:33+00:00">
+<meta property="article:published_time" content="2021-01-31T11:45:23+00:00">
+<meta property="article:modified_time" content="2021-09-06T03:22:33+00:00">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Your Getting Started Guide to Powershell Functions">
+<meta name="twitter:description" content="Once you get accustomed to writing PowerShell scripts, you need to learn about code modularization. Modularization is just a fancy word for creating code in building blocks...">
+<meta name="twitter:creator" content="@adbertram">
+
+<link rel="dns-prefetch" href="https://s.w.org/">
+<meta name="darkreader" content="f80b3553f074faa957087b268c1964eb"><style class="darkreader darkreader--override" media="screen">.vimvixen-hint {
+    background-color: #7b5300 !important;
+    border-color: #d8b013 !important;
+    color: #f3e8c8 !important;
+}
+::placeholder {
+    opacity: 0.5 !important;
+}
+a[href="https://coinmarketcap.com/"] > svg[width="94"][height="16"] > path {
+    fill: var(--darkreader-neutral-text) !important;
+}
+#edge-translate-panel-body {
+    color: var(--darkreader-neutral-text) !important;
+}</style><script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.1.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.1.0\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/adamtheautomator.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.8.1"}};
+			!function(e,a,t){var n,r,o,i=a.createElement("canvas"),p=i.getContext&&i.getContext("2d");function s(e,t){var a=String.fromCharCode;p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,e),0,0);e=i.toDataURL();return p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,t),0,0),e===i.toDataURL()}function c(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(o=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(!p||!p.fillText)return!1;switch(p.textBaseline="top",p.font="600 32px Arial",e){case"flag":return s([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])?!1:!s([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!s([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]);case"emoji":return!s([10084,65039,8205,55357,56613],[10084,65039,8203,55357,56613])}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],"flag"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(n=t.source||{}).concatemoji?c(n.concatemoji):n.wpemoji&&n.twemoji&&(c(n.twemoji),c(n.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="./Your Getting Started Guide to Powershell Functions_files/wp-emoji-release.min.js.download" type="text/javascript" defer=""></script>
+<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style><style class="darkreader darkreader--sync" media="screen"></style>
+<link rel="stylesheet" id="wp-block-library-css" href="./Your Getting Started Guide to Powershell Functions_files/style.min.css" type="text/css" media="all"><style class="darkreader darkreader--sync" media="screen"></style>
+<style id="wp-block-library-inline-css" type="text/css">
+.has-text-align-justify{text-align:justify;}
+</style><style class="darkreader darkreader--sync" media="screen"></style>
+<link rel="stylesheet" id="mediaelement-css" href="./Your Getting Started Guide to Powershell Functions_files/mediaelementplayer-legacy.min.css" type="text/css" media="all"><style class="darkreader darkreader--sync" media="screen"></style>
+<link rel="stylesheet" id="wp-mediaelement-css" href="./Your Getting Started Guide to Powershell Functions_files/wp-mediaelement.min.css" type="text/css" media="all"><style class="darkreader darkreader--sync" media="screen"></style>
+<link rel="stylesheet" id="mkaz-code-syntax-prism-css-css" href="./Your Getting Started Guide to Powershell Functions_files/prism-a11y-dark.css" type="text/css" media="all"><style class="darkreader darkreader--sync" media="screen"></style>
+<link rel="stylesheet" id="novashare-css-css" href="./Your Getting Started Guide to Powershell Functions_files/style.min(1).css" type="text/css" media="all"><style class="darkreader darkreader--sync" media="screen"></style>
+<link rel="stylesheet" id="pwp-offline-style-css" href="./Your Getting Started Guide to Powershell Functions_files/ui-offline.css" type="text/css" media="all"><style class="darkreader darkreader--sync" media="screen"></style>
+<style id="wp-block-library-theme-inline-css" type="text/css">
+#start-resizable-editor-section{display:none}.wp-block-audio figcaption{color:#555;font-size:13px;text-align:center}.is-dark-theme .wp-block-audio figcaption{color:hsla(0,0%,100%,.65)}.wp-block-code{font-family:Menlo,Consolas,monaco,monospace;color:#1e1e1e;padding:.8em 1em;border:1px solid #ddd;border-radius:4px}.wp-block-embed figcaption{color:#555;font-size:13px;text-align:center}.is-dark-theme .wp-block-embed figcaption{color:hsla(0,0%,100%,.65)}.blocks-gallery-caption{color:#555;font-size:13px;text-align:center}.is-dark-theme .blocks-gallery-caption{color:hsla(0,0%,100%,.65)}.wp-block-image figcaption{color:#555;font-size:13px;text-align:center}.is-dark-theme .wp-block-image figcaption{color:hsla(0,0%,100%,.65)}.wp-block-pullquote{border-top:4px solid;border-bottom:4px solid;margin-bottom:1.75em;color:currentColor}.wp-block-pullquote__citation,.wp-block-pullquote cite,.wp-block-pullquote footer{color:currentColor;text-transform:uppercase;font-size:.8125em;font-style:normal}.wp-block-quote{border-left:.25em solid;margin:0 0 1.75em;padding-left:1em}.wp-block-quote cite,.wp-block-quote footer{color:currentColor;font-size:.8125em;position:relative;font-style:normal}.wp-block-quote.has-text-align-right{border-left:none;border-right:.25em solid;padding-left:0;padding-right:1em}.wp-block-quote.has-text-align-center{border:none;padding-left:0}.wp-block-quote.is-large,.wp-block-quote.is-style-large{border:none}.wp-block-search .wp-block-search__label{font-weight:700}.wp-block-group.has-background{padding:1.25em 2.375em;margin-top:0;margin-bottom:0}.wp-block-separator{border:none;border-bottom:2px solid;margin-left:auto;margin-right:auto;opacity:.4}.wp-block-separator:not(.is-style-wide):not(.is-style-dots){width:100px}.wp-block-separator.has-background:not(.is-style-dots){border-bottom:none;height:1px}.wp-block-separator.has-background:not(.is-style-wide):not(.is-style-dots){height:2px}.wp-block-table thead{border-bottom:3px solid}.wp-block-table tfoot{border-top:3px solid}.wp-block-table td,.wp-block-table th{padding:.5em;border:1px solid;word-break:normal}.wp-block-table figcaption{color:#555;font-size:13px;text-align:center}.is-dark-theme .wp-block-table figcaption{color:hsla(0,0%,100%,.65)}.wp-block-video figcaption{color:#555;font-size:13px;text-align:center}.is-dark-theme .wp-block-video figcaption{color:hsla(0,0%,100%,.65)}.wp-block-template-part.has-background{padding:1.25em 2.375em;margin-top:0;margin-bottom:0}#end-resizable-editor-section{display:none}
+</style><style class="darkreader darkreader--sync" media="screen"></style>
+<link rel="stylesheet" id="production-css" href="./Your Getting Started Guide to Powershell Functions_files/styles.min.css" type="text/css" media="all"><style class="darkreader darkreader--sync" media="screen"></style>
+<link rel="stylesheet" id="jetpack_css-css" href="./Your Getting Started Guide to Powershell Functions_files/jetpack.css" type="text/css" media="all"><style class="darkreader darkreader--sync" media="screen"></style>
+<script type="text/javascript" id="jetpack_related-posts-js-extra">
+/* <![CDATA[ */
+var related_posts_js_options = {"post_heading":"h4"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Your Getting Started Guide to Powershell Functions_files/related-posts.min.js.download" id="jetpack_related-posts-js"></script>
+<script type="text/javascript" src="./Your Getting Started Guide to Powershell Functions_files/novashare.min.js.download" id="novashare-js-js"></script>
+<link rel="https://api.w.org/" href="https://adamtheautomator.com/wp-json/"><link rel="alternate" type="application/json" href="https://adamtheautomator.com/wp-json/wp/v2/posts/108"><link rel="alternate" type="application/json+oembed" href="https://adamtheautomator.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fadamtheautomator.com%2Fpowershell-functions%2F">
+<link rel="alternate" type="text/xml+oembed" href="https://adamtheautomator.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fadamtheautomator.com%2Fpowershell-functions%2F&amp;format=xml">
+<script type="text/javascript">var PwpJsVars = {"AjaxURL":"https:\/\/adamtheautomator.com\/wp-admin\/admin-ajax.php","homeurl":"https:\/\/adamtheautomator.com\/","installprompt":{"mode":"normal","pageloads":"2","onclick":""}};</script> <script type="text/javascript" id="serviceworker-unregister">
+			if ('serviceWorker' in navigator) {
+				navigator.serviceWorker.getRegistrations().then(function (registrations) {
+					registrations.forEach(function (registration) {
+						if (registration.active.scriptURL === window.location.origin + '/pwp-serviceworker.js') {
+							registration.unregister();
+						}
+					});
+				});
+			}
+		</script>
+<script type="text/javascript" id="serviceworker">
+			if (navigator.serviceWorker) {
+				window.addEventListener('load', function () {
+					navigator.serviceWorker.register(
+						"https:\/\/adamtheautomator.com\/?wp_service_worker=1", {"scope": "\/"}
+					);
+				});
+			}
+		</script>
+<link rel="manifest" href="https://adamtheautomator.com/wp-json/app/v1/pwp-manifest"><meta name="theme-color" content="#000000"><style type="text/css">img#wpstats{display:none}</style><style class="darkreader darkreader--sync" media="screen"></style>
+<script type="text/javascript">var postAuthor = "adam-bertram";</script><link rel="icon" href="https://adamtheautomator.com/wp-content/uploads/2020/06/cropped-favicon-32x32.png" sizes="32x32">
+<link rel="icon" href="https://adamtheautomator.com/wp-content/uploads/2020/06/cropped-favicon-192x192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="https://adamtheautomator.com/wp-content/uploads/2020/06/cropped-favicon-180x180.png">
+<meta name="msapplication-TileImage" content="https://adamtheautomator.com/wp-content/uploads/2020/06/cropped-favicon-270x270.png">
+<script id="cls-disable-ads-756ce7c">var cls_disable_ads=function(t){"use strict";function e(t){var e=window.location.href;return t.some((function(t){return new RegExp(t,"i").test(e)}))}var i=function(){function t(t){this.adthrive=t,this.all=!1,this.content=!1,this.recipe=!1,this.video=!1,this.locations=new Set,this.reasons=new Set,(this.urlHasEmail(window.location.href)||this.urlHasEmail(window.document.referrer))&&(this.all=!0,this.reasons.add("all_email"));try{this.checkCommandQueue(),null!==document.querySelector(".tag-novideo")&&(this.video=!0,this.locations.add("Video"),this.reasons.add("video_tag"))}catch(t){console.log(t)}}return t.prototype.checkCommandQueue=function(){var t=this;this.adthrive&&this.adthrive.cmd&&this.adthrive.cmd.forEach((function(e){var i=e.toString(),a=t.extractAPICall(i,"disableAds");a&&t.disableAllAds(t.extractPatterns(a));var n=t.extractAPICall(i,"disableContentAds");n&&t.disableContentAds(t.extractPatterns(n));var s=t.extractAPICall(i,"disablePlaylistPlayers");s&&t.disablePlaylistPlayers(t.extractPatterns(s))}))},t.prototype.extractPatterns=function(t){var e=t.match(/\'(.*?)\'/g);if(null!==e)return e.map((function(t){return t.replace(/'/g,"")}))},t.prototype.extractAPICall=function(t,e){var i=new RegExp(e+"\\((.*?)\\)","g"),a=t.match(i);return null!==a&&a[0]},t.prototype.disableAllAds=function(t){t&&!e(t)||(this.all=!0,this.reasons.add("all_page"))},t.prototype.disableContentAds=function(t){t&&!e(t)||(this.content=!0,this.recipe=!0,this.locations.add("Content"),this.locations.add("Recipe"),this.reasons.add("content_plugin"))},t.prototype.disablePlaylistPlayers=function(t){t&&!e(t)||(this.video=!0,this.locations.add("Video"),this.reasons.add("video_page"))},t.prototype.urlHasEmail=function(t){if(!t)return!1;return null!==t.match(/([A-Z0-9._%+-]+(@|%(25)*40)[A-Z0-9.-]+\.[A-Z]{2,})/i)},t}();return window.adthriveCLS&&(window.adthriveCLS.disableAds=new i(window.adthrive)),t.ClsDisableAds=i,t}({});
+</script> <style type="text/css" id="wp-custom-css">
+			code[class*="language-"], pre[class*="language-"] {
+	font-size: 0.9rem;
+}		</style><style class="darkreader darkreader--sync" media="screen"></style>
+<script>!function(t){function e(){var e=!1;try{var o=t.location.search,n="xpdebug";e=e||o.match(new RegExp("[&?]"+n)),e=e||t.localStorage&&null!==t.localStorage.getItem(n),e&&t.localStorage&&console.log("[BABCommon][isDebug] "+n+"="+t.localStorage.getItem(n))}catch(i){}return!!e}function o(){t.__purposefulCheck||s(!1)}function n(){s(!0)}function i(){"undefined"!=typeof t.document.body&&t.document.body?blockAdBlock.check():document.addEventListener("DOMContentLoaded",function(){blockAdBlock.check()},!1)}function a(){function e(){o||(o=!0,blockAdBlock.check())}var o=!1;if("undefined"!=typeof t.document.body&&t.document.body)e(),blockAdBlock._log("coba","bae");else{var n=t.MutationObserver||t.WebKitMutationObserver||t.MozMutationObserver;if(n){var i=new n(function(){t.document.body&&(i.disconnect(),e(),blockAdBlock._log("coba","mo"))});i.observe(document.documentElement,{childList:!0,subtree:!0})}else{var a=function(){"undefined"!=typeof t.document.body&&t.document.body?(e(),blockAdBlock._log("coba","st")):setTimeout(a,5)};a()}document.addEventListener("DOMContentLoaded",function(){e(),blockAdBlock._log("coba","dcl")},!1)}}function c(e){t.__purposefulCheck=null;var i=0,a=function(a){var c=document.createElement("img"),d=!0;setTimeout(function(){if(d){d=!1,t.__purposefulCheck=!1;try{document.body.removeChild(c)}catch(e){}}},1e3),c.onerror=function(){d=!1,c.onerror=null;try{document.body.removeChild(c)}catch(o){}++i>=e.length&&(t.__purposefulCheck=!0,n())},c.onload=function(){d=!1,c.onload=null;try{document.body.removeChild(c)}catch(e){}t.__purposefulCheck=!1,o()},c.style.display="none",c.src=e[a],document.body.appendChild(c)},c=function(){for(var t in e)a(t)};"undefined"!=typeof t.document.body&&t.document.body?c():document.addEventListener("DOMContentLoaded",function(){c()},!1)}var d=function(e){var o=this;o._options={checkOnLoad:!1,resetOnEnd:!1,loopCheckTime:50,loopMaxNumber:5,baitClass:"pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links ad ad01",baitStyle:"width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;",debug:!1},o._var={bait:null,checking:!1,loop:null,loopNumber:0,event:{detected:[],notDetected:[]}},"undefined"!=typeof e&&o.setOption(e);var n=function(){setTimeout(function(){o._options.checkOnLoad===!0&&(o._log("onload->eventCallback","A check loading is launched"),null===o._var.bait&&o._creatBait(),setTimeout(function(){o.check()},1))},1)};"undefined"!=typeof t.addEventListener?t.addEventListener("load",n,!1):t.attachEvent("onload",n)};d.prototype._options=null,d.prototype._var=null,d.prototype._log=function(t,e){this._options.debug&&console.log("[BAB]["+t+"] "+e)},d.prototype.setOption=function(t,e){if("undefined"!=typeof e){var o=t;t={},t[o]=e}for(var n in t)this._options[n]=t[n],this._options.debug&&this._log("setOption",'The option "'+n+'" was assigned to "'+t[n]+'"');return this},d.prototype._creatBait=function(){var e=document.createElement("div");this._options.baitId&&e.setAttribute("id",this._options.baitId),e.setAttribute("class",this._options.baitClass),e.setAttribute("style",this._options.baitStyle),this._var.bait=t.document.body.appendChild(e),this._var.bait.offsetParent,this._var.bait.offsetHeight,this._var.bait.offsetLeft,this._var.bait.offsetTop,this._var.bait.offsetWidth,this._var.bait.clientHeight,this._var.bait.clientWidth,this._log("_creatBait","Bait has been created")},d.prototype._destroyBait=function(){t.document.body.removeChild(this._var.bait),this._var.bait=null,this._log("_destroyBait","Bait has been removed")},d.prototype.check=function(t){if("undefined"==typeof t&&(t=!0),this._options.debug&&this._log("check","An audit was requested "+(t===!0?"with a":"without")+" loop"),this._var.checking===!0)return this._log("check","A check was canceled because there is already an ongoing"),!1;this._var.checking=!0,null===this._var.bait&&this._creatBait();var e=this;return this._var.loopNumber=0,t===!0&&(this._var.loop=setInterval(function(){e._checkBait(t)},this._options.loopCheckTime)),setTimeout(function(){e._checkBait(t)},1),this._log("check","A check is in progress ..."),!0},d.prototype._checkBait=function(e){function o(t,e){e&&(n=!0,i._log("cc",t))}var n=!1,i=this;null===i._var.bait&&i._creatBait(),o("aba",null!==t.document.body.getAttribute("abp")),o("bop",null===i._var.bait.offsetParent),o("boh",0==i._var.bait.offsetHeight),o("bol",0==i._var.bait.offsetLeft),o("bot",0==i._var.bait.offsetTop),o("bow",0==i._var.bait.offsetWidth),o("bch",0==i._var.bait.clientHeight),o("bcw",0==i._var.bait.clientWidth),o("hid","undefined"!=typeof t.getComputedStyle&&!i._isComputedStyleMessedUp(t.document.body)&&i._isComputedStyleMessedUp(i._var.bait)),i._options.debug&&i._log("_checkBait","A check ("+(i._var.loopNumber+1)+"/"+i._options.loopMaxNumber+" ~"+(1+i._var.loopNumber*i._options.loopCheckTime)+"ms) was conducted and detection is "+(n?"positive":"negative")),e===!0&&(i._var.loopNumber++,i._var.loopNumber>=i._options.loopMaxNumber&&i._stopLoop()),n?(i._stopLoop(),i._destroyBait(),i.emitEvent(!0),e===!0&&(i._var.checking=!1)):(null===i._var.loop||e===!1)&&(i._destroyBait(),i.emitEvent(!1),e===!0&&(i._var.checking=!1))},d.prototype._isComputedStyleMessedUp=function(e){var o=t.getComputedStyle(e,null);return o&&("none"===o.getPropertyValue("display")||"hidden"===o.getPropertyValue("visibility"))},d.prototype._stopLoop=function(){clearInterval(this._var.loop),this._var.loop=null,this._var.loopNumber=0,this._log("_stopLoop","A loop has been stopped")},d.prototype.emitEvent=function(t){this._options.debug&&this._log("emitEvent","An event with a "+(t===!0?"positive":"negative")+" detection was called");var e=t===!0?this._var.event.detected:this._var.event.notDetected;for(var o in e)this._options.debug&&this._log("emitEvent","Call function "+(parseInt(o)+1)+"/"+e.length),e.hasOwnProperty(o)&&e[o]();return this._options.resetOnEnd===!0&&this.clearEvent(),this},d.prototype.clearEvent=function(){this._var.event.detected=[],this._var.event.notDetected=[],this._log("clearEvent","The event list has been cleared")},d.prototype.on=function(t,e){return this._var.event[t===!0?"detected":"notDetected"].push(e),this._options.debug&&this._log("on",'A type of event "'+(t===!0?"detected":"notDetected")+'" was added'),this},d.prototype.onDetected=function(t){return this.on(!0,t)},d.prototype.onNotDetected=function(t){return this.on(!1,t)},t.BlockAdBlock=d,"undefined"==typeof t.blockAdBlock&&(t.blockAdBlock=new d({checkOnLoad:!1,resetOnEnd:!0,debug:e()}));var s=function(t){var e=new Date;e.setTime(e.getTime()+3e5),document.cookie="__adblocker="+(t?"true":"false")+"; expires="+e.toUTCString()+"; path=/"};"undefined"==typeof blockAdBlock?n():(blockAdBlock.onDetected(n),blockAdBlock.onNotDetected(o)),t.document.location.host.match(/businessinsider.com/i)?(blockAdBlock.setOption({checkOnLoad:!1,baitClass:"subnav-container ad ad01",baitStyle:"visibility:visible; display:block; width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;"}),i()):t.document.location.host.match(/abril\.com\.br/i)?c(["https://abrilveja.files.wordpress.com/2016/10/300x250_benvino.jpeg","https://px.moatads.com/pixel.gif"]):t.document.location.host.match(/cnbc\.com/i)?(blockAdBlock.setOption({checkOnLoad:!1,baitClass:"sponsored ad ad01"}),i()):t.document.location.host.match(/pcwelt\.de/i)?(blockAdBlock.setOption({checkOnLoad:!1,baitClass:"amazonteaser ad ad01"}),i()):t.document.location.host.match(/therealdeal\.com/i)?a():i()}(window);</script><style type="text/css">.adthrive-ad{margin-top:10px;margin-bottom:10px;text-align:center;overflow-x:visible;clear:both;line-height:0}.jw-flag-small-player #next-stay-container{margin:0}.jw-flag-small-player #next-video,.jw-flag-small-player #stay-video{width:75px;height:30px;line-height:30px}#next-stay-container{bottom:25%;right:0;margin:12px;position:absolute}#next-video,#stay-video{box-shadow:0 0 10px rgba(0,0,0,.5);opacity:.9;width:100px;height:40px;line-height:40px;text-align:center;cursor:pointer;background-color:#333;color:#fff;margin:10px}#next-video{box-shadow:inset 0 0 0 0 #333;transition:box-shadow 5s linear}#next-stay-container.loaded #next-video{box-shadow:inset 100px 0 0 0 red}.adthrive-ad-cls{display:flex;justify-content:center;align-items:center;flex-wrap:wrap}.adthrive-ad-cls>div,.adthrive-ad-cls>iframe{flex-basis:100%}.adthrive-interstitial{margin-top:0;margin-bottom:0}.adthrive-native-recipe{display:inline-block}.adthrive-stuck.adthrive-sticky.adthrive-header,.adthrive-stuck.adthrive-sticky.adthrive-sidebar{position:fixed;top:0;z-index:9999}.adthrive-stuck.adthrive-header{margin-top:0}.adthrive-sticky.adthrive-footer{text-align:center;margin:0;width:100%;overflow:hidden;position:fixed;left:0;bottom:0;z-index:99999;background-color:hsla(0,0%,100%,.8);border-top:2px solid hsla(0,0%,88.2%,.8)}.adthrive-sticky.adthrive-footer>.adthrive-close{cursor:pointer;color:#b2b2b2;border:1px solid #b2b2b2;border-radius:20px;background:#fff;line-height:20px;display:inline-block;font-size:20px;font-family:arial,sans-serif;padding:0 5px;position:absolute;top:5px;right:5px}.adthrive-device-desktop .adthrive-sticky.adthrive-footer>.adthrive-close{top:10px;right:10px}#_inv_voicefive___{display:none}.adthrive-ccpa-link,.adthrive-footer-message,.adthrive-privacy-preferences{text-align:center;margin-top:5px}.adthrive-ccpa-link,.adthrive-ccpa-link span,.adthrive-footer-message span,.adthrive-privacy-preferences a{font-family:Arial,Helvetica Neue,Helvetica,sans-serif;font-size:13px;color:#b2b2b2}.adthrive-ccpa-link a{text-decoration:underline;cursor:pointer}.adthrive-device-phone .adthrive-footer-message{margin-bottom:60px}.adthrive-footer-message{margin-bottom:100px}.adthrive-footer-message>span{text-transform:uppercase;border-top:1px solid #b2b2b2;padding-top:5px}.adthrive-collapse-player{width:90%;border-top:1px solid #dbdbdb;border-bottom:1px solid #dbdbdb;padding:8px!important;margin-left:auto;margin-right:auto}.adthrive-player-position.adthrive-collapse-float{position:fixed;width:300px;z-index:2147483644}h3.adthrive-player-title{margin:10px 0}.adthrive-player-position.adthrive-collapse-float.adthrive-collapse-right{top:0;right:5px}.adthrive-player-position.adthrive-collapse-float.adthrive-collapse-bottom-right{bottom:100px;right:5px}.adthrive-player-position.adthrive-collapse-float.adthrive-collapse-bottom-left{bottom:100px;left:5px}.adthrive-player-position.adthrive-collapse-float>.adthrive-player-title{display:none}.adthrive-player-position.adthrive-collapse-sticky{padding-top:20px;padding-bottom:20px;position:fixed;z-index:9999}.adthrive-player-position.adthrive-collapse-sticky>.adthrive-player-title{display:none}.adthrive-player-position.adthrive-collapse-mobile{position:fixed;width:300px;z-index:99998}.adthrive-player-position.adthrive-collapse-mobile.adthrive-collapse-medium,.adthrive-player-position.adthrive-collapse-mobile.adthrive-collapse-small{width:272px}.adthrive-player-position.adthrive-collapse-mobile.adthrive-collapse-top-right{top:26px;right:10px}.adthrive-player-position.adthrive-collapse-mobile.adthrive-collapse-top-left{top:26px;left:5px}.adthrive-player-position.adthrive-collapse-mobile.adthrive-collapse-bottom-left{bottom:52px;left:5px}.adthrive-player-position.adthrive-collapse-mobile.adthrive-collapse-bottom-right{bottom:52px;right:10px}.adthrive-player-position.adthrive-collapse-mobile>.adthrive-player-title{display:none}.adthrive-sekindo-mobile-center{display:flex;flex-direction:row;justify-content:center;text-align:center}.adthrive-wrapper-close{margin-left:auto;margin-right:0;height:36px;min-width:36px;justify-content:center;align-items:center;font-size:36px;color:#fff}.adthrive-wrapper-float-close{float:right;display:none;margin-bottom:5px;cursor:pointer}.adthrive-wrapper-bar{display:none;background-color:#595959;font-family:Arial,Helvetica,sans-serif;border-top-left-radius:5px;border-top-right-radius:5px;height:36px}.adthrive-video-title{font-size:13px;font-weight:700;text-decoration:none;color:#fff}.adthrive-wrapper-title-wrapper{display:inline-flex;min-width:0;margin-left:10px;margin-right:10px;justify-content:center;align-items:center}.adthrive-video-text-cutoff{text-overflow:ellipsis;overflow:hidden;white-space:nowrap;color:#fff}.adthrive-wrapper-title-wrapper>a>svg,.adthrive-wrapper-title-wrapper>div>svg{vertical-align:middle;fill:#fff;margin-right:5px}.adthrive-wrapper-title-wrapper>a{text-decoration:none}</style><style class="darkreader darkreader--sync" media="screen"></style></head>
+<body data-rsssl="1" class="post-template-default single single-post postid-108 single-format-standard wp-embed-responsive bg-gray-100 font-sans leading-normal tracking-normal flex flex-col min-h-screen relative">
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K6C7SP6"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<input type="checkbox" id="offcanvas" class="toggle hidden">
+<div class="w-full bg-black h-12 sm:hidden fixed shadow-lg z-50">
+<label for="offcanvas" class="toggler text-white inline-block no-underline text-center avatar flex items-center h-full ml-6">
+<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="fill-current h-6" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z" data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;"></path></svg>
+<h1 class="inline-block text-white ml-20 font-bold">Adam the Automator</h1>
+</label>
+</div>
+<div class="nav-container fixed flex flex-col top-0 left-0 h-full sm:h-auto mx-0 z-50 sm:relative w-64 -ml-64 sm:w-auto sm:block bg-gray-700 sm:top-0 sm:bg-black sm:ml-0 sm:sticky">
+<label for="offcanvas" class="toggler text-white inline-block no-underline text-center avatar flex items-center p-4 sm:hidden">
+<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="fill-current h-6" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z" data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;"></path></svg>
+<span class="inline-block pl-4">Tap to hide</span>
+</label>
+<nav class="navigation-bar sm:mx-auto sm:max-w-screen-xl" role="navigation">
+<div class="flex flex-wrap sm:items-center w-full sm:mx-auto sm:rounded sm:shadow-lg pl-2 sm:pl-4 pr-2 sm:pr-4">
+<div class="flex text-md mr-auto w-full md:w-auto">
+<ul id="main-menu" class="list-reset flex flex-1 md:flex-none flex-col sm:flex-row sm:items-center"><li id="menu-item-2678" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-2678"><a href="https://adamtheautomator.com/" class="inline-block text-gray-300 no-underline hover:text-white hover:no-underline py-2 px-2 w-full md:w-auto">Home</a></li>
+<li id="menu-item-8599" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8599"><a href="https://adamtheautomator.com/the-ata-team/" class="inline-block text-gray-300 no-underline hover:text-white hover:no-underline py-2 px-2 w-full md:w-auto">The ATA Team</a></li>
+<li id="menu-item-2681" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2681"><a href="https://adamtheautomator.com/friends/" class="inline-block text-gray-300 no-underline hover:text-white hover:no-underline py-2 px-2 w-full md:w-auto">Get Paid to Write</a></li>
+<li id="menu-item-2679" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2679"><a href="https://adamtheautomator.com/advertising/" class="inline-block text-gray-300 no-underline hover:text-white hover:no-underline py-2 px-2 w-full md:w-auto">Advertising</a></li>
+<li id="menu-item-3686" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-3686"><a href="https://adamtheautomator.com/privacy/" class="inline-block text-gray-300 no-underline hover:text-white hover:no-underline py-2 px-2 w-full md:w-auto">Privacy Policy</a></li>
+<li id="menu-item-7408" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7408"><a href="https://adamtheautomator.com/sponsors/" class="inline-block text-gray-300 no-underline hover:text-white hover:no-underline py-2 px-2 w-full md:w-auto">Our Sponsors</a></li>
+<li id="menu-item-7325" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7325"><a href="https://adamtheautomator.com/resources/" class="inline-block text-gray-300 no-underline hover:text-white hover:no-underline py-2 px-2 w-full md:w-auto">Recommended Resources</a></li>
+</ul> </div>
+<form class="flex items-center pl-2 md:pl-0 pt-4 md:pt-0" role="search" method="get" action="https://adamtheautomator.com/">
+<label for="search-form-1">
+<span class="sr-only">Search for:</span>
+<input type="search" id="search-form-1" class="flex-1 appearance-none rounded-sm p-1 text-gray-600 focus:outline-none" placeholder="Search …" value="" name="s">
+</label>
+<input type="submit" class="sr-only" value="Search">
+</form>
+<div class="flex sm:justify-end content-center mr-2 pt-4 md:pt-0">
+<a class="inline-block text-gray-500 no-underline hover:text-white hover:text-underline text-center h-10 p-2 md:h-auto md:p-4 avatar flex items-center mr-2 md:mr-0" aria-label="Adam the Automator on Twitter" href="https://twitter.com/adbertram" target="_blank" rel="nofollow noopener">
+<svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="twitter" class="fill-current h-4" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z" data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;"></path></svg>
+</a>
+<a class="inline-block text-gray-500 no-underline hover:text-white hover:text-underline text-center h-10 p-2 md:h-auto md:p-4 avatar flex items-center mr-2 md:mr-0" aria-label="Adam the Automator on GitHub" href="https://github.com/adbertram" target="_blank" rel="nofollow noopener">
+<svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" class="fill-current h-4" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z" data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;"></path></svg>
+</a>
+<a class="inline-block text-gray-500 no-underline hover:text-white hover:text-underline text-center h-10 p-2 md:h-auto md:p-4 avatar flex items-center" aria-label="Adam the Automator on LinkedIn" href="https://linkedin.com/in/adambertram" target="_blank" rel="nofollow noopener">
+<svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="linkedin-in" class="fill-current h-4" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;"></path></svg>
+</a>
+<a class="inline-block text-gray-500 no-underline hover:text-white hover:text-underline text-center h-10 p-2 md:h-auto md:p-4 avatar flex items-center" aria-label="Adam the Automator RSS Feed" href="https://adamtheautomator.com/feed/" target="_blank">
+<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="rss" class="fill-current h-4" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z" data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;"></path></svg>
+</a>
+</div>
+</div>
+</nav>
+</div> <div id="wrapper" role="document" class="container max-w-screen-xl lg:max-w-screen-xl xl:max-w-screen-xl 2xl:max-w-screen-xl mx-auto flex-grow">
+<main role="main" id="main" class="w-full">
+<section class="flex flex-wrap flex-col">
+<header class="flex flex-col justify-center pt-6 sm:pt-0">
+<div class="post-meta m-auto pt-12 md:pt-24 text-sm uppercase tracking-wide text-blue-700 divide-x divide-blue-600 flex flex-wrap justify-center">
+<span class="post-meta__publish-date pr-2 pl-2">31 January 2021</span><a class="pl-2 pr-2" href="https://adamtheautomator.com/tag/powershell/">PowerShell</a> </div>
+<h2 class="text-2xl md:text-4xl font-bold text-center pb-12 md:pb-24 text-gray-900">Your Getting Started Guide to Powershell Functions</h2>
+<div class="post-header container h-full w-full mb-4 relative lg:w-full lg:h-auto">
+<figure class="post-header__cover-image lg:flex lg:flex-col lg:items-center lg:overflow-hidden lg:rounded-sm lg:w-full lg:h-auto">
+<link rel="preload" href="./Your Getting Started Guide to Powershell Functions_files/5d238ae5c824b514689ea5ab-768x513.jpg" as="image" imagesrcset="https://adamtheautomator.com/wp-content/uploads/2019/06/5d238ae5c824b514689ea5ab-300x200.jpg 300w,
+                                        https://adamtheautomator.com/wp-content/uploads/2019/06/5d238ae5c824b514689ea5ab-768x513.jpg 600w,
+                                        https://adamtheautomator.com/wp-content/uploads/2019/06/5d238ae5c824b514689ea5ab-1024x684.jpg 1000w,
+                                        https://adamtheautomator.com/wp-content/uploads/2019/06/5d238ae5c824b514689ea5ab-1024x684.jpg 2000w" imagesizes="(max-width: 800px) 400px,
+                                        (max-width: 1170px) 700px,
+                                        1400px">
+<img class="post-header__image object-cover w-full" srcset="https://adamtheautomator.com/wp-content/uploads/2019/06/5d238ae5c824b514689ea5ab-300x200.jpg 300w,
+                                        https://adamtheautomator.com/wp-content/uploads/2019/06/5d238ae5c824b514689ea5ab-768x513.jpg 600w,
+                                        https://adamtheautomator.com/wp-content/uploads/2019/06/5d238ae5c824b514689ea5ab-1024x684.jpg 1000w,
+                                        https://adamtheautomator.com/wp-content/uploads/2019/06/5d238ae5c824b514689ea5ab-1024x684.jpg 2000w" sizes="(max-width: 800px) 400px,
+                                        (max-width: 1170px) 700px,
+                                        1400px" width="768" height="513" src="./Your Getting Started Guide to Powershell Functions_files/5d238ae5c824b514689ea5ab-768x513.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+</figure>
+<div class="post-header__meta bg-gray-100 m-auto relative">
+<section class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-4 pl-4 pr-4 pb-6 lg:pl-24 pt-12 lg:pb-12 lg:pr-24 lg:-mt-24">
+<div class="author-card-author-container flex items-center">
+<img class="rounded-full avatar shadow-xl mr-4" loading="lazy" width="96" height="96" src="./Your Getting Started Guide to Powershell Functions_files/f21b5adac336b3678098de870efcf994.jpeg" alt="" decoding="async">
+<section class="author-card-content">
+<h3 class="author-card-name text-xl font-bold text-gray-800"><a href="https://adamtheautomator.com/author/adam-bertram/">Adam Bertram</a></h3>
+<p class="author-card-readmore text-gray-700">Read <a href="https://adamtheautomator.com/author/adam-bertram/">more posts</a> by this author.</p>
+</section>
+</div>
+<div class="author-card-meta flex items-start flex-col justify-center sm:m-auto">
+<div class="author-meta-details mb-2">
+<a class="flex flex-row items-center text-gray-900" href="https://adamtheautomator.com/" target="_blank" rel="nofollow noopener"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="globe" class="w-6 h-6 mr-4 svg-inline--fa fa-globe fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M336.5 160C322 70.7 287.8 8 248 8s-74 62.7-88.5 152h177zM152 256c0 22.2 1.2 43.5 3.3 64h185.3c2.1-20.5 3.3-41.8 3.3-64s-1.2-43.5-3.3-64H155.3c-2.1 20.5-3.3 41.8-3.3 64zm324.7-96c-28.6-67.9-86.5-120.4-158-141.6 24.4 33.8 41.2 84.7 50 141.6h108zM177.2 18.4C105.8 39.6 47.8 92.1 19.3 160h108c8.7-56.9 25.5-107.8 49.9-141.6zM487.4 192H372.7c2.1 21 3.3 42.5 3.3 64s-1.2 43-3.3 64h114.6c5.5-20.5 8.6-41.8 8.6-64s-3.1-43.5-8.5-64zM120 256c0-21.5 1.2-43 3.3-64H8.6C3.2 212.5 0 233.8 0 256s3.2 43.5 8.6 64h114.6c-2-21-3.2-42.5-3.2-64zm39.5 96c14.5 89.3 48.7 152 88.5 152s74-62.7 88.5-152h-177zm159.3 141.6c71.4-21.2 129.4-73.7 158-141.6h-108c-8.8 56.9-25.6 107.8-50 141.6zM19.3 352c28.6 67.9 86.5 120.4 158 141.6-24.4-33.8-41.2-84.7-50-141.6h-108z" data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;"></path></svg><span>https://adamtheautomator.com</span></a>
+</div>
+<div class="author-meta-details mb-2">
+<a class="flex flex-row items-center text-gray-900" href="https://twitter.com/adbertram" target="_blank" rel="nofollow noopener"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="twitter" class="w-6 h-6 mr-4 svg-inline--fa fa-twitter fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z" data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;"></path></svg><span>adbertram</span></a>
+</div>
+</div>
+</section>
+</div>
+</div>
+</header>
+<article id="post-108" class="post-content w-full grid leading-relaxed text-lg text-gray-600 font-serif p-2 mb-12 z-40 post-108 post type-post status-publish format-standard has-post-thumbnail hentry category-it-ops tag-powershell wp-sticky">
+<div class="article__container">
+<div class="article__content">
+<style>@media (max-width: 1200px) {
+							
+							
+						}</style><style class="darkreader darkreader--sync" media="screen"></style><style>body .novashare-buttons.novashare-inline .novashare-button-icon { width: 100%; }</style><style class="darkreader darkreader--sync" media="screen"></style><div class="novashare-buttons novashare-inline novashare-no-print"><div class="novashare-buttons-wrapper"><a href="https://twitter.com/intent/tweet?text=Your%20Getting%20Started%20Guide%20to%20Powershell%20Functions&amp;url=https%3A%2F%2Fadamtheautomator.com%2Fpowershell-functions%2F%3Futm_source%3Dtwitter%26utm_medium%3Dsocial%26utm_campaign%3Datawebsite&amp;via=adbertram" aria-label="Twitter" target="_blank" class="novashare-button twitter" rel="nofollow noopener noreferrer"><span class="novashare-button-wrapper novashare-button-block"><span class="novashare-button-icon novashare-button-block"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z" data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;"></path></svg></span><span class="novashare-button-label novashare-button-block novashare-hide"><span class="novashare-button-label-wrapper">Twitter</span></span></span></a><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fadamtheautomator.com%2Fpowershell-functions%2F%3Futm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Datawebsite" aria-label="Facebook" target="_blank" class="novashare-button facebook" rel="nofollow noopener noreferrer"><span class="novashare-button-wrapper novashare-button-block"><span class="novashare-button-icon novashare-button-block"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z" data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;"></path></svg></span><span class="novashare-button-label novashare-button-block novashare-hide"><span class="novashare-button-label-wrapper">Facebook</span></span></span></a><a href="https://www.linkedin.com/shareArticle?title=Your%20Getting%20Started%20Guide%20to%20Powershell%20Functions&amp;url=https%3A%2F%2Fadamtheautomator.com%2Fpowershell-functions%2F%3Futm_source%3Dlinkedin%26utm_medium%3Dsocial%26utm_campaign%3Datawebsite&amp;mini=true" aria-label="LinkedIn" target="_blank" class="novashare-button linkedin" rel="nofollow noopener noreferrer"><span class="novashare-button-wrapper novashare-button-block"><span class="novashare-button-icon novashare-button-block"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;"></path></svg></span><span class="novashare-button-label novashare-button-block novashare-hide"><span class="novashare-button-label-wrapper">LinkedIn</span></span></span></a></div></div>
+<p>Once you get accustomed to writing PowerShell scripts, you need to learn about code modularization. Modularization is just a fancy word for creating code in building blocks. In the PowerShell world, PowerShell functions are one of the best ways to do this.</p>
+<p>When you write a PowerShell script, you have many options on how you write the code. You could write a thousand lines of code that do hundreds of tasks, all in a single, uninterrupted block of code. That would be a disaster. Instead, you should write functions.</p>
+<p>Functions dramatically increase the usability and readability of your code, making it much easier to work with. In this tutorial, you’ll learn to write functions, add and manage your functions’ parameters, and set up functions to accept pipeline input. But first, let’s look at a bit of terminology.</p>
+<blockquote class="wp-block-quote"><p><em>This post was extracted from my book <a href="https://nostarch.com/powershellsysadmins" target="_blank" rel="noopener">PowerShell for Sysadmins: Workflow Automation Made Easy</a>. If you learn something in this tutorial, be sure to check out the book to learn more about functions and a whole lot more PowerShell goodies.</em></p></blockquote>
+<div id="ez-toc-container" class="ez-toc-v2_0_17 counter-hierarchy counter-decimal ez-toc-transparent">
+<div class="ez-toc-title-container">
+<p class="ez-toc-title">Table of Contents</p>
+<span class="ez-toc-title-toggle"></span></div>
+<nav><ul class="ez-toc-list ez-toc-list-level-1"><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-1" href="https://adamtheautomator.com/powershell-functions/#Functions_vs_Cmdlets" title="Functions vs. Cmdlets">Functions vs. Cmdlets</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-2" href="https://adamtheautomator.com/powershell-functions/#Prerequisites" title="Prerequisites">Prerequisites</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-3" href="https://adamtheautomator.com/powershell-functions/#Building_a_Simple_Function" title="Building a Simple Function">Building a Simple Function</a><ul class="ez-toc-list-level-3"><li class="ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-4" href="https://adamtheautomator.com/powershell-functions/#Naming_with_Verb-Noun" title="Naming with Verb-Noun">Naming with Verb-Noun</a></li><li class="ez-toc-page-1 ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-5" href="https://adamtheautomator.com/powershell-functions/#Changing_Function_Behavior" title="Changing Function Behavior">Changing Function Behavior</a></li><li class="ez-toc-page-1 ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-6" href="https://adamtheautomator.com/powershell-functions/#Defining_an_Advanced_Function" title="Defining an Advanced Function">Defining an Advanced Function</a></li></ul></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-7" href="https://adamtheautomator.com/powershell-functions/#Adding_Parameters_to_Functions" title="Adding Parameters to Functions">Adding Parameters to Functions</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-8" href="https://adamtheautomator.com/powershell-functions/#Creating_a_Simple_Parameter" title="Creating a Simple Parameter">Creating a Simple Parameter</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-9" href="https://adamtheautomator.com/powershell-functions/#The_Mandatory_Parameter_Attribute" title="The Mandatory Parameter Attribute">The Mandatory Parameter Attribute</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-10" href="https://adamtheautomator.com/powershell-functions/#Default_Parameter_Values" title="Default Parameter Values">Default Parameter Values</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-11" href="https://adamtheautomator.com/powershell-functions/#Adding_Parameter_Validation_Attributes" title="Adding Parameter Validation Attributes">Adding Parameter Validation Attributes</a><ul class="ez-toc-list-level-3"><li class="ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-12" href="https://adamtheautomator.com/powershell-functions/#Life_Without_Parameter_Validation" title="Life Without Parameter Validation">Life Without Parameter Validation</a></li><li class="ez-toc-page-1 ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-13" href="https://adamtheautomator.com/powershell-functions/#Adding_Parameter_Validation" title="Adding Parameter Validation">Adding Parameter Validation</a></li></ul></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-14" href="https://adamtheautomator.com/powershell-functions/#Accepting_Pipeline_Input" title="Accepting Pipeline Input">Accepting Pipeline Input</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-15" href="https://adamtheautomator.com/powershell-functions/#Making_the_Function_Pipeline_Compatible" title="Making the Function Pipeline Compatible">Making the Function Pipeline Compatible</a><ul class="ez-toc-list-level-3"><li class="ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-16" href="https://adamtheautomator.com/powershell-functions/#Adding_a_process_Block" title="Adding a process Block">Adding a process Block</a></li></ul></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-17" href="https://adamtheautomator.com/powershell-functions/#Next_Steps" title="Next Steps">Next Steps</a></li></ul></nav></div>
+<h2 id="h-functions-vs-cmdlets"><span class="ez-toc-section" id="Functions_vs_Cmdlets"></span>Functions vs. Cmdlets<span class="ez-toc-section-end"></span></h2>
+<p>The concept of a function might sound familiar because it sounds a bit like the cmdlets you’ve probably been using already. Commands like <code>Start-Service</code> and <code><a class="wpil_keyword_link" href="https://adamtheautomator.com/powershell-write-host/" title="Write-Host" data-wpil-keyword-link="linked">Write-Host</a></code>, for example, are similar to functions. These are named pieces of code that solve a single problem. The difference between a function and a cmdlet is how each of these constructs is made.</p>
+<p>A cmdlet isn’t written with PowerShell. It’s written in another language, typically something like C#. The cmdlet is then compiled and made available inside PowerShell.</p>
+<p>Functions, on the other hand, are written in PowerShell; not in another language.</p>
+<p>You can see which commands are cmdlets and which are functions by using the <code>Get-Command</code> cmdlet and its <code>CommandType</code> parameter as shown below</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token function">Get-Command</span> –CommandType <span class="token keyword">Function</span></code></pre>
+<p>This command above returns all the functions currently loaded into your PowerShell session, or inside modules that are available to PowerShell.</p>
+<p><strong><em>Related: <a href="https://adamtheautomator.com/powershell-modules/">Understanding and Building PowerShell Modules</a></em></strong></p>
+<h2 id="h-prerequisites"><span class="ez-toc-section" id="Prerequisites"></span>Prerequisites<span class="ez-toc-section-end"></span></h2>
+<p>If you’d like to follow along with all examples, please be sure you a version of PowerShell available. There are no specific version requirements for this tutorial. Also, be sure you have a nice code editor like <a href="https://code.visualstudio.com/download" target="_blank" rel="noopener">Visual Studio Code</a> to copy, paste and run some code snippets.</p>
+<h2 id="h-building-a-simple-function"><span class="ez-toc-section" id="Building_a_Simple_Function"></span>Building a Simple Function<span class="ez-toc-section-end"></span></h2>
+<p>Before you can use a function, you need to define it. To define a function, you use the function keyword, followed by a descriptive, user-defined name, followed by a set of curly braces. Inside the curly braces is a scriptblock that you want PowerShell to execute.</p>
+<p>Below you can see a basic function and executing that function. This function called <code>Install-Software</code>, uses <code>Write-Host</code> to display a message in the console. Once it’s defined, you can use this function’s name to execute the code inside its scriptblock.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token function">PS</span>&gt; <span class="token keyword">function</span> <span class="token function">Install-Software</span> <span class="token punctuation">{</span> <span class="token function">Write-Host</span> <span class="token string">'I installed some software. Yippee!'</span> <span class="token punctuation">}</span>
+<span class="token function">PS</span>&gt; <span class="token function">Install-Software</span>
+I installed some software<span class="token punctuation">,</span> Yippee<span class="token operator">!</span></code></pre>
+<h3 id="h-naming-with-verb-noun"><span class="ez-toc-section" id="Naming_with_Verb-Noun"></span>Naming with Verb-Noun<span class="ez-toc-section-end"></span></h3>
+<p>A function’s name is important. <strong>You can name your functions whatever you want, but the name should always describe what the function does.</strong> The function-naming convention in PowerShell is the Verb-Noun syntax.</p>
+<p>You should always start a function name with a verb followed by a dash and a noun. To find the list of “approved” verbs, use the <code>Get-Verb</code> cmdlet.</p>
+<h3 id="h-changing-function-behavior"><span class="ez-toc-section" id="Changing_Function_Behavior"></span>Changing Function Behavior<span class="ez-toc-section-end"></span></h3>
+<p>If you want to change the behavior of a function, you can simply change the code the function executes as shown below.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token function">PS</span>&gt; <span class="token keyword">function</span> <span class="token function">Install-Software</span> <span class="token punctuation">{</span> <span class="token function">Write-Host</span> <span class="token string">'You installed some software, Yay!'</span> <span class="token punctuation">}</span>
+<span class="token function">PS</span>&gt; <span class="token function">Install-Software</span>
+You installed some software<span class="token punctuation">,</span> Yay<span class="token operator">!</span></code></pre>
+<p>Now that you’ve changed the code inside of the function, it will display a slightly different message.</p>
+<h3 id="h-defining-an-advanced-function"><span class="ez-toc-section" id="Defining_an_Advanced_Function"></span>Defining an Advanced Function<span class="ez-toc-section-end"></span></h3>
+<p>You can define functions in many different places. In the above section, the tutorial assumes you just copied and pasted the code directly into the PowerShell console. But this isn’t the only way. You can also define functions in a script too.</p>
+<p>In the previous section, you were working with a tiny function, so defining it in the console wasn’t much of a problem. Most of the time though, you’ll have much bigger functions. It’ll be easier to define those functions in a script or a module and then call that script or module in order to load the function into memory.</p>
+<p>As you might imagine, retyping a larger function every time you want to tweak its functionality could get a little frustrating.</p>
+<p>I suggest you now open your favorite editor and store the function in a .ps1 file as you work through the rest of the tutorial.</p>
+<h2 id="h-adding-parameters-to-functions"><span class="ez-toc-section" id="Adding_Parameters_to_Functions"></span>Adding Parameters to Functions<span class="ez-toc-section-end"></span></h2>
+<p>PowerShell functions can have any number of parameters. When you create your own functions, you’ll have the option to include parameters and decide how those parameters work. The parameters can be mandatory or optional, and they can either accept anything or be forced to accept one of a limited list of possible arguments.</p>
+<p><strong><em>Related: <a href="https://adamtheautomator.com/powershell-parameter/">Everything you Ever Wanted to Know about PowerShell Parameters</a></em></strong></p>
+<p>For example, the fictional software you’re installing via the <code>Install-Software</code> function earlier might have many versions. But currently, the <code>Install-Software</code> function offers a user no way to specify which version they want to install.</p>
+<p>If you were the only one using the function, you <em>could</em> change the code inside of it each time you wanted a specific version, but that would be a waste of time. This process would also be prone to potential errors, not to mention that you want others to be able to use your code.</p>
+<p>Introducing parameters into your function allows it to have variability. Just as variables allowed you to write scripts that could handle many versions of the same situation, parameters allow you to write a single function that does one thing in many ways.</p>
+<p>In this case, you want it to install versions of the same piece of software, and do so on many computers.</p>
+<p>Let’s first add a parameter to the function that enables you or a user to specify the version to install.</p>
+<h2 id="h-creating-a-simple-parameter"><span class="ez-toc-section" id="Creating_a_Simple_Parameter"></span>Creating a Simple Parameter<span class="ez-toc-section-end"></span></h2>
+<p>Creating a parameter on a function requires a <code>param</code> block. The <code>param</code> block holds all the parameters for the function. Define a <code>param</code> block with the <code>param</code> keyword followed by parentheses as shown below.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token keyword">function</span> <span class="token function">Install-Software</span> <span class="token punctuation">{</span>
+	<span class="token namespace">[CmdletBinding()]</span>
+	<span class="token keyword">param</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+	<span class="token function">Write-Host</span> <span class="token string">'I installed software version 2. Yippee!'</span>
+<span class="token punctuation">}</span></code></pre>
+<p>At this point, your function’s actual functionality hasn’t changed a bit. You’ve just installed the plumbing, preparing the function for a parameter.</p>
+<blockquote class="wp-block-quote"><p><em>For now, the function’s not actually installing any software. It’s just using the <code>Write-Host</code> cmdlet to simulate the software installation so you can focus on writing the function.</em></p></blockquote>
+<p>Once you’ve added the <code>param</code> block, you can create the parameter by putting it within the <code>param</code> block’s parentheses as shown below.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token keyword">function</span> <span class="token function">Install-Software</span> <span class="token punctuation">{</span>
+	<span class="token namespace">[CmdletBinding()]</span>
+	<span class="token keyword">param</span><span class="token punctuation">(</span>
+		<span class="token namespace">[Parameter()]</span>
+		<span class="token namespace">[string]</span> <span class="token variable">$Version</span>
+	<span class="token punctuation">)</span>
+	
+	<span class="token function">Write-Host</span> <span class="token string">"I installed software version <span class="token variable">$Version</span>. Yippee!"</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p>Inside the <code>param</code> block above, you’d first define the Parameter block. Using the <code>Parameter()</code> block like this will turn it into an “advanced parameter”. An empty Parameter block like the one here does nothing but is required; I’ll explain how to use it in the next section.</p>
+<p>Let’s focus instead on the <code>[string]</code> type in front of the parameter name. By putting the parameter’s type between square brackets before the parameter variable name, you cast the parameter’s value to a specific type. PowerShell will always try to convert any value that’s passed to this parameter into a string—if it isn’t one already. Above, anything passed in as <code>$Version</code> will always be treated as a string.</p>
+<p><em>Casting your parameter to a type isn’t mandatory, but I highly encourage it. It explicitly defines the type and will significantly reduce errors down the road.</em></p>
+<p>You also add <code>$Version</code> into your <code>Write-Host</code> statement now. This means that when you run the <code>Install-Software</code> function with the <code>Version</code> parameter and pass it a version number, you should get a statement saying so as shown below.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token function">PS</span>&gt; <span class="token function">Install-Software</span> <span class="token operator">-</span>Version 2
+I installed software version 2<span class="token punctuation">.</span> Yippee<span class="token operator">!</span></code></pre>
+<p>Let’s see what you can do with this parameter now.</p>
+<h2 id="h-the-mandatory-parameter-attribute"><span class="ez-toc-section" id="The_Mandatory_Parameter_Attribute"></span>The Mandatory Parameter Attribute<span class="ez-toc-section-end"></span></h2>
+<p>You can use the Parameter block to control various parameter attributes, which will allow you to change the behavior of the parameter. For example, if you want to make sure anyone calling the function has to pass in a given parameter, you could define that parameter as Mandatory.</p>
+<p>By default, parameters are optional. Let’s force the user to pass in a version by using the Mandatory keyword inside the Parameter block as shown below.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token keyword">function</span> <span class="token function">Install-Software</span> <span class="token punctuation">{</span>
+	<span class="token namespace">[CmdletBinding()]</span>
+	<span class="token keyword">param</span><span class="token punctuation">(</span>
+		<span class="token namespace">[Parameter(Mandatory)]</span>
+		<span class="token namespace">[string]</span><span class="token variable">$Version</span>
+	<span class="token punctuation">)</span>
+
+	<span class="token function">Write-Host</span> <span class="token string">"I installed software version <span class="token variable">$Version</span>. Yippee!"</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p>If you run the function above, you should get the following prompt:</p>
+<figure class="wp-block-image size-large"><img loading="lazy" width="778" height="94" src="./Your Getting Started Guide to Powershell Functions_files/Untitled-2021-01-31T113522.webp" alt="Prompting for a mandatory parameter" class="wp-image-6107" srcset="https://adamtheautomator.com/wp-content/uploads/2021/01/Untitled-2021-01-31T113522.240.png 778w, https://adamtheautomator.com/wp-content/uploads/2021/01/Untitled-2021-01-31T113522.240-300x36.png 300w, https://adamtheautomator.com/wp-content/uploads/2021/01/Untitled-2021-01-31T113522.240-768x93.png 768w" sizes="(max-width: 778px) 100vw, 778px"><figcaption>Prompting for a mandatory parameter</figcaption></figure>
+<p>Once you’ve set the Mandatory attribute, executing the function without the parameter will halt execution until the user inputs a value. The function now waits until the user specifies a value for the <code>Version</code> parameter. Once entered, PowerShell executes the function.</p>
+<p>To avoid the mandatory parameter prompt, simply pass a value to the parameter when calling the function as shown below.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token function">Install-Software</span> <span class="token operator">-</span>Version 2</code></pre>
+<h2 id="h-default-parameter-values"><span class="ez-toc-section" id="Default_Parameter_Values"></span>Default Parameter Values<span class="ez-toc-section-end"></span></h2>
+<p>If, for example, you find yourself passing the same value for a parameter over and over again, you can define a default parameter value. Default parameters are useful when you expect a certain value for a parameter most of the time.</p>
+<p>For example, if you want to install version 2 of this software 90 percent of the time, and you’d rather not have to set the value every time you run this function, you could assign a default value of 2 to the <code>$Version</code> parameter. You can see this example below.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token keyword">function</span> <span class="token function">Install-Software</span> <span class="token punctuation">{</span>
+	<span class="token namespace">[CmdletBinding()]</span>
+	<span class="token keyword">param</span><span class="token punctuation">(</span>
+		<span class="token namespace">[Parameter()]</span>
+		<span class="token namespace">[string]</span><span class="token variable">$Version</span> = 2
+	<span class="token punctuation">)</span>
+
+	<span class="token function">Write-Host</span> <span class="token string">"I installed software version <span class="token variable">$Version</span>. Yippee!"</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p>Having a default parameter doesn’t prevent you from passing one in. Your passed-in value will override the default value.</p>
+<h2 id="h-adding-parameter-validation-attributes"><span class="ez-toc-section" id="Adding_Parameter_Validation_Attributes"></span>Adding Parameter Validation Attributes<span class="ez-toc-section-end"></span></h2>
+<p>It’s always a good idea to limit what values you can pass into a function via parameters. The best way to do that is with parameter validation attributes.</p>
+<p>Limiting the information that users (or even you!) can pass to your functions or scripts will eliminate unnecessary code inside your function. For example, say you pass the value 3 to your <code>Install-Software</code> function, knowing that version 3 is an existing version.</p>
+<p>Your function assumes that every user knows which versions exist, so it doesn’t account for what happens when you try to specify version 4. In that case, the function will fail to find the appropriate folder because it doesn’t exist.</p>
+<h3 id="h-life-without-parameter-validation"><span class="ez-toc-section" id="Life_Without_Parameter_Validation"></span>Life Without Parameter Validation<span class="ez-toc-section-end"></span></h3>
+<p>Check out the example below when you use the <code>$Version</code> string in a file path. If someone passes a value that doesn’t complete an existing folder name (for example, SoftwareV3 or SoftwareV4), the code will fail.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token keyword">function</span> <span class="token function">Install-Software</span> <span class="token punctuation">{</span>
+	<span class="token keyword">param</span><span class="token punctuation">(</span>
+		<span class="token namespace">[Parameter(Mandatory)]</span>
+		<span class="token namespace">[string]</span><span class="token variable">$Version</span>
+	<span class="token punctuation">)</span>
+
+	<span class="token function">Get-ChildItem</span> <span class="token operator">-</span>Path \\SRV1\Installers\SoftwareV<span class="token variable">$Version</span>
+
+<span class="token punctuation">}</span>
+</code></pre>
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="169" src="./Your Getting Started Guide to Powershell Functions_files/Untitled-2021-01-31T113601.935-1024x169.png" alt="Failing on unexpected parameter values" class="wp-image-6108" srcset="https://adamtheautomator.com/wp-content/uploads/2021/01/Untitled-2021-01-31T113601.935-1024x169.png 1024w, https://adamtheautomator.com/wp-content/uploads/2021/01/Untitled-2021-01-31T113601.935-300x50.png 300w, https://adamtheautomator.com/wp-content/uploads/2021/01/Untitled-2021-01-31T113601.935-768x127.png 768w, https://adamtheautomator.com/wp-content/uploads/2021/01/Untitled-2021-01-31T113601.935.png 1136w" sizes="(max-width: 1024px) 100vw, 1024px"><figcaption>Failing on unexpected parameter values</figcaption></figure>
+<p>You could write error-handling code to account for this problem, or you could nip the problem in the bud by requiring that the user pass only an existing version of the software. To limit the user’s input, add parameter validation.</p>
+<h3 id="h-adding-parameter-validation"><span class="ez-toc-section" id="Adding_Parameter_Validation"></span>Adding Parameter Validation<span class="ez-toc-section-end"></span></h3>
+<p>Various kinds of parameter validation exist, but with respect to your <code>Install-Software</code> function, the <code>[ValidateSet</code> attribute](<a href="https://adamtheautomator.com/powershell-validateset/">https://adamtheautomator.com/powershell-validateset/</a>) works best. The <code>ValidateSet</code> validation attribute enables you to specify a list of values allowed for the parameter. If you’re accounting for only the string <code>1</code> or <code>2</code>, you’d ensure that the user can specify only these values; otherwise, the function will fail immediately and notify the user of why.</p>
+<p>Add parameter validation attributes inside the <code>param</code> block, right under the original <code>Parameter</code> block as shown below.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token keyword">function</span> <span class="token function">Install-Software</span> <span class="token punctuation">{</span>
+	<span class="token keyword">param</span><span class="token punctuation">(</span>
+		<span class="token namespace">[Parameter(Mandatory)]</span>
+		<span class="token punctuation">[</span>ValidateSet<span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">,</span><span class="token string">'2'</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+		<span class="token namespace">[string]</span><span class="token variable">$Version</span>
+	<span class="token punctuation">)</span>
+
+	<span class="token function">Get-ChildItem</span> <span class="token operator">-</span>Path \\SRV1\Installers\SoftwareV<span class="token variable">$Version</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p>By adding a set of items (<code>1</code> and <code>2</code>) inside of the <code>ValidateSet</code> attribute’s trailing parentheses, this tells PowerShell that the only values valid for <code>Version</code> are <code>1</code> or <code>2</code>. If a user tries to pass something besides what’s in the set, they will receive an error message as shown below notifying them that they have only a specific number of options available.</p>
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="105" src="./Your Getting Started Guide to Powershell Functions_files/Untitled-2021-01-31T113639.501-1024x105.png" alt="Parameter validation stopping PowerShell function execution" class="wp-image-6109" srcset="https://adamtheautomator.com/wp-content/uploads/2021/01/Untitled-2021-01-31T113639.501-1024x105.png 1024w, https://adamtheautomator.com/wp-content/uploads/2021/01/Untitled-2021-01-31T113639.501-300x31.png 300w, https://adamtheautomator.com/wp-content/uploads/2021/01/Untitled-2021-01-31T113639.501-768x79.png 768w, https://adamtheautomator.com/wp-content/uploads/2021/01/Untitled-2021-01-31T113639.501.png 1132w" sizes="(max-width: 1024px) 100vw, 1024px"><figcaption>Parameter validation stopping PowerShell function execution</figcaption></figure>
+<p>The <code>ValidateSet</code> attribute is a common validation attribute, but others are available. For a complete breakdown of all the ways parameter values can be restricted, check out the <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_functions_advanced_parameters" target="_blank" rel="noopener">Microsoft docs</a>.</p>
+<h2 id="h-accepting-pipeline-input"><span class="ez-toc-section" id="Accepting_Pipeline_Input"></span>Accepting Pipeline Input<span class="ez-toc-section-end"></span></h2>
+<p>So far, you’ve created a function with a parameter that can be passed only by using the typical -ParameterName &lt;Value&gt; syntax. This works but you also have another option of passing values to parameters using the <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_pipelines" target="_blank" rel="noopener">PowerShell pipeline</a>. Let’s add pipeline capabilities to our Install-Software function.</p>
+<p><strong><em>Related: <a href="https://adamtheautomator.com/powershell-parameter/#Pipeline_Input">Accepting Pipeline Input in the ATA PowerShell Parameters Article</a></em></strong></p>
+<p>First, add another parameter to your code that specifies the computer on which you want to install the software. Also, add that parameter to your <code>Write-Host</code> reference to simulate the installation.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token keyword">function</span> <span class="token function">Install-Software</span> <span class="token punctuation">{</span>
+	<span class="token keyword">param</span><span class="token punctuation">(</span>
+		<span class="token namespace">[Parameter(Mandatory)]</span>
+		<span class="token namespace">[string]</span><span class="token variable">$Version</span>
+		<span class="token punctuation">[</span>ValidateSet<span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">,</span><span class="token string">'2'</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+		
+		<span class="token namespace">[Parameter(Mandatory)]</span>
+		<span class="token namespace">[string]</span><span class="token variable">$ComputerName</span>
+	<span class="token punctuation">)</span>
+
+	<span class="token function">Write-Host</span> <span class="token string">"I installed software version <span class="token variable">$Version</span> on <span class="token variable">$ComputerName</span>. Yippee!"</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p>Once you’ve added the <code>ComputerName</code> parameter to the function, you <em>could</em> now iterate over a list of computer names and pass the values for the computer name and the version to the <code>Install-Software</code> function, like below.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token variable">$computers</span> = @<span class="token punctuation">(</span><span class="token string">"SRV1"</span><span class="token punctuation">,</span> <span class="token string">"SRV2"</span><span class="token punctuation">,</span> <span class="token string">"SRV3"</span><span class="token punctuation">)</span>
+<span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token variable">$pc</span> in <span class="token variable">$computers</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token function">Install-Software</span> <span class="token operator">-</span>Version 2 <span class="token operator">-</span>ComputerName <span class="token variable">$pc</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Instead of doing all of that, you should learn to use the pipeline instead.</p>
+<h2 id="h-making-the-function-pipeline-compatible"><span class="ez-toc-section" id="Making_the_Function_Pipeline_Compatible"></span>Making the Function Pipeline Compatible<span class="ez-toc-section-end"></span></h2>
+<p>Unfortunately, you can’t take advantage of the PowerShell pipeline with just a simple function built earlier. You must decide which type of pipeline input you want the function to accept and implement.</p>
+<p>A PowerShell function uses two kinds of pipeline input: <code>ByValue</code> (entire object) and <code>ByPropertyName</code> (a single object property). Here, because the <code>$computers</code> array contains only strings, you’ll pass those strings via <code>ByValue</code>.</p>
+<p>To add pipeline support, add a parameter attribute to the parameter you want by using one of two keywords: <code>ValueFromPipeline</code> or <code>ValueFromPipelineByPropertyName</code> as shown below.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token keyword">function</span> <span class="token function">Install-Software</span> <span class="token punctuation">{</span>
+	<span class="token keyword">param</span><span class="token punctuation">(</span>
+		<span class="token namespace">[Parameter(Mandatory)]</span>
+		<span class="token punctuation">[</span>ValidateSet<span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">,</span><span class="token string">'2'</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+		<span class="token namespace">[string]</span><span class="token variable">$Version</span><span class="token punctuation">,</span>
+
+		<span class="token namespace">[Parameter(Mandatory, ValueFromPipeline)]</span>
+		<span class="token namespace">[string]</span><span class="token variable">$ComputerName</span>
+	<span class="token punctuation">)</span>
+
+	<span class="token function">Write-Host</span> <span class="token string">"I installed software version <span class="token variable">$Version</span> on <span class="token variable">$ComputerName</span>. Yippee!"</span>
+
+<span class="token punctuation">}</span></code></pre>
+<p>Once you’ve got the update <code>Instal-Software</code> function loaded, then call it like this:</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token variable">$computers</span> = @<span class="token punctuation">(</span><span class="token string">"SRV1"</span><span class="token punctuation">,</span> <span class="token string">"SRV2"</span><span class="token punctuation">,</span> <span class="token string">"SRV3"</span><span class="token punctuation">)</span>
+<span class="token variable">$computers</span> <span class="token punctuation">|</span> <span class="token function">Install-Software</span> <span class="token operator">-</span>Version 2</code></pre>
+<p>Run the script again, and you should get something like this:</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell">I installed software version 2 on SRV3<span class="token punctuation">.</span> Yippee<span class="token operator">!</span></code></pre>
+<p><em>Notice that <code>Install-Software</code> executes for only the last string in the array. You’ll see how to fix this in the next section.</em></p>
+<h3 id="h-adding-a-process-block"><span class="ez-toc-section" id="Adding_a_process_Block"></span>Adding a process Block<span class="ez-toc-section-end"></span></h3>
+<p>To tell PowerShell to execute this function for every object coming in, you must include a process block. Inside the process block, put the code you want to execute each time the function receives pipeline input. Add a process block to your script as shown below.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token keyword">function</span> <span class="token function">Install-Software</span> <span class="token punctuation">{</span>
+	<span class="token keyword">param</span><span class="token punctuation">(</span>
+		<span class="token namespace">[Parameter(Mandatory)]</span>
+		<span class="token punctuation">[</span>ValidateSet<span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">,</span><span class="token string">'2'</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+		<span class="token namespace">[string]</span><span class="token variable">$Version</span><span class="token punctuation">,</span>
+
+		<span class="token namespace">[Parameter(Mandatory, ValueFromPipeline)]</span>
+		<span class="token namespace">[string]</span><span class="token variable">$ComputerName</span>
+	<span class="token punctuation">)</span>
+
+	<span class="token keyword">process</span> <span class="token punctuation">{</span>
+		<span class="token function">Write-Host</span> <span class="token string">"I installed software version <span class="token variable">$Version</span> on <span class="token variable">$ComputerName</span>. Yippee!"</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Now call the function again just like you did earlier. The <code>Install-Software</code> function will now return three lines (one for each object).</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell">I installed software version 2 on SRV1<span class="token punctuation">.</span> Yippee<span class="token operator">!</span>
+I installed software version 2 on SRV2<span class="token punctuation">.</span> Yippee<span class="token operator">!</span>
+I installed software version 2 on SRV3<span class="token punctuation">.</span> Yippee<span class="token operator">!</span></code></pre>
+<p>The process block contains the main code you want to execute. You can also use <code>begin</code> and <code>end</code> blocks for code that will execute at the beginning and end of the function call. You can learn more about the <code>begin</code>, <code>process</code>, and <code>end</code> blocks via the <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_functions_advanced" target="_blank" rel="noopener">Microsoft docs.</a></p>
+<h2 id="h-next-steps"><span class="ez-toc-section" id="Next_Steps"></span>Next Steps<span class="ez-toc-section-end"></span></h2>
+<p>Functions allow you to compartmentalize code into discrete building blocks. They not only help you break your work into smaller, more manageable chunks but also force you to write readable and testable code.</p>
+<p>I now challenge you to look through some old scripts and see where you can add a PowerShell function. Look for patterns in code. Build a function from those patterns. Notice where you’re copying/pasting code snippets and turn those into PowerShell functions!</p>
+</div>
+<script>(function() {
+	window.mc4wp = window.mc4wp || {
+		listeners: [],
+		forms: {
+			on: function(evt, cb) {
+				window.mc4wp.listeners.push(
+					{
+						event   : evt,
+						callback: cb
+					}
+				);
+			}
+		}
+	}
+})();
+</script><form id="mc4wp-form-1" class="mc4wp-form mc4wp-form-3522" method="post" data-id="3522" data-name="Subscribe"><div class="mc4wp-form-fields"><div class="container font-sans bg-gray-300 rounded mt-8 p-4 mb-12 md:p-24 text-center">
+<h2 class="font-bold break-normal text-2xl md:text-4xl text-black">Subscribe to Stay in Touch</h2>
+<h3 class="font-bold break-normal font-normal text-gray-700 text-base md:text-xl">Never miss out on your favorite ATA posts and our latest announcements!</h3>
+<div class="w-full text-center pt-4">
+<div class="mx-auto p-1 pr-0">
+<label class="block" for="subscribe-1000">
+<span class="sr-only">Subscribe to Adam the Automator for updates:</span>
+<input class="pl-10 pr-10 sm:pl-3 sm:pr-3 flex-1 appearance-none rounded shadow p-3 text-gray-800 sm:mr-2 focus:outline-none w-full max-w-sm mb-4" id="subscribe-1000" type="email" name="EMAIL" placeholder="Your email address" required="">
+</label>
+<input class="mt-6 pl-20 pr-20 sm:pl-3 sm:pr-3 flex-col sm:flex-row flex-1 sm:mt-0 block md:inline-block appearance-none bg-blue-500 text-white text-base font-semibold tracking-wider uppercase py-3 rounded shadow hover:bg-teal-400 m-auto" type="submit" value="Subscribe">
+</div>
+</div>
+</div>
+</div><label style="display: none !important;">Leave this field empty if you're human: <input type="text" name="_mc4wp_honeypot" value="" tabindex="-1" autocomplete="off"></label><input type="hidden" name="_mc4wp_timestamp" value="1632834325"><input type="hidden" name="_mc4wp_form_id" value="3522"><input type="hidden" name="_mc4wp_form_element_id" value="mc4wp-form-1"><div class="mc4wp-response"></div></form> <div class="mt-8 mb-8">
+<p class="font-bold mb-8 font-sans text-2xl text-center md:text-left">More from Adam The Automator &amp; Friends</p>
+<ul class="list-none m-0 p-0 flex flex-col md:flex-row w-full shadow-lg rounded-lg bg-white font-sans font-normal leading-tight text-gray-500">
+<li class="flex w-full md:border-gray-500 md:border-r md:border-solid md:border-opacity-10 hover:text-gray-800">
+<a href="https://bit.ly/2XJfGji" target="_blank" class="w-full ad-related__link" rel="noopener nofollow">
+<img style="height: 200px;" class="object-cover w-full md:rounded-tl-lg" height="200" width="300" src="./Your Getting Started Guide to Powershell Functions_files/ATA-SPA-image-2-1.webp">
+<p class="p-4 pt-4 pb-6 text-center">Scan your Active Directory for 750M+ known leaked passwords with a free read-only Specops Password Audit.</p>
+</a>
+</li>
+<li class="flex w-full md:border-gray-500 md:border-r md:border-solid md:border-opacity-10 hover:text-gray-800">
+<a href="https://bit.ly/3ElS4lf" target="_blank" class="w-full ad-related__link" rel="noopener nofollow">
+<img style="height: 200px;" class="object-cover w-full" height="400" width="600" loading="lazy" src="./Your Getting Started Guide to Powershell Functions_files/300x200-WFA-Banner@2x-1.png">
+<p class="p-4 pt-4 pb-6 text-center">A Free, half-day, virtual conference focused on Digital Employee Experience and IT Automation.</p>
+</a>
+</li>
+<li class="flex w-full hover:text-gray-800">
+<a href="https://adamtheautomator.com/friends/" target="_blank" class="w-full ad-related__link" rel="noopener nofollow">
+<img style="height: 200px;" class="object-cover w-full md:rounded-tr-lg" height="314" width="600" loading="lazy" src="./Your Getting Started Guide to Powershell Functions_files/siteheaderimage-twitter-related.jpg">
+<p class="p-4 pt-4 pb-6 text-center">Why not write on a platform with an existing audience and share your knowledge with the world?</p>
+</a>
+</li>
+</ul>
+</div>
+<div id="jp-relatedposts" class="jp-relatedposts" style="display: block;">
+<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+<div class="jp-relatedposts-items jp-relatedposts-items-visual jp-relatedposts-grid "><div class="jp-relatedposts-post jp-relatedposts-post0 jp-relatedposts-post-thumbs" data-post-id="200" data-post-format="false"><a class="jp-relatedposts-post-a" href="https://adamtheautomator.com/powershell-test/" title="Write PowerShell Tests with Pester: Getting Started" data-origin="108" data-position="0"><img class="jp-relatedposts-post-img" src="./Your Getting Started Guide to Powershell Functions_files/pesterbook.png" width="350" height="200" alt=""></a><h4 class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="https://adamtheautomator.com/powershell-test/" title="Write PowerShell Tests with Pester: Getting Started" data-origin="108" data-position="0">Write PowerShell Tests with Pester: Getting Started</a></h4><p class="jp-relatedposts-post-excerpt">Learn how to write PowerShell tests with the PowerShell testing framework Pester by the author of The Pester Book!</p></div><div class="jp-relatedposts-post jp-relatedposts-post1 jp-relatedposts-post-thumbs" data-post-id="363" data-post-format="false"><a class="jp-relatedposts-post-a" href="https://adamtheautomator.com/powershell-pipeline/" title="In-Depth Guide to Building a PowerShell Pipeline in Azure DevOps" data-origin="108" data-position="1"><img class="jp-relatedposts-post-img" src="./Your Getting Started Guide to Powershell Functions_files/productivity-1995786_1920.jpg" width="350" height="200" alt=""></a><h4 class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="https://adamtheautomator.com/powershell-pipeline/" title="In-Depth Guide to Building a PowerShell Pipeline in Azure DevOps" data-origin="108" data-position="1">In-Depth Guide to Building a PowerShell Pipeline in Azure DevOps</a></h4><p class="jp-relatedposts-post-excerpt">Learn about executing scripts in Azure Pipelines. Know basics of how Azure Pipelines invokes PowerShell scripts.</p></div><div class="jp-relatedposts-post jp-relatedposts-post2 jp-relatedposts-post-thumbs" data-post-id="5240" data-post-format="false"><a class="jp-relatedposts-post-a" href="https://adamtheautomator.com/powershell-psake/" title="How to Automate Tasks with PSake and PowerShell [Walkthrough]" data-origin="108" data-position="2"><img class="jp-relatedposts-post-img" src="./Your Getting Started Guide to Powershell Functions_files/Learn-Countless-Task-Automation-with-PSake-and-PowerShell.jpg" width="350" height="200" alt="PowerShell Psake"></a><h4 class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="https://adamtheautomator.com/powershell-psake/" title="How to Automate Tasks with PSake and PowerShell [Walkthrough]" data-origin="108" data-position="2">How to Automate Tasks with PSake and PowerShell [Walkthrough]</a></h4><p class="jp-relatedposts-post-excerpt">So you're using PowerShell to automate tasks. Now what? Upgrade your skills to automation orchestration with the open-source Psake project!</p></div></div></div> <div id="hyvor-talk-view" style="max-width: 100%;"><iframe src="./Your Getting Started Guide to Powershell Functions_files/iframe.html" id="hyvor-talk-iframe" name="hyvor-talk-iframe" allowtranparency="true" tabindex="0" scrolling="no" frameborder="0" style="width: 1px; min-width: 100%; border: none; user-select: none; --darkreader-inline-border-top: initial; --darkreader-inline-border-right: initial; --darkreader-inline-border-bottom: initial; --darkreader-inline-border-left: initial; visibility: visible; height: 380px;" data-darkreader-inline-border-top="" data-darkreader-inline-border-right="" data-darkreader-inline-border-bottom="" data-darkreader-inline-border-left=""></iframe></div>
+<script type="text/javascript">
+  var HYVOR_TALK_WEBSITE = 3647;
+  var HYVOR_TALK_CONFIG = {
+    url: false,
+    id: 108,
+    title: "Your Getting Started Guide to Powershell Functions",
+    authorEmail: "YWRiZXJ0cmFtQGdtYWlsLmNvbQ=="
+  };
+</script>
+<script async="" type="text/javascript" src="./Your Getting Started Guide to Powershell Functions_files/embed.js.download"></script>
+</div>
+<div class="sidebar flex flex-col p-3 bg-gray-200 items-center w-full rounded-lg">
+<div class="sponsors__container mb-6 flex flex-col items-center">
+<h3 class="mb-8 w-full pb-4 text-center text-gray-700 border-solid border-gray-400 border-b text-gray-900 text-xl font-bold break-words">Meet Our Sponsors</h3>
+<div class="ad-placeholder"></div>
+<a href="https://pesterbook.com/" target="_blank" rel="noopener nofollow">
+<img class="mb-2" loading="lazy" width="293" height="390" src="./Your Getting Started Guide to Powershell Functions_files/pesterbook" alt="The Pester Book" decoding="async">
+</a>
+<a href="https://writingtecharticles.com/" target="_blank" rel="noopener nofollow">
+<img class="mb-2" loading="lazy" width="293" height="467" src="./Your Getting Started Guide to Powershell Functions_files/articlesbook" alt="Teach Me: How to Write How-To Technical Articles that Make Money" decoding="async">
+</a>
+<a href="https://leanpub.com/powershelltool" target="_blank" rel="noopener nofollow">
+<img class="mb-2" loading="lazy" width="293" height="468" src="./Your Getting Started Guide to Powershell Functions_files/powershelltoolbook" alt="Building a PowerShell Tool: Mini-Course" decoding="async">
+</a>
+<a href="https://powershellforsysadmins.com/" target="_blank" rel="noopener nofollow">
+<img class="mb-0" loading="lazy" width="293" height="386" src="./Your Getting Started Guide to Powershell Functions_files/powershell_for_sysadmins" alt="PowerShell for SysAdmins" decoding="async">
+</a>
+<a href="https://pluralsight.pxf.io/c/1454808/480964/7490" rel="noopener nofollow" aria-label="PluralSight Ad">
+<img loading="lazy" width="293" height="244" src="./Your Getting Started Guide to Powershell Functions_files/7490-480964" border="0" alt="" decoding="async">
+</a>
+<img height="0" width="0" src="./Your Getting Started Guide to Powershell Functions_files/7490" style="position:absolute;visibility:hidden;" border="0" alt="" decoding="async">
+</div>
+<div class="pluralsight__container mb-6">
+<h3 class="mb-8 w-full pb-4 text-center text-gray-700 border-solid border-gray-400 border-b text-gray-900 text-xl font-bold break-words">PluralSight Courses</h3>
+<ul class="list-none m-0 p-0 text-left">
+<li>
+<a class="block mb-4 text-base" href="https://pluralsight.pxf.io/Pv5EM" target="_blank" rel="noopener nofollow">Microsoft Cognitive Services: Azure Custom Text to Speech</a>
+</li>
+<li>
+<a class="block mb-4 text-base" href="https://pluralsight.pxf.io/0M46Y" target="_blank" rel="noopener nofollow">Building PowerShell Security Tools in a Windows Environment</a>
+</li>
+<li>
+<a class="block mb-4 text-base" href="https://pluralsight.pxf.io/OvPDK" target="_blank" rel="noopener nofollow">Infrastructure Testing with Pester</a>
+</li>
+<li>
+<a class="block mb-4 text-base" href="https://pluralsight.pxf.io/RNer2" target="_blank" rel="noopener nofollow">Building a Client Troubleshooting Tool in PowerShell</a>
+</li>
+<li>
+<a class="block mb-4 text-base" href="https://pluralsight.pxf.io/yPVKB" target="_blank" rel="noopener nofollow">Building Advanced PowerShell Functions and Modules</a>
+</li>
+<li>
+<a class="block mb-4 text-base" href="https://pluralsight.pxf.io/79Y6V" target="_blank" rel="noopener nofollow">PowerShell Toolmaking Fundamentals</a>
+</li>
+<li>
+<a class="block mb-4 text-base" href="https://pluralsight.pxf.io/ogrKe" target="_blank" rel="noopener nofollow">Client-Side PowerShell Scripting for Reliable SCCM Deployments</a>
+</li>
+<li>
+<a class="block mb-4 text-base" href="https://pluralsight.pxf.io/qLPKq" target="_blank" rel="noopener nofollow">Planning &amp; Creating Applications in System Center ConfigMgr 2012</a>
+</li>
+<li>
+<a class="block mb-4 text-base" href="https://pluralsight.pxf.io/EPdWK" target="_blank" rel="noopener nofollow">PowerShell DevOps Playbook</a>
+</li>
+</ul>
+</div>
+</div>
+</article>
+</section>
+</main>
+</div>
+
+<footer role="contentinfo" id="footer" class="bg-gray-900">
+<div class="w-full py-4">
+<div class="container mx-auto flex justify-between flex-col md:flex-row w-full text-white p-6">
+<div id="custom_html-2" class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget">Adam the Automator © 2021</div></div> </div>
+</div>
+</footer>
+<script id="cls-insertion-756ce7c">var cls_insertion=function(e){"use strict";var t=function(){return(t=Object.assign||function(e){for(var t,i=1,n=arguments.length;i<n;i++)for(var o in t=arguments[i])Object.prototype.hasOwnProperty.call(t,o)&&(e[o]=t[o]);return e}).apply(this,arguments)};function i(e){var t="function"==typeof Symbol&&Symbol.iterator,i=t&&e[t],n=0;if(i)return i.call(e);if(e&&"number"==typeof e.length)return{next:function(){return e&&n>=e.length&&(e=void 0),{value:e&&e[n++],done:!e}}};throw new TypeError(t?"Object is not iterable.":"Symbol.iterator is not defined.")}function n(e,t){var i="function"==typeof Symbol&&e[Symbol.iterator];if(!i)return e;var n,o,a=i.call(e),r=[];try{for(;(void 0===t||t-- >0)&&!(n=a.next()).done;)r.push(n.value)}catch(e){o={error:e}}finally{try{n&&!n.done&&(i=a.return)&&i.call(a)}finally{if(o)throw o.error}}return r}function o(){for(var e=[],t=0;t<arguments.length;t++)e=e.concat(n(arguments[t]));return e}function a(e,t){return null==e||e!=e?t:e}function r(e){var t=e.offsetHeight,i=e.offsetWidth,n=e.getBoundingClientRect(),o=document.body,a=document.documentElement,r=window.pageYOffset||a.scrollTop||o.scrollTop,s=window.pageXOffset||a.scrollLeft||o.scrollLeft,l=a.clientTop||o.clientTop||0,d=a.clientLeft||o.clientLeft||0,c=Math.round(n.top+r-l),p=Math.round(n.left+s-d);return{top:c,left:p,bottom:c+t,right:p+i,width:i,height:t}}function s(){try{return Math.round(window.performance.now())}catch(e){return 0}}function l(e){try{return{valid:!0,elements:document.querySelectorAll(e)}}catch(e){return t({valid:!1},e)}}var d=function(){function e(e){this.adthriveCLS=e,this._supportedSizes=[[728,90],[300,250],[300,600],[320,50],[970,250],[160,600],[300,1050],[336,280],[970,90],[300,50],[320,100],[468,60],[250,250],[120,240],[1,1],[300,300],[552,334],[300,420],[728,250],[320,300],[300,390]],this.locationMaxLazySequence=new Map([["Recipe",5],["Below_Post",1]]),this.locationToMinHeight={Content:"250px",Recipe:"250px"};var t=this.adthriveCLS.siteAds.breakpoints,i=t.tablet,n=t.desktop;this._device=function(e,t){var i=window.innerWidth;return i>=t?"desktop":i>=e?"tablet":"phone"}(i,n)}return e.prototype.start=function(){var e=this,t=this.get().filter((function(t){return e.locationEnabled(t)})).filter((function(t){return e.forDevice(t,e._device)})).filter((function(t){return e.forPage(t)})),i=this.inject(t);this.adthriveCLS.injectedSlots=this.adthriveCLS.injectedSlots.concat(i)},e.prototype.inject=function(e,t){var n,a,s=this;void 0===t&&(t=document);var l=[],d=[];try{for(var c=i(e),p=c.next();!p.done;p=c.next()){var u=p.value,h=0,f=0,v=0;u.spacing>0&&(f=h=window.innerHeight*u.spacing);var g=this.repeatDynamicAds(u),y=this.getElements(u.elementSelector,t);u.skip;for(var m=u.skip;m<y.length&&!(v+1>g.length);m+=u.every){var S=y[m];if(h>0){var _=r(S).bottom;if(_<=f)continue;f=_+h}var C=m<y.length-1?1:Math.max(u.min-v,1);C>1&&(h=0);for(var b=function(){var e=g[v],i=e.location+"_"+e.sequence;if(l.some((function(e){return e.name===i})))return v+=1,"continue";var n=A.getDynamicElementId(e),a="adthrive-"+u.location.replace("_","-").toLowerCase(),r=o([a,a+"-"+u.sequence],u.classNames),s=A.addAd(S,n,u.position,r);if(s){var c=A.filterAdUnitSizes(e,s);if(c.length>0){var p={clsDynamicAd:u,dynamicAd:e,element:s,sizes:c,name:i,infinite:t!==document};l.push(p),d.push({location:e.location,element:s}),v+=1}S=s}},A=this;C>0;C--)b()}}}catch(e){n={error:e}}finally{try{p&&!p.done&&(a=c.return)&&a.call(c)}finally{if(n)throw n.error}}return d.forEach((function(e){var t=e.location;e.element.style.minHeight=s.locationToMinHeight[t]})),l},e.prototype.getDynamicElementId=function(e){return"AdThrive_"+e.location+"_"+e.sequence+"_"+this._device},e.prototype.getElements=function(e,t){return void 0===t&&(t=document),t.querySelectorAll(e)},e.prototype.addAd=function(e,t,i,n){if(void 0===n&&(n=[]),!document.getElementById(t)){var o='<div id="'+t+'" class="adthrive-ad '+n.join(" ")+'"></div>';e.insertAdjacentHTML(i,o)}return document.getElementById(t)},e.prototype.repeatDynamicAds=function(e){for(var i=[],n=e.lazy?a(this.locationMaxLazySequence.get(e.location),0):0,o=Math.max(e.min,e.max),r=0===n&&e.lazy?o+e.lazyMax:Math.min(Math.max(n-e.sequence+1,0),o+e.lazyMax),s=Math.max(o,r),l=0;l<s;l++){var d=e.sequence+l,c=e.lazy&&l>=o;i.push(t(t({},e),{sequence:d,lazy:c}))}return i},e.prototype.get=function(){var e=this;return this.adthriveCLS.siteAds.adUnits.filter((function(e){return void 0!==e.dynamic&&e.dynamic.enabled})).map((function(t){return{location:t.location.replace(/\s+/g,"_"),sequence:a(t.sequence,1),sizes:e.onlySupportedAdSizes(t.adSizes,t.location),devices:t.devices,pageSelector:a(t.dynamic.pageSelector,"").trim(),elementSelector:a(t.dynamic.elementSelector,"").trim(),position:a(t.dynamic.position,"beforebegin"),min:Math.floor(a(t.dynamic.min,0)),max:Math.floor(a(t.dynamic.max,0)),spacing:a(t.dynamic.spacing,0),skip:Math.floor(a(t.dynamic.skip,0)),every:Math.max(Math.floor(a(t.dynamic.every,1)),1),classNames:t.dynamic.classNames||[],sticky:"Footer"===t.location||t.sticky,stickyOverlapSelector:a(t.stickyOverlapSelector,"").trim(),autosize:t.autosize,special:a(t.targeting,[]).filter((function(e){return"special"===e.key})).reduce((function(e,t){return e.concat.apply(e,o(t.value))}),[]),lazy:a(t.dynamic.lazy,!1),lazyMax:a(t.dynamic.lazyMax,2)}}))},e.prototype.locationEnabled=function(e){var t=-1!==this.adthriveCLS.enabledLocations.indexOf(e.location),i=this.adthriveCLS.disableAds&&this.adthriveCLS.disableAds.all||document.body.classList.contains("adthrive-disable-all"),n="Recipe"!==e.location&&"Content"!==e.location||!document.body.classList.contains("adthrive-disable-content")&&!this.adthriveCLS.disableAds.reasons.has("content_plugin");return t&&!i&&n},e.prototype.forDevice=function(e,t){return-1!==e.devices.indexOf(t)},e.prototype.forPage=function(e){return 0===e.pageSelector.length||null!==document.querySelector(e.pageSelector)},e.prototype.onlySupportedAdSizes=function(e,t){var i=this;return this._supportedSizes.filter((function(o){var a=n(o,2),r=a[0],s=a[1];return("phone"!==i._device||"Footer"!==t||320!==r||100!==s)&&e.some((function(e){var t=n(e,2),i=t[0],o=t[1];return r===i&&s===o}))}))},e.prototype.filterAdUnitSizes=function(e,t){var i=function(e){var t=e.clientWidth;if(getComputedStyle){var i=getComputedStyle(e,null);t-=parseFloat(i.paddingLeft||"0")+parseFloat(i.paddingRight||"0")}return t}(t),n=e.sticky&&"Sidebar"===e.location;return e.sizes.filter((function(t){var o=!e.autosize||(t[0]<=i||t[0]<=320),a=!n||t[1]<=window.innerHeight-100;return o&&a}))},e}();function c(){return"classList"in document.createElement("_")&&!/Edg/i.test(navigator.userAgent)&&(/Chrome/.test(navigator.userAgent)||/Safari/.test(navigator.userAgent)||/[Pinterest/iOS]/.test(navigator.userAgent))}function p(e,t,i,n,a,r){var s=Math.round(r-a),l=[],d=[];l.push("(",i.map((function(){return"%o"})).join(", "),")"),d.push.apply(d,o(i)),void 0!==n&&(l.push(" => %o"),d.push(n)),l.push(" %c("+s+"ms)"),d.push("color: #999;")}function u(e,t,i){var n=void 0!==i.get?i.get:i.value;return function(){for(var e=[],t=0;t<arguments.length;t++)e[t]=arguments[t];try{var i=s(),o=n.apply(this,e);if(o instanceof Promise)return o.then((function(t){var n=s();return p(0,0,e,t,i,n),Promise.resolve(t)})).catch((function(e){throw e.logged||(e.logged=!0),e}));var a=s();return p(0,0,e,o,i,a),o}catch(e){throw e.logged||(e.logged=!0),e}}}var h=function(){function e(){}var o;return e.getScrollTop=function(){return(window.pageYOffset||document.documentElement.scrollTop)-(document.documentElement.clientTop||0)},e.shufflePlaylist=function(e){for(var t,i,n=e.length;0!==n;)i=Math.floor(Math.random()*e.length),t=e[n-=1],e[n]=e[i],e[i]=t;return e},e.getPlacementElement=function(e){var t,i=""===(t=e.pageSelector)?{valid:!0}:l(t),n=l(e.elementSelector);return i.valid?e.pageSelector&&!i.elements.length?null:n.valid&&n.elements.length>e.skip?n.elements[e.skip]:null:null},e.createQueryString=function(e){return Object.keys(e).map((function(t){return t+"="+e[t]})).join("&")},e.createEncodedQueryString=function(e){return Object.keys(e).map((function(t){return t+"="+encodeURIComponent(e[t])})).join("&")},e=function(e,t,i,n){var o,a=arguments.length,r=a<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,i):n;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)r=Reflect.decorate(e,t,i,n);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(r=(a<3?o(r):a>3?o(t,i,r):o(t,i))||r);return a>3&&r&&Object.defineProperty(t,i,r),r}([(void 0===o&&(o=!1),function(e){var a,r,s=Object.getOwnPropertyNames(e.prototype).filter((function(e){return o||0!==e.indexOf("_")})).map((function(t){return[t,Object.getOwnPropertyDescriptor(e.prototype,t)]}));try{for(var l=i(s),d=l.next();!d.done;d=l.next()){var c=n(d.value,2),p=c[0],h=c[1];void 0!==h&&"function"==typeof h.value?e.prototype[p]=u(0,0,h):void 0!==h&&void 0!==h.get&&"function"==typeof h.get&&Object.defineProperty(e.prototype,p,t(t({},h),{get:u(0,0,h)}))}}catch(e){a={error:e}}finally{try{d&&!d.done&&(r=l.return)&&r.call(l)}finally{if(a)throw a.error}}})],e)}(),f=function(){function e(e,t){this._config=e,this.adthriveCLS=t,this._players=[],this._autoplayPlayerAdded=!1,this._IN_POST_SELECTOR=".adthrive-video-player",this._WRAPPER_BAR_HEIGHT=36,this._device=/Windows NT|Macintosh/i.test(navigator.userAgent)?"desktop":"mobile"}return e.prototype.init=function(){this._initializePlayers()},e.prototype._initializePlayers=function(){this._initializeInPostPlayers(),this._shouldRunVideo()&&(this._autoplayPlayerAdded,"desktop"===this._device?this._config.video.desktopCollapseSettings&&this._config.video.desktopCollapseSettings.enabled?this._initializeAutoplayCollapsePlayer(this._config.video.desktopCollapseSettings):this._config.video.sekindoDesktopSettings&&this._config.video.sekindoDesktopSettings.enabled&&this._initializeSekindo(this._config.video.sekindoDesktopSettings,250):this._config.video.mobileCollapseSettings&&this._config.video.mobileCollapseSettings.enabled?this._initializeAutoplayCollapsePlayer(this._config.video.mobileCollapseSettings):this._config.video.sekindoMobileSettings&&this._config.video.sekindoMobileSettings.enabled&&this._initializeSekindo(this._config.video.sekindoMobileSettings,260))},e.prototype._initializeInPostPlayers=function(){var e=document.querySelectorAll(this._IN_POST_SELECTOR),t="static";this._config.video.contextualSettings&&(t=this._config.video.contextualSettings.defaultPlayerType);for(var i=0;i<e.length;i++){var n=e[i],o=n.getAttribute("data-video-id");if(!o||-1===this._players.indexOf(o)){var a=n.getAttribute("data-player-type")||t;"default"===a&&(a=t),this._autoplayPlayerAdded&&(a="static");var r=this._config.video.playerId;if(o&&r)switch(a){case"collapse":if(this._config.video.desktopCollapseSettings){var s=!1,l=n.getAttribute("override-embed");"true"===l||"false"===l?s="true"===l:this._config.video.contextualSettings&&(s=this._config.video.contextualSettings.overrideEmbedLocation);var d=n;if(s)if("desktop"===this._device){if(this._config.video.desktopContextualCollapseSettings&&this._config.video.desktopContextualCollapseSettings.elementSelector&&h.getPlacementElement(this._config.video.desktopContextualCollapseSettings)){d=h.getPlacementElement(this._config.video.desktopContextualCollapseSettings);var c=document.createElement("div");d.insertAdjacentElement(this._config.video.desktopContextualCollapseSettings.position,c),d=c}else if(this._config.video.desktopCollapseSettings.elementSelector&&h.getPlacementElement(this._config.video.desktopCollapseSettings)){d=h.getPlacementElement(this._config.video.desktopCollapseSettings);c=document.createElement("div");d.insertAdjacentElement(this._config.video.desktopCollapseSettings.position,c),d=c}}else if(this._config.video.mobileContextualCollapseSettings&&this._config.video.mobileContextualCollapseSettings.elementSelector&&h.getPlacementElement(this._config.video.mobileContextualCollapseSettings)){d=h.getPlacementElement(this._config.video.mobileContextualCollapseSettings);c=document.createElement("div");d.insertAdjacentElement(this._config.video.mobileContextualCollapseSettings.position,c),d=c}else if(this._config.video.mobileCollapseSettings&&this._config.video.mobileCollapseSettings.elementSelector&&h.getPlacementElement(this._config.video.mobileCollapseSettings)){d=h.getPlacementElement(this._config.video.mobileCollapseSettings);c=document.createElement("div");d.insertAdjacentElement(this._config.video.mobileCollapseSettings.position,c),d=c}this._wrapJWPlayerWithCLS(d,o,this._WRAPPER_BAR_HEIGHT),this._players.push(o),this._autoplayPlayerAdded=!0}break;case"static":this._wrapJWPlayerWithCLS(n,o),this._players.push(o)}}}},e.prototype._initializeSekindo=function(e,t){if(!this._autoplayPlayerAdded){var i=h.getPlacementElement(e),n=this._config.video.playlistId;if(i&&n){var o=this._createSekindoCLSWrapper(t,n);i.insertAdjacentElement(e.position,o)}}},e.prototype._initializeAutoplayCollapsePlayer=function(e){if(!this._autoplayPlayerAdded){var t=h.getPlacementElement(e),i=this._config.video,n=i.collapsePlayerId,o=i.playlistId;if(t&&n&&o){var a=document.createElement("div");t.insertAdjacentElement(e.position,a);var r=document.createElement("h3");r.style.margin="10px 0";var s=this._getTitleHeight(r);this._wrapJWPlayerWithCLS(a,o,this._WRAPPER_BAR_HEIGHT+s),this._players.push(o)}}},e.prototype._isVideoAllowedOnPage=function(){return this.adthriveCLS.disableAds&&this.adthriveCLS.disableAds.video?(this.adthriveCLS.disableAds.reasons.has("video_tag")||this.adthriveCLS.disableAds.reasons.has("video_plugin")||this.adthriveCLS.disableAds.reasons.has("video_page"),!1):!this.adthriveCLS.videoDisabledFromPlugin},e.prototype._shouldRunVideo=function(){return!(!this._isVideoAllowedOnPage()||!(this._config.video.desktopCollapseSettings&&this._config.video.desktopCollapseSettings.enabled||this._config.video.mobileCollapseSettings&&this._config.video.mobileCollapseSettings.enabled||this._config.video.sekindoDesktopSettings&&this._config.video.sekindoDesktopSettings.enabled||this._config.video.sekindoMobileSettings&&this._config.video.sekindoMobileSettings.enabled))},e.prototype._wrapJWPlayerWithCLS=function(e,t,i){if(void 0===i&&(i=0),e.parentNode){var n=e.offsetWidth*(9/16),o=this._createGenericCLSWrapper(n,t,i);e.parentNode.insertBefore(o,e),o.appendChild(e)}},e.prototype._createSekindoCLSWrapper=function(e,t){var i=this._getTitleHeight(document.createElement("h4"));return this._createGenericCLSWrapper(e,t,i)},e.prototype._createGenericCLSWrapper=function(e,t,i){var n=document.createElement("div");return n.id="cls-video-container-"+t,n.className="adthrive",n.style.minHeight=e+i+"px",n},e.prototype._getTitleHeight=function(e){e.innerText="Title",e.style.visibility="hidden",document.body.appendChild(e);var t=window.getComputedStyle(e),i=parseInt(t.height,10),n=parseInt(t.marginTop,10),o=parseInt(t.marginBottom,10);return document.body.removeChild(e),Math.min(i+o+n,50)},e}(),v=function(e){this.video=e},g=function(e){this.adthriveCLS=e;var t=this.adthriveCLS.siteAds.video.collapsible;this.playerId=this.adthriveCLS.siteAds.video.jwPlayerId,this.collapsePlayerId=this.adthriveCLS.siteAds.video.jwCollapsiblePlayerId,this.playlistId=this.adthriveCLS.siteAds.video.jwPlaylistId,this.contextualSettings=this.adthriveCLS.siteAds.video.contextual,this.desktopContextualCollapseSettings=this.adthriveCLS.siteAds.video.contextualAutoplayCollapsibleDesktop,this.mobileContextualCollapseSettings=this.adthriveCLS.siteAds.video.contextualAutoplayCollapsibleMobile,this.collapseSettings=t,this.desktopCollapseSettings=this.adthriveCLS.siteAds.video.autoplayPlaylistCollapsibleDesktop,this.mobileCollapseSettings=this.adthriveCLS.siteAds.video.autoplayPlaylistCollapsibleMobile,this.sekindoDesktopSettings=this.adthriveCLS.siteAds.video.sekindoDesktopPlaylist,this.sekindoMobileSettings=this.adthriveCLS.siteAds.video.sekindoMobilePlaylist},y=function(){function e(){}return e.prototype.start=function(){if(c()&&window.adthriveCLS&&window.adthriveCLS.siteAds&&(new d(window.adthriveCLS).start(),!window.adthriveVideosInjected)){var e=new v(new g(window.adthriveCLS));new f(e,window.adthriveCLS).init()}},e}();return window.adthriveCLS&&window.adthriveCLS.injectedFromPlugin&&(new y).start(),e.ClsInsertion=y,e}({});
+</script><script>(function () {var clsElements = document.querySelectorAll("script[id^='cls-']"); window.adthriveCLS && clsElements && clsElements.length === 0 ? window.adthriveCLS.injectedFromPlugin = false : ""; })();</script><div class="offline-indicator offline-indicator--bottom" style="background-color: rgb(0, 0, 0); --darkreader-inline-bgcolor:#000000;" data-darkreader-inline-bgcolor=""><p style="color: rgb(255, 255, 255); --darkreader-inline-color:#e8e6e3;" data-darkreader-inline-color="">Looks like you're offline!</p></div><script>(function() {function maybePrefixUrlField() {
+	if (this.value.trim() !== '' && this.value.indexOf('http') !== 0) {
+		this.value = "http://" + this.value;
+	}
+}
+
+var urlFields = document.querySelectorAll('.mc4wp-form input[type="url"]');
+if (urlFields) {
+	for (var j=0; j < urlFields.length; j++) {
+		urlFields[j].addEventListener('blur', maybePrefixUrlField);
+	}
+}
+})();</script><script type="text/javascript" id="mkaz-code-syntax-prism-js-js-extra">
+/* <![CDATA[ */
+var prism_settings = {"pluginUrl":"https:\/\/adamtheautomator.com\/wp-content\/plugins\/code-syntax-block\/"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Your Getting Started Guide to Powershell Functions_files/prism.js.download" id="mkaz-code-syntax-prism-js-js"></script>
+<script type="text/javascript" id="wpil-frontend-script-js-extra">
+/* <![CDATA[ */
+var wpilFrontend = {"ajaxUrl":"\/wp-admin\/admin-ajax.php","postId":"108","postType":"post","openInternalInNewTab":"0","openExternalInNewTab":"0","disableClicks":"0","openLinksWithJS":"0","trackAllElementClicks":"0","clicksI18n":{"imageNoText":"Image in link: No Text","imageText":"Image Title: ","noText":"No Anchor Text Found"}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Your Getting Started Guide to Powershell Functions_files/frontend.js.download" id="wpil-frontend-script-js"></script>
+<script type="text/javascript" src="./Your Getting Started Guide to Powershell Functions_files/ui-offline.js.download" id="pwp-offline-script-js"></script>
+<script type="text/javascript" src="./Your Getting Started Guide to Powershell Functions_files/ui-installprompt.js.download" id="pwp-installprompt-script-js"></script>
+<script type="text/javascript" src="./Your Getting Started Guide to Powershell Functions_files/wp-embed.min.js.download" id="wp-embed-js"></script>
+<script type="text/javascript" src="./Your Getting Started Guide to Powershell Functions_files/jquery.min.js.download" id="jquery-core-js"></script>
+<script type="text/javascript" src="./Your Getting Started Guide to Powershell Functions_files/jquery-migrate.min.js.download" id="jquery-migrate-js"></script>
+<script type="text/javascript" src="./Your Getting Started Guide to Powershell Functions_files/jquery.smooth-scroll.min.js.download" id="jquery-smooth-scroll-js"></script>
+<script type="text/javascript" src="./Your Getting Started Guide to Powershell Functions_files/js.cookie.min.js.download" id="js-cookie-js"></script>
+<script type="text/javascript" src="./Your Getting Started Guide to Powershell Functions_files/jquery.sticky-kit.min.js.download" id="jquery-sticky-kit-js"></script>
+<script type="text/javascript" id="ez-toc-js-js-extra">
+/* <![CDATA[ */
+var ezTOC = {"smooth_scroll":"1","scroll_offset":"30"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Your Getting Started Guide to Powershell Functions_files/front.min.js.download" id="ez-toc-js-js"></script>
+<script type="text/javascript" defer="" src="./Your Getting Started Guide to Powershell Functions_files/forms.js.download" id="mc4wp-forms-api-js"></script>
+<script src="./Your Getting Started Guide to Powershell Functions_files/e-202139.js.download" defer=""></script>
+<script>
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:10.1',blog:'186782181',post:'108',tz:'-5',srv:'adamtheautomator.com'} ]);
+	_stq.push([ 'clickTrackerInit', '186782181', '108' ]);
+</script>
+<script>!function(){"use strict";!function(e){if(-1===e.cookie.indexOf("__adblocker")){e.cookie="__adblocker=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";var t=new XMLHttpRequest;t.open("GET","https://www.npttech.com/advertising.js",!0),t.onreadystatechange=function(){if(XMLHttpRequest.DONE===t.readyState)if(200===t.status){var n=e.createElement("script");n.innerHTML=t.responseText,e.getElementsByTagName("head")[0].appendChild(n)}else{var a=new Date;a.setTime(a.getTime()+3e5),e.cookie="__adblocker=true; expires="+a.toUTCString()+"; path=/"}},t.send()}}(document)}();
+</script><script>!function(){"use strict";var e;e=document,function(){var t,n;function r(){var t=e.createElement("script");t.src="https://cafemedia-com.videoplayerhub.com/galleryplayer.js",e.head.appendChild(t)}function a(){var t=e.cookie.match("(^|[^;]+)\\s*__adblocker\\s*=\\s*([^;]+)");return t&&t.pop()}function c(){clearInterval(n)}return{init:function(){var e;"true"===(t=a())?r():(e=0,n=setInterval((function(){100!==e&&"false"!==t||c(),"true"===t&&(r(),c()),t=a(),e++}),50))}}}().init()}();
+</script> 
+<script>
+                  window.adthrive.cmd.push(function () {
+                    window.adthrive.disableAds(['/tag']);
+                  });
+                </script>
+
+<script defer="" src="./Your Getting Started Guide to Powershell Functions_files/beacon.min.js.download" data-cf-beacon="{&quot;rayId&quot;:&quot;696074091c320676&quot;,&quot;token&quot;:&quot;99e66a6ed30b42709a6a67d3f7f557ba&quot;,&quot;version&quot;:&quot;2021.8.1&quot;,&quot;si&quot;:10}"></script>
+
+
+<img src="./Your Getting Started Guide to Powershell Functions_files/g.gif" alt=":)" width="6" height="5" id="wpstats"><iframe name="__tcfapiLocator" style="display: none;" src="./Your Getting Started Guide to Powershell Functions_files/saved_resource.html"></iframe></body></html>

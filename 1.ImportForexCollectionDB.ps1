@@ -217,19 +217,53 @@ If ($startjob -lt 4){
 
 If ($startjob -lt 5){
  
-        Get-ChildItem -Path ($DevMT4Path + $MT4Indis) -Recurse -File|ForEach-Object{
-            $_.FullName
-         }
+            'Job 5'
+         Try{
+            
+            $command   =   'SELECT Top 1 *
+                            FROM [Indicators].[dbo].[ForexCollection]'
+                           
+            $dataTab= $database.ExecuteWithResults($command)
+            
+            ForEach($Row in $dataTab.tables[0].Select("NoOfMq4 = 1 and TotalCountOfFiles=1")){
+                $Row.Name
+                #Build-MT4Indi($Row.Name)
+            }
+        }
+        catch{
+            $_.Exception
+            Break 
+        }
+        #
+        #Get-ChildItem -Path ($DevMT4Path + $MT4Indis) -Recurse -File|ForEach-Object{
+        #    $_.FullName
+        # }
 }
+<#
+# #[Parameter(Mandatory, ValueFromPipeline)] [string]$FIleNamePipe
+function Build-MT4Indi{
+    [cmdletbinding()]
+    Param (
+        [Parameter(Mandatory)] [string] $FIleName 
+	  
+    )
 
-BuildMT4($Compile){
-    $CMD = 'C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Global Prime - MetaTrader 4 DEV\metaeditor.exe'
-    $arg1=' /compile:'+ $Compile +' /log'
+    process{
+    
+    $CMD = 'C:\Program Files (x86)\Global Prime - MetaTrader 4 DEV\metaeditor.exe'
+    $arg1=' /compile:'+ $FIleName +' /log'
     $arg2=' /include:C:\Users\Amos\AppData\Roaming\MetaQuotes\Terminal\73A0F6A7AFD1C71F9BDB0DDF74C5C5F2\MQL4 '  #path
-    #$arg3=' /log'      #indicatorName.log
-    #$arg4='/s'         #Check syntaxg
-    #C:\Users\Amos\AppData\Roaming\MetaQuotes\Terminal\73A0F6A7AFD1C71F9BDB0DDF74C5C5F2\MQL4\Indicators
+    $arg3=' /log'      #indicatorName.log
+    $arg4='/s'         #Check syntaxg
+    #$FIleName 
+    & $CMD 
+    #$arg1+$arg2+$arg3
 
-    & $CMD $arg1 + $arg2 +$arg3    
+    
+    #$p = Start-Process ping -ArgumentList "invalidhost" -wait -NoNewWindow -PassThru
+    #$p.HasExited
+    #$p.Exit
+    }
 }
 
+#>
