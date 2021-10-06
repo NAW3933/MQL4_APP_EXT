@@ -64,7 +64,10 @@ enum ProcessStatus {
     NoFiles = 0
     CopiedToCompPath = 1
 }
-
+enum CollectionNo {
+   ForexCollection2020  = 0
+   
+}
 #Job1
     $ZipSource = $PSScriptRoot+'\_3rdPartyMT4Code\forexcollection\2020'
     $TrgtRt = $PSScriptRoot + '\..\_MQL4_PREBUILD'
@@ -76,20 +79,10 @@ enum ProcessStatus {
     $MT4Indis = '\001\'
     $DevIndis = $DevMT4Path+$MT4Indis
 
-$startjob=1
+$startjob=4
 
 #  FUNCTIONS -----------------------------------------------------------------
 
-
-function rmc ($file) {
-    (Get-Item $file).Delete()
-}
-
-
-function rmd ($folder) {
-    Get-ChildItem -recurse -force $folder | Sort-Object -Property FullName -Descending | ForEach-Object { $_.Delete() }
-    (Get-Item $folder).Delete()
-}
 
 function Remove-FileSystemItem {
   <#
@@ -257,6 +250,35 @@ function Remove-FileSystemItem {
     }
 }
 
+#[Parameter(Mandatory, ValueFromPipeline)] [string]$FIleNamePipe
+function Build-MT4Indi{
+    [cmdletbinding()]
+    Param (
+        [Parameter(Mandatory)] [string] $FIleName, 
+	    [Parameter(Mandatory)] [CollectionNo] $CollectionNo
+    )
+
+    process{
+    
+
+
+    $CMD = 'C:\Program Files (x86)\Global Prime - MetaTrader 4 DEV\metaeditor.exe '
+    $arg1=' /compile:'+ $FIleName +' /log'
+    $arg2=' /include:C:\Users\Amos\AppData\Roaming\MetaQuotes\Terminal\73A0F6A7AFD1C71F9BDB0DDF74C5C5F2\MQL4 '  #path
+    $arg3=' /log'      #indicatorName.log
+    $arg4=' /s'         #Check syntaxg
+    
+
+    $FIleName 
+    & $CMD $arg1+$arg2+$arg3
+    
+    #& $CMD $arg1
+    
+    #$p = Start-Process ping -ArgumentList "invalidhost" -wait -NoNewWindow -PassThru
+    #$p.HasExited
+    #$p.Exit
+    }
+}
 #-----------------------------------------------------------------------------
 
 If ($startjob -lt 2){
@@ -264,18 +286,17 @@ If ($startjob -lt 2){
 
     #$UnzipJobs = New-Object System.Collections.Generic.List[System.Object]
     $JobNo=0
-    'Removing files and folders in and including ' + $TrgtRt
+    
+    '1. Removing files and folders in and including ' + $TrgtRt
+    
     Remove-FileSystemItem $TrgtRt
     #Remove-Item $TrgtRt -Recurse -Force
     'Creating New Folder ' + $TrgtRt
     New-item $TrgtRt -ItemType directory
     #rmd ($TrgtR)
 
-
-
     '1. Unzipping -In Progress...'
     
-
     Get-ChildItem -Path $ZipSource -Recurse |ForEach-Object{
         
         if($_.Extension -eq '.zip'){
@@ -296,7 +317,7 @@ If ($startjob -lt 2){
 
 
 If ($startjob -lt 3){
-    '2. Updating database.  Processing...'
+    '2. Updating database, updates simple stats and clearing unwanted files.  Processing...'
     $Job2command   =    "Delete from dbo.ForexCollection"
     $dataset = $database.ExecuteNonQuery($Job2command)
     
@@ -345,9 +366,9 @@ If ($startjob -lt 3){
 
 
 If ($startjob -lt 4){
+ 
 
-
-    '3.Processing...'
+    '3.Processing indis with just single mq4 file ...'
 
         Try{
             'Just MQ4 files...'
@@ -374,16 +395,16 @@ If ($startjob -lt 4){
                     }
                     else{
                         #Remove-Item $TrgtRt -Recurse -Force
-                        [System.IO.Directory]::Delete($DevIndis+ $SubFolder, 1)
-                        [System.IO.Directory]::CreateDirectory($DevIndis+ $SubFolder)
+                        #[System.IO.Directory]::Delete($DevIndis+ $SubFolder, 1)
+                        #[System.IO.Directory]::CreateDirectory($DevIndis+ $SubFolder)
                     }
-                    
-                    [System.IO.File]::Copy($2,  $MoveTo)
+                    #$2 + ' -> ' + $MoveTo
+                    [System.IO.File]::Copy($2,  $MoveTo, 1)
                     
                     $Command = 'Update [Indicators].[dbo].[ForexCollection] ' +
                                 'Set Status = ' + [ProcessStatus]::CopiedToCompPath.value__ +
                                 ' Where Name=''' + $Row.Name + ''''
-                    $Command
+                    
                     $dataTab= $database.ExecuteWithResults($command)
                 } 
             }
@@ -400,56 +421,29 @@ If ($startjob -lt 4){
 }
 
 
-
 If ($startjob -lt 5){
  
-            'Job 5'
-         Try{
+        'Job 4'
+        Try{
             
-            $command   =   'SELECT Top 1 *
-                            FROM [Indicators].[dbo].[ForexCollection]'
+            $command   =   'SELECT Top 100 *
+                            FROM  [Indicators].[dbo].[ForexCollection] where status=' + [ProcessStatus]::CopiedToCompPath.value__ 
                            
+            
             $dataTab= $database.ExecuteWithResults($command)
             
-            ForEach($Row in $dataTab.tables[0].Select("NoOfMq4 = 1 and TotalCountOfFiles=1")){
-                $Row.Name
-                #Build-MT4Indi($Row.Name)
+            ForEach($Row in $dataTab.tables[0]){
+                $LastIndx = $Row.Name.LastIndexOf('\')+1
+                $FileName = $Row.Name.Substring($LastIndx)
+
+                Build-MT4Indi -FileName $FileName -CollectionNo ForexCollection2020
             }
         }
         catch{
             $_.Exception
+           
             Break 
         }
-        #
-        #Get-ChildItem -Path ($DevMT4Path + $MT4Indis) -Recurse -File|ForEach-Object{
-        #    $_.FullName
-        # }
-}
-<#
-# #[Parameter(Mandatory, ValueFromPipeline)] [string]$FIleNamePipe
-function Build-MT4Indi{
-    [cmdletbinding()]
-    Param (
-        [Parameter(Mandatory)] [string] $FIleName 
-	  
-    )
 
-    process{
-    
-    $CMD = 'C:\Program Files (x86)\Global Prime - MetaTrader 4 DEV\metaeditor.exe'
-    $arg1=' /compile:'+ $FIleName +' /log'
-    $arg2=' /include:C:\Users\Amos\AppData\Roaming\MetaQuotes\Terminal\73A0F6A7AFD1C71F9BDB0DDF74C5C5F2\MQL4 '  #path
-    $arg3=' /log'      #indicatorName.log
-    $arg4='/s'         #Check syntaxg
-    #$FIleName 
-    & $CMD 
-    #$arg1+$arg2+$arg3
-
-    
-    #$p = Start-Process ping -ArgumentList "invalidhost" -wait -NoNewWindow -PassThru
-    #$p.HasExited
-    #$p.Exit
-    }
 }
 
-#>
