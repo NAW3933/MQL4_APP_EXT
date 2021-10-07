@@ -66,7 +66,6 @@ enum ProcessStatus {
 }
 enum CollectionNo {
    ForexCollection2020  = 0
-   
 }
 #Job1
     $ZipSource = $PSScriptRoot+'\_3rdPartyMT4Code\forexcollection\2020'
@@ -257,10 +256,15 @@ function Build-MT4Indi{
         [Parameter(Mandatory)] [string] $FIleName, 
 	    [Parameter(Mandatory)] [CollectionNo] $CollectionNo
     )
-
+   
     process{
     
+    switch ($CollectionNo){
+        ForexCollection2020{
 
+        break;
+        }
+    }
 
     $CMD = 'C:\Program Files (x86)\Global Prime - MetaTrader 4 DEV\metaeditor.exe '
     $arg1=' /compile:'+ $FIleName +' /log'
