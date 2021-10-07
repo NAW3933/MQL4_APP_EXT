@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)https://adamtheautomator.com/powershell-multithreading/ -->
+<html class="no-js" lang="en-US" prefix="og: https://ogp.me/ns#" data-darkreader-mode="dynamic" data-darkreader-scheme="dark"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style class="darkreader darkreader--fallback" media="screen"></style><style class="darkreader darkreader--text" media="screen"></style><style class="darkreader darkreader--invert" media="screen">.jfk-bubble.gtx-bubble, .captcheck_answer_label > input + img, span#closed_text > img[src^="https://www.gstatic.com/images/branding/googlelogo"], span[data-href^="https://www.hcaptcha.com/"] > #icon, #bit-notification-bar-iframe, ::-webkit-calendar-picker-indicator, embed[type="application/pdf"] {
+    filter: invert(100%) hue-rotate(180deg) contrast(90%) !important;
+}</style><style class="darkreader darkreader--inline" media="screen">[data-darkreader-inline-bgcolor] {
+  background-color: var(--darkreader-inline-bgcolor) !important;
+}
+[data-darkreader-inline-bgimage] {
+  background-image: var(--darkreader-inline-bgimage) !important;
+}
+[data-darkreader-inline-border] {
+  border-color: var(--darkreader-inline-border) !important;
+}
+[data-darkreader-inline-border-bottom] {
+  border-bottom-color: var(--darkreader-inline-border-bottom) !important;
+}
+[data-darkreader-inline-border-left] {
+  border-left-color: var(--darkreader-inline-border-left) !important;
+}
+[data-darkreader-inline-border-right] {
+  border-right-color: var(--darkreader-inline-border-right) !important;
+}
+[data-darkreader-inline-border-top] {
+  border-top-color: var(--darkreader-inline-border-top) !important;
+}
+[data-darkreader-inline-boxshadow] {
+  box-shadow: var(--darkreader-inline-boxshadow) !important;
+}
+[data-darkreader-inline-color] {
+  color: var(--darkreader-inline-color) !important;
+}
+[data-darkreader-inline-fill] {
+  fill: var(--darkreader-inline-fill) !important;
+}
+[data-darkreader-inline-stroke] {
+  stroke: var(--darkreader-inline-stroke) !important;
+}
+[data-darkreader-inline-outline] {
+  outline-color: var(--darkreader-inline-outline) !important;
+}
+[data-darkreader-inline-stopcolor] {
+  stop-color: var(--darkreader-inline-stopcolor) !important;
+}</style><style class="darkreader darkreader--variables" media="screen">:root {
+   --darkreader-neutral-background: #131516;
+   --darkreader-neutral-text: #d8d4cf;
+   --darkreader-selection-background: #004daa;
+   --darkreader-selection-text: #e8e6e3;
+}</style><style class="darkreader darkreader--root-vars" media="screen"></style><script async="" defer="" src="./PowerShell Multithreading_ A Deep Dive_files/gdpr.bundle.js.download"></script><script type="text/javascript" src="./PowerShell Multithreading_ A Deep Dive_files/web-vitals.umd.js.download" defer=""></script><script type="text/javascript" src="./PowerShell Multithreading_ A Deep Dive_files/prebid.min.js.download"></script><script type="text/javascript" src="./PowerShell Multithreading_ A Deep Dive_files/gpt.js.download"></script><script type="text/javascript" src="./PowerShell Multithreading_ A Deep Dive_files/gdpr-liveramp.js.download"></script><script type="text/javascript" src="./PowerShell Multithreading_ A Deep Dive_files/adthrive.min.js.download"></script><script type="text/javascript" async="" src="./PowerShell Multithreading_ A Deep Dive_files/analytics.js.download"></script><script class="darkreader darkreader--proxy">(function injectProxy() {
+        document.dispatchEvent(
+            new CustomEvent("__darkreader__inlineScriptsAllowed")
+        );
+        const addRuleDescriptor = Object.getOwnPropertyDescriptor(
+            CSSStyleSheet.prototype,
+            "addRule"
+        );
+        const insertRuleDescriptor = Object.getOwnPropertyDescriptor(
+            CSSStyleSheet.prototype,
+            "insertRule"
+        );
+        const deleteRuleDescriptor = Object.getOwnPropertyDescriptor(
+            CSSStyleSheet.prototype,
+            "deleteRule"
+        );
+        const removeRuleDescriptor = Object.getOwnPropertyDescriptor(
+            CSSStyleSheet.prototype,
+            "removeRule"
+        );
+        const shouldWrapDocStyleSheets =
+            location.hostname.endsWith("pushbullet.com") ||
+            location.hostname.endsWith("ilsole24ore.com") ||
+            location.hostname.endsWith("allegro.pl");
+        const documentStyleSheetsDescriptor = shouldWrapDocStyleSheets
+            ? Object.getOwnPropertyDescriptor(Document.prototype, "styleSheets")
+            : null;
+        const cleanUp = () => {
+            Object.defineProperty(
+                CSSStyleSheet.prototype,
+                "addRule",
+                addRuleDescriptor
+            );
+            Object.defineProperty(
+                CSSStyleSheet.prototype,
+                "insertRule",
+                insertRuleDescriptor
+            );
+            Object.defineProperty(
+                CSSStyleSheet.prototype,
+                "deleteRule",
+                deleteRuleDescriptor
+            );
+            Object.defineProperty(
+                CSSStyleSheet.prototype,
+                "removeRule",
+                removeRuleDescriptor
+            );
+            document.removeEventListener("__darkreader__cleanUp", cleanUp);
+            document.removeEventListener(
+                "__darkreader__addUndefinedResolver",
+                addUndefinedResolver
+            );
+            if (shouldWrapDocStyleSheets) {
+                Object.defineProperty(
+                    Document.prototype,
+                    "styleSheets",
+                    documentStyleSheetsDescriptor
+                );
+            }
+        };
+        const addUndefinedResolver = (e) => {
+            customElements.whenDefined(e.detail.tag).then(() => {
+                document.dispatchEvent(
+                    new CustomEvent("__darkreader__isDefined", {
+                        detail: {tag: e.detail.tag}
+                    })
+                );
+            });
+        };
+        document.addEventListener("__darkreader__cleanUp", cleanUp);
+        document.addEventListener(
+            "__darkreader__addUndefinedResolver",
+            addUndefinedResolver
+        );
+        const updateSheetEvent = new Event("__darkreader__updateSheet");
+        function proxyAddRule(selector, style, index) {
+            addRuleDescriptor.value.call(this, selector, style, index);
+            if (
+                this.ownerNode &&
+                !this.ownerNode.classList.contains("darkreader")
+            ) {
+                this.ownerNode.dispatchEvent(updateSheetEvent);
+            }
+            return -1;
+        }
+        function proxyInsertRule(rule, index) {
+            const returnValue = insertRuleDescriptor.value.call(
+                this,
+                rule,
+                index
+            );
+            if (
+                this.ownerNode &&
+                !this.ownerNode.classList.contains("darkreader")
+            ) {
+                this.ownerNode.dispatchEvent(updateSheetEvent);
+            }
+            return returnValue;
+        }
+        function proxyDeleteRule(index) {
+            deleteRuleDescriptor.value.call(this, index);
+            if (
+                this.ownerNode &&
+                !this.ownerNode.classList.contains("darkreader")
+            ) {
+                this.ownerNode.dispatchEvent(updateSheetEvent);
+            }
+        }
+        function proxyRemoveRule(index) {
+            removeRuleDescriptor.value.call(this, index);
+            if (
+                this.ownerNode &&
+                !this.ownerNode.classList.contains("darkreader")
+            ) {
+                this.ownerNode.dispatchEvent(updateSheetEvent);
+            }
+        }
+        function proxyDocumentStyleSheets() {
+            const docSheets = documentStyleSheetsDescriptor.get.call(this);
+            const filtered = [...docSheets].filter((styleSheet) => {
+                return !styleSheet.ownerNode.classList.contains("darkreader");
+            });
+            return Object.setPrototypeOf(filtered, StyleSheetList.prototype);
+        }
+        Object.defineProperty(
+            CSSStyleSheet.prototype,
+            "addRule",
+            Object.assign({}, addRuleDescriptor, {value: proxyAddRule})
+        );
+        Object.defineProperty(
+            CSSStyleSheet.prototype,
+            "insertRule",
+            Object.assign({}, insertRuleDescriptor, {value: proxyInsertRule})
+        );
+        Object.defineProperty(
+            CSSStyleSheet.prototype,
+            "deleteRule",
+            Object.assign({}, deleteRuleDescriptor, {value: proxyDeleteRule})
+        );
+        Object.defineProperty(
+            CSSStyleSheet.prototype,
+            "removeRule",
+            Object.assign({}, removeRuleDescriptor, {value: proxyRemoveRule})
+        );
+        if (shouldWrapDocStyleSheets) {
+            Object.defineProperty(
+                Document.prototype,
+                "styleSheets",
+                Object.assign({}, documentStyleSheetsDescriptor, {
+                    get: proxyDocumentStyleSheets
+                })
+            );
+        }
+    })()</script><style class="darkreader darkreader--user-agent" media="screen">html {
+    background-color: #181a1b !important;
+}
+html, body, input, textarea, select, button {
+    background-color: #181a1b;
+}
+html, body, input, textarea, select, button {
+    border-color: #736b5e;
+    color: #e8e6e3;
+}
+a {
+    color: #3391ff;
+}
+table {
+    border-color: #545b5e;
+}
+::placeholder {
+    color: #b2aba1;
+}
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+    background-color: #555b00 !important;
+    color: #e8e6e3 !important;
+}
+::-webkit-scrollbar {
+    background-color: #202324;
+    color: #aba499;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #454a4d;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #575e62;
+}
+::-webkit-scrollbar-thumb:active {
+    background-color: #484e51;
+}
+::-webkit-scrollbar-corner {
+    background-color: #181a1b;
+}
+::selection {
+    background-color: #004daa !important;
+    color: #e8e6e3 !important;
+}
+::-moz-selection {
+    background-color: #004daa !important;
+    color: #e8e6e3 !important;
+}</style>
+
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="x-dns-prefetch-control" content="on">
+<meta name="format-detection" content="telephone=no">
+<link rel="profile" href="https://gmpg.org/xfn/11">
+<link rel="shortcut icon" href="https://adamtheautomator.com/wp-content/themes/adam-the-automator/assets/images/favicon.ico">
+<meta name="theme-color" content="#0344ae">
+<link rel="manifest" href="https://adamtheautomator.com/wp-content/themes/adam-the-automator/manifest.json">
+<link rel="icon" sizes="192x192" href="https://images.adamtheautomator.com/image/upload/w_2000,f_auto,q_auto:420,fl_strip_profile,c_mfit/v1617480653/assets/maskable_icon_192">
+<link rel="apple-touch-icon" href="https://images.adamtheautomator.com/image/upload/w_2000,f_auto,q_auto:420,fl_strip_profile,c_mfit/v1617480653/assets/maskable_icon_192">
+<meta name="msapplication-square512x512logo" content="https://images.adamtheautomator.com/image/upload/w_2000,f_auto,q_auto:420,fl_strip_profile,c_mfit/v1617480653/assets/maskable_icon_512">
+<link rel="preconnect" href="https://images.adamtheautomator.com/">
+<link rel="preconnect" href="https://www.googletagmanager.com/">
+
+<script async="" src="./PowerShell Multithreading_ A Deep Dive_files/ads.min.js.download"></script><script async="" src="./PowerShell Multithreading_ A Deep Dive_files/gtm.js.download"></script><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K6C7SP6');</script>
+
+<style>
+	.adthrive-ad {
+		margin-top: 10px;
+		margin-bottom: 10px;
+		text-align: center;
+		overflow-x: visible;
+		clear: both;
+		line-height: 0;
+	}
+	.adthrive-home-ad {
+margin-top:15px;
+margin-bottom:15px;
+}
+
+.adthrive-sidebar.adthrive-stuck {
+margin-top: 65px;
+}
+
+.adthrive-wrapper-title-wrapper svg {
+  vertical-align: middle !important;
+  display: initial;
+}
+
+iframe[id^="google_ads_iframe"] {
+  display: initial;
+  vertical-align: initial;
+}
+
+.adthrive-player-container {
+  max-width: 500px;
+}
+
+.adthrive-sidebar-9 {
+  min-width: 300px;
+}</style><style class="darkreader darkreader--sync" media="screen"></style>
+<script>
+	window.adthriveCLS = {
+		enabledLocations: ['Content', 'Recipe'],
+		injectedSlots: [],
+		injectedFromPlugin: true,
+		branch: '05259ec',bucket: 'prod',			};
+	window.adthriveCLS.siteAds = {"targeting":[{"value":"5e85f4e7732dec2bfd7ee752","key":"siteId"},{"value":"Adam the Automator","key":"siteName"},{"value":"AdThrive Edge","key":"service"},{"value":"on","key":"bidding"},{"value":null,"key":"dynamicVersion"},{"value":["Tech"],"key":"verticals"}],"siteId":"5e85f4e7732dec2bfd7ee752","siteName":"Adam the Automator","adOptions":{"theTradeDesk":true,"verizon":true,"undertone":true,"concert":false,"footerCloseButton":true,"teads":true,"pmp":true,"districtM":true,"thirtyThreeAcross":true,"removeVideoTitleWrapper":true,"pubMatic":true,"roundel":true,"infiniteScroll":false,"sonobi":true,"yieldmo":true,"footerSelector":"","amazonUAM":true,"gamMCMEnabled":true,"gamMCMChildNetworkCode":"22509993567","rubiconMediaMath":true,"rubicon":true,"conversant":false,"openx":true,"deepIntent":true,"unruly":true,"mediaGrid":true,"bRealTime":true,"gumgum":false,"comscoreFooter":true,"desktopInterstitial":false,"footerCloseButtonDesktop":false,"isAutoOptimized":false,"comscoreTAL":true,"brightroll":true,"targetaff":false,"advancePlaylistOptions":{"playlistPlayer":{"enabled":true},"relatedPlayer":{"enabled":true,"applyToFirst":true}},"kargo":true,"liveRampATS":false,"footerCloseButtonMobile":false,"allowSmallerAdSizes":true,"comscore":"Tech","mobileInterstitial":false,"tripleLift":true,"sovrn":true,"sensitiveCategories":["alc","conl","cosm","dat","dlu","drg","gamv","ske","tob","wtl"],"liveRamp":true,"mobileInterstitialBlockedPageSelectors":"","adthriveEmailIdentity":false,"criteo":true,"clsOptimizedAds":true,"padsquad":true,"verticals":["Tech"],"inImage":false,"advancePlaylist":true,"delayLoading":true,"inImageZone":null,"appNexus":true,"liveRampId":"","infiniteScrollRefresh":true,"indexExchange":true},"breakpoints":{"tablet":768,"desktop":1024},"video":{"contextual":{"autoplayCollapsibleEnabled":true,"overrideEmbedLocation":true,"defaultPlayerType":"collapse"},"autoplayPlaylistCollapsibleDesktop":{"pageSelector":"body.single","sticky":true,"elementSelector":".article__content > *","classNames":[],"skip":4,"position":"afterend","float":false,"enabled":true},"contextualAutoplayCollapsibleMobile":{"elementSelector":".article__content > p","skip":0,"pageSelector":null,"position":"afterend"},"partners":{"roundel":true,"oneVideo":false,"mediaGrid":true,"gumgum":false,"telaria":false,"districtM":true,"amazonUAM":false,"rubicon":true,"appNexus":true,"conversant":false,"tripleLift":true,"openx":true,"pubMatic":true,"indexExchange":true,"spotx":true},"sekindoMobilePlaylist":{"pageSelector":null,"elementSelector":null,"classNames":[],"skip":0,"position":"afterend","title":null,"enabled":false},"jwPlaylistId":"mPEH5Ms8","contextualAutoplayCollapsibleDesktop":{"elementSelector":".article__content > p","skip":0,"pageSelector":null,"position":"afterend"},"collapsible":{"footerSelector":"#footer","topMargin":0,"experiment":false,"desktopLocation":"bottom","mobileLocation":"bottom-left","mobileSize":"medium","saveVideoCloseState":false,"mobileLocationExperiment":false,"shuffle":true,"sidebarSelector":".sidebar","title":null},"autoplayPlaylistCollapsibleMobile":{"pageSelector":"body.single","experiment":false,"elementSelector":".article__content > *","classNames":[],"skip":4,"position":"afterend","enabled":false},"jwPlayerId":"ikjgg1Av","jwCollapsiblePlayerId":"jjaZt7HA","sekindoDesktopPlaylist":{"pageSelector":null,"elementSelector":null,"classNames":[],"skip":0,"position":"afterend","title":null,"enabled":false}},"version":"v1","adTypes":{"nativeMobileRecipe":true,"expandableFooter":true,"nativeDesktopSidebar":true,"nativeDesktopContent":true,"outstreamDesktop":true,"interscroller":true,"miniscroller":true,"nativeDesktopRecipe":true,"outstreamMobile":true,"animatedFooter":true,"nativeMobileContent":true},"adUnits":[{"sequence":1,"targeting":[{"value":["Sidebar"],"key":"location"}],"devices":["desktop"],"name":"Sidebar_1","sticky":false,"location":"Sidebar","dynamic":{"pageSelector":null,"min":0,"spacing":0,"max":1,"lazy":false,"elementSelector":".sidebar > *","skip":null,"classNames":[],"position":"afterend","every":1,"enabled":true},"adSizes":[[300,250],[250,250],[300,600],[120,240],[160,600],[300,1050],[336,280],[320,50],[320,100],[1,1],[300,420],[300,50]],"priority":299,"autosize":true},{"sequence":2,"targeting":[{"value":["Sidebar"],"key":"location"}],"devices":["desktop"],"name":"Sidebar_2","sticky":false,"location":"Sidebar","dynamic":{"pageSelector":null,"min":0,"spacing":0,"max":1,"lazy":false,"elementSelector":".sidebar > *","skip":null,"classNames":[],"position":"beforebegin","every":1,"enabled":true},"adSizes":[[300,250],[250,250],[300,600],[120,240],[160,600],[300,1050],[336,280],[320,50],[320,100],[1,1],[300,420],[300,50]],"priority":298,"autosize":true},{"sequence":9,"targeting":[{"value":["Sidebar"],"key":"location"},{"value":true,"key":"sticky"}],"devices":["desktop"],"name":"Sidebar_9","sticky":true,"location":"Sidebar","dynamic":{"pageSelector":null,"min":0,"spacing":0,"max":1,"lazy":false,"elementSelector":".sidebar","skip":0,"classNames":[],"position":"beforeend","every":1,"enabled":true},"stickyOverlapSelector":"#footer","adSizes":[[300,250],[250,250],[300,600],[120,240],[160,600],[300,1050],[336,280],[320,50],[320,100],[1,1],[300,420],[300,50]],"priority":291,"autosize":true},{"targeting":[{"value":["Content"],"key":"location"}],"devices":["tablet","desktop"],"name":"Content_468x60_728x90_970x90_1x1_300x50_728x250_970x250_1x2","sticky":false,"location":"Content","dynamic":{"pageSelector":"body.archive","min":0,"spacing":0,"max":5,"lazy":true,"lazyMax":5,"elementSelector":".post-card__large","skip":null,"classNames":["adthrive-home-ad"],"position":"afterend","every":1,"enabled":true},"adSizes":[[468,60],[728,90],[970,90],[1,1],[300,50],[728,250],[970,250],[1,2]],"priority":199,"autosize":true},{"targeting":[{"value":["Content"],"key":"location"}],"devices":["phone"],"name":"Content","sticky":false,"location":"Content","dynamic":{"pageSelector":"body.archive","min":0,"spacing":0,"max":9,"lazy":false,"elementSelector":".post-card","skip":null,"classNames":[],"position":"afterend","every":1,"enabled":true},"adSizes":[[120,240],[250,250],[300,250],[320,50],[320,100],[336,280],[468,60],[728,90],[970,90],[1,1],[300,300],[552,334],[300,50],[728,250],[970,250],[1,2]],"priority":199,"autosize":true},{"targeting":[{"value":["Content"],"key":"location"}],"devices":["desktop"],"name":"Content","sticky":false,"location":"Content","dynamic":{"pageSelector":"body.single, body.page","min":0,"spacing":1,"max":9,"lazy":true,"lazyMax":4,"elementSelector":".article__content > *","skip":6,"classNames":[],"position":"afterend","every":1,"enabled":true},"adSizes":[[120,240],[250,250],[300,250],[320,50],[320,100],[336,280],[468,60],[728,90],[970,90],[1,1],[300,300],[552,334],[300,50],[728,250],[970,250],[1,2]],"priority":199,"autosize":true},{"targeting":[{"value":["Content"],"key":"location"}],"devices":["tablet"],"name":"Content","sticky":false,"location":"Content","dynamic":{"pageSelector":"body.single, body.page","min":0,"spacing":0.7,"max":9,"lazy":true,"lazyMax":6,"elementSelector":".article__content > *","skip":6,"classNames":[],"position":"afterend","every":1,"enabled":true},"adSizes":[[120,240],[250,250],[300,250],[320,50],[320,100],[336,280],[468,60],[728,90],[970,90],[1,1],[300,300],[552,334],[300,50],[728,250],[970,250],[1,2]],"priority":199,"autosize":true},{"targeting":[{"value":["Content"],"key":"location"}],"devices":["phone"],"name":"Content","sticky":false,"location":"Content","dynamic":{"pageSelector":"body.single, body.page","min":0,"spacing":1,"max":6,"lazy":true,"lazyMax":6,"elementSelector":".article__content > *","skip":6,"classNames":[],"position":"afterend","every":1,"enabled":true},"adSizes":[[120,240],[250,250],[300,250],[320,50],[320,100],[336,280],[468,60],[728,90],[970,90],[1,1],[300,300],[552,334],[300,50],[728,250],[970,250],[1,2]],"priority":199,"autosize":true},{"targeting":[{"value":["Footer"],"key":"location"},{"value":true,"key":"sticky"}],"devices":["tablet","phone","desktop"],"name":"Footer","sticky":true,"location":"Footer","dynamic":{"pageSelector":null,"min":0,"spacing":0,"max":1,"lazy":false,"elementSelector":"body","skip":0,"classNames":[],"position":"beforeend","every":1,"enabled":true},"adSizes":[[320,50],[320,100],[728,90],[970,90],[468,60],[1,1],[300,50]],"priority":-1,"autosize":true},{"targeting":[{"value":["Below Post"],"key":"location"}],"devices":["tablet","desktop"],"name":"Below_Post","sticky":false,"location":"Below Post","dynamic":{"pageSelector":"body.single, body.page","min":0,"spacing":0,"max":0,"lazy":true,"lazyMax":1,"elementSelector":".article__content","skip":0,"classNames":[],"position":"beforeend","every":1,"enabled":true},"adSizes":[[120,240],[250,250],[300,250],[320,50],[320,100],[336,280],[468,60],[728,90],[1,1]],"priority":99,"autosize":true}],"videoPlayers":{"contextual":{"autoplayCollapsibleEnabled":true,"overrideEmbedLocation":true,"defaultPlayerType":"collapse"},"videoEmbed":"wordpress","footerSelector":"#footer","jwPlayer":{"apiSecret":"kFF3fvPIZpPIkjLs7H7EhyAh","apiKey":"z9kQyJgK","propertyId":"c46b9f3c-cb87-11ea-a8c9-4698a7e29686","enabled":true},"players":[{"devices":["desktop","mobile"],"description":"","id":2918431,"title":"Stationary related player - desktop and mobile","type":"stationaryRelated","enabled":true,"playerId":"ikjgg1Av"},{"playlistId":"","pageSelector":"","devices":["desktop"],"description":"","elementSelector":".article__content > p","skip":0,"id":2918432,"position":"afterend","title":"","type":"stickyRelated","enabled":true,"playerId":"ikjgg1Av"},{"playlistId":"","pageSelector":"","devices":["mobile"],"mobileLocation":"bottom-right","description":"","skip":0,"title":"","type":"stickyRelated","enabled":true,"elementSelector":".article__content > p","id":2918433,"position":"afterend","playerId":"ikjgg1Av"},{"playlistId":"mPEH5Ms8","pageSelector":"body.single","devices":["desktop"],"description":"","skip":4,"title":"","type":"stickyPlaylist","enabled":true,"footerSelector":"#footer","elementSelector":".article__content > *","id":2918434,"position":"afterend","saveVideoCloseState":false,"shuffle":true,"playerId":"jjaZt7HA"},{"playlistId":"mPEH5Ms8","pageSelector":"body.single","devices":["mobile"],"mobileLocation":"bottom-right","description":"","skip":4,"title":"","type":"stickyPlaylist","enabled":false,"footerSelector":"#footer","elementSelector":".article__content > *","id":2918435,"position":"afterend","saveVideoCloseState":false,"shuffle":true,"playerId":"jjaZt7HA"},{"playlistId":"mPEH5Ms8","pageSelector":"","devices":["desktop"],"description":"","elementSelector":"","skip":0,"id":2918436,"position":"afterend","title":"","type":"sekindo","enabled":false,"playerId":""},{"playlistId":"mPEH5Ms8","pageSelector":"","devices":["mobile"],"description":"","elementSelector":"","skip":0,"id":2918437,"position":"afterend","title":"","type":"sekindo","enabled":false,"playerId":""}]},"adDensityLayout":{"mobile":{"adDensity":0.26,"onePerViewport":false},"pageOverrides":[{"mobile":{"adDensity":0.3,"onePerViewport":false},"pageSelector":"body.archive","desktop":{"adDensity":0.3,"onePerViewport":false}}],"desktop":{"adDensity":0.26,"onePerViewport":false}}};</script>
+<script>
+(function(w, d) {
+	w.adthrive = w.adthrive || {};
+	w.adthrive.cmd = w.adthrive.cmd || [];
+	w.adthrive.plugin = 'adthrive-ads-1.1.2';
+	w.adthrive.host = 'ads.adthrive.com';
+
+	var s = d.createElement('script');
+	s.async = true;
+	s.referrerpolicy='no-referrer-when-downgrade';
+	s.src = 'https://' + w.adthrive.host + '/sites/5e85f4e7732dec2bfd7ee752/ads.min.js?referrer=' + w.encodeURIComponent(w.location.href) + (window.adthriveCLS && window.adthriveCLS.bucket !== 'prod' && window.adthriveCLS.branch ? '&commit=' + window.adthriveCLS.branch : '') + '&cb=' + (Math.floor(Math.random() * 100) + 1);
+	var n = d.getElementsByTagName('script')[0];
+	n.parentNode.insertBefore(s, n);
+})(window, document);
+</script>
+
+<title>PowerShell Multithreading: A Deep Dive</title>
+<meta name="description" content="Learn how to understand and use various powershell multithreading techniques to process multiple data streams.">
+<meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large">
+<link rel="canonical" href="https://adamtheautomator.com/powershell-multithreading/">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PowerShell Multithreading: A Deep Dive">
+<meta property="og:description" content="Learn how to understand and use various powershell multithreading techniques to process multiple data streams.">
+<meta property="og:url" content="https://adamtheautomator.com/powershell-multithreading/">
+<meta property="og:site_name" content="Adam the Automator">
+<meta property="article:tag" content="PowerShell">
+<meta property="article:section" content="IT Ops">
+<meta property="og:updated_time" content="2021-08-04T05:14:08-05:00">
+<meta property="og:image" content="https://adamtheautomator.com/wp-content/uploads/2019/11/juggler-1216853_1920.jpg">
+<meta property="og:image:secure_url" content="https://adamtheautomator.com/wp-content/uploads/2019/11/juggler-1216853_1920.jpg">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1234">
+<meta property="og:image:alt" content="powershell multithreading">
+<meta property="og:image:type" content="image/jpeg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PowerShell Multithreading: A Deep Dive">
+<meta name="twitter:description" content="Learn how to understand and use various powershell multithreading techniques to process multiple data streams.">
+<meta name="twitter:creator" content="@ps_tylerm">
+<meta name="twitter:image" content="https://adamtheautomator.com/wp-content/uploads/2019/11/juggler-1216853_1920.jpg">
+<script type="application/ld+json" class="rank-math-schema-pro">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://adamtheautomator.com/#organization","name":"Adam the Automator","url":"https://adamtheautomator.com","logo":{"@type":"ImageObject","@id":"https://adamtheautomator.com/#logo","url":"https://adamtheautomator.com/wp-content/uploads/2021/08/maskable_icon_512.png","caption":"Adam the Automator","inLanguage":"en-US","width":"512","height":"512"}},{"@type":"WebSite","@id":"https://adamtheautomator.com/#website","url":"https://adamtheautomator.com","name":"Adam the Automator","publisher":{"@id":"https://adamtheautomator.com/#organization"},"inLanguage":"en-US"},{"@type":"ImageObject","@id":"https://adamtheautomator.com/wp-content/uploads/2019/11/juggler-1216853_1920.jpg","url":"https://adamtheautomator.com/wp-content/uploads/2019/11/juggler-1216853_1920.jpg","width":"1920","height":"1234","inLanguage":"en-US"},{"@type":"Person","@id":"https://adamtheautomator.com/author/tyler/","name":"Tyler Muir","url":"https://adamtheautomator.com/author/tyler/","image":{"@type":"ImageObject","@id":"https://secure.gravatar.com/avatar/09bd0e606f52451c1978d574f1788345?s=96&amp;d=mm&amp;r=g","url":"https://secure.gravatar.com/avatar/09bd0e606f52451c1978d574f1788345?s=96&amp;d=mm&amp;r=g","caption":"Tyler Muir","inLanguage":"en-US"},"sameAs":["https://twitter.com/ps_tylerm"],"worksFor":{"@id":"https://adamtheautomator.com/#organization"}},{"@type":"WebPage","@id":"https://adamtheautomator.com/powershell-multithreading/#webpage","url":"https://adamtheautomator.com/powershell-multithreading/","name":"PowerShell Multithreading: A Deep Dive","datePublished":"2019-11-14T14:00:00-06:00","dateModified":"2021-08-04T05:14:08-05:00","author":{"@id":"https://adamtheautomator.com/author/tyler/"},"isPartOf":{"@id":"https://adamtheautomator.com/#website"},"primaryImageOfPage":{"@id":"https://adamtheautomator.com/wp-content/uploads/2019/11/juggler-1216853_1920.jpg"},"inLanguage":"en-US"},{"@type":"Article","headline":"PowerShell Multithreading: A Deep Dive","keywords":"powershell multithreading","datePublished":"2019-11-14T14:00:00-06:00","dateModified":"2021-08-04T05:14:08-05:00","author":{"@id":"https://adamtheautomator.com/author/tyler/"},"publisher":{"@id":"https://adamtheautomator.com/#organization"},"description":"Learn how to understand and use various powershell multithreading techniques to process multiple data streams.","name":"PowerShell Multithreading: A Deep Dive","@id":"https://adamtheautomator.com/powershell-multithreading/#richSnippet","isPartOf":{"@id":"https://adamtheautomator.com/powershell-multithreading/#webpage"},"image":{"@id":"https://adamtheautomator.com/wp-content/uploads/2019/11/juggler-1216853_1920.jpg"},"inLanguage":"en-US","mainEntityOfPage":{"@id":"https://adamtheautomator.com/powershell-multithreading/#webpage"}}]}</script>
+
+
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PowerShell Multithreading: A Deep Dive">
+<meta property="og:description" content="At some point, most people will run into a problem that a basic PowerShell script is just too slow to solve. This could be collecting data from lots of computers on your ne...">
+<meta property="og:url" content="https://adamtheautomator.com/powershell-multithreading/">
+<meta property="og:site_name" content="Adam the Automator">
+<meta property="og:updated_time" content="2021-08-04T05:14:08+00:00">
+<meta property="article:published_time" content="2019-11-14T14:00:00+00:00">
+<meta property="article:modified_time" content="2021-08-04T05:14:08+00:00">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PowerShell Multithreading: A Deep Dive">
+<meta name="twitter:description" content="At some point, most people will run into a problem that a basic PowerShell script is just too slow to solve. This could be collecting data from lots of computers on your ne...">
+<meta name="twitter:creator" content="@adbertram">
+
+<link rel="dns-prefetch" href="https://s.w.org/">
+<meta name="darkreader" content="91cc71df31a61ab23dfae084d5950440"><style class="darkreader darkreader--override" media="screen">.vimvixen-hint {
+    background-color: #7b5300 !important;
+    border-color: #d8b013 !important;
+    color: #f3e8c8 !important;
+}
+::placeholder {
+    opacity: 0.5 !important;
+}
+a[href="https://coinmarketcap.com/"] > svg[width="94"][height="16"] > path {
+    fill: var(--darkreader-neutral-text) !important;
+}
+#edge-translate-panel-body {
+    color: var(--darkreader-neutral-text) !important;
+}</style><script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.1.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.1.0\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/adamtheautomator.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.8.1"}};
+			!function(e,a,t){var n,r,o,i=a.createElement("canvas"),p=i.getContext&&i.getContext("2d");function s(e,t){var a=String.fromCharCode;p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,e),0,0);e=i.toDataURL();return p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,t),0,0),e===i.toDataURL()}function c(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(o=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(!p||!p.fillText)return!1;switch(p.textBaseline="top",p.font="600 32px Arial",e){case"flag":return s([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])?!1:!s([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!s([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]);case"emoji":return!s([10084,65039,8205,55357,56613],[10084,65039,8203,55357,56613])}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],"flag"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(n=t.source||{}).concatemoji?c(n.concatemoji):n.wpemoji&&n.twemoji&&(c(n.twemoji),c(n.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="./PowerShell Multithreading_ A Deep Dive_files/wp-emoji-release.min.js.download" type="text/javascript" defer=""></script>
+<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style><style class="darkreader darkreader--sync" media="screen"></style>
+<link rel="stylesheet" id="wp-block-library-css" href="./PowerShell Multithreading_ A Deep Dive_files/style.min.css" type="text/css" media="all"><style class="darkreader darkreader--sync" media="screen"></style>
+<style id="wp-block-library-inline-css" type="text/css">
+.has-text-align-justify{text-align:justify;}
+</style><style class="darkreader darkreader--sync" media="screen"></style>
+<link rel="stylesheet" id="mediaelement-css" href="./PowerShell Multithreading_ A Deep Dive_files/mediaelementplayer-legacy.min.css" type="text/css" media="all"><style class="darkreader darkreader--sync" media="screen"></style>
+<link rel="stylesheet" id="wp-mediaelement-css" href="./PowerShell Multithreading_ A Deep Dive_files/wp-mediaelement.min.css" type="text/css" media="all"><style class="darkreader darkreader--sync" media="screen"></style>
+<link rel="stylesheet" id="mkaz-code-syntax-prism-css-css" href="./PowerShell Multithreading_ A Deep Dive_files/prism-a11y-dark.css" type="text/css" media="all"><style class="darkreader darkreader--sync" media="screen"></style>
+<link rel="stylesheet" id="novashare-css-css" href="./PowerShell Multithreading_ A Deep Dive_files/style.min(1).css" type="text/css" media="all"><style class="darkreader darkreader--sync" media="screen"></style>
+<link rel="stylesheet" id="pwp-offline-style-css" href="./PowerShell Multithreading_ A Deep Dive_files/ui-offline.css" type="text/css" media="all"><style class="darkreader darkreader--sync" media="screen"></style>
+<style id="wp-block-library-theme-inline-css" type="text/css">
+#start-resizable-editor-section{display:none}.wp-block-audio figcaption{color:#555;font-size:13px;text-align:center}.is-dark-theme .wp-block-audio figcaption{color:hsla(0,0%,100%,.65)}.wp-block-code{font-family:Menlo,Consolas,monaco,monospace;color:#1e1e1e;padding:.8em 1em;border:1px solid #ddd;border-radius:4px}.wp-block-embed figcaption{color:#555;font-size:13px;text-align:center}.is-dark-theme .wp-block-embed figcaption{color:hsla(0,0%,100%,.65)}.blocks-gallery-caption{color:#555;font-size:13px;text-align:center}.is-dark-theme .blocks-gallery-caption{color:hsla(0,0%,100%,.65)}.wp-block-image figcaption{color:#555;font-size:13px;text-align:center}.is-dark-theme .wp-block-image figcaption{color:hsla(0,0%,100%,.65)}.wp-block-pullquote{border-top:4px solid;border-bottom:4px solid;margin-bottom:1.75em;color:currentColor}.wp-block-pullquote__citation,.wp-block-pullquote cite,.wp-block-pullquote footer{color:currentColor;text-transform:uppercase;font-size:.8125em;font-style:normal}.wp-block-quote{border-left:.25em solid;margin:0 0 1.75em;padding-left:1em}.wp-block-quote cite,.wp-block-quote footer{color:currentColor;font-size:.8125em;position:relative;font-style:normal}.wp-block-quote.has-text-align-right{border-left:none;border-right:.25em solid;padding-left:0;padding-right:1em}.wp-block-quote.has-text-align-center{border:none;padding-left:0}.wp-block-quote.is-large,.wp-block-quote.is-style-large{border:none}.wp-block-search .wp-block-search__label{font-weight:700}.wp-block-group.has-background{padding:1.25em 2.375em;margin-top:0;margin-bottom:0}.wp-block-separator{border:none;border-bottom:2px solid;margin-left:auto;margin-right:auto;opacity:.4}.wp-block-separator:not(.is-style-wide):not(.is-style-dots){width:100px}.wp-block-separator.has-background:not(.is-style-dots){border-bottom:none;height:1px}.wp-block-separator.has-background:not(.is-style-wide):not(.is-style-dots){height:2px}.wp-block-table thead{border-bottom:3px solid}.wp-block-table tfoot{border-top:3px solid}.wp-block-table td,.wp-block-table th{padding:.5em;border:1px solid;word-break:normal}.wp-block-table figcaption{color:#555;font-size:13px;text-align:center}.is-dark-theme .wp-block-table figcaption{color:hsla(0,0%,100%,.65)}.wp-block-video figcaption{color:#555;font-size:13px;text-align:center}.is-dark-theme .wp-block-video figcaption{color:hsla(0,0%,100%,.65)}.wp-block-template-part.has-background{padding:1.25em 2.375em;margin-top:0;margin-bottom:0}#end-resizable-editor-section{display:none}
+</style><style class="darkreader darkreader--sync" media="screen"></style>
+<link rel="stylesheet" id="production-css" href="./PowerShell Multithreading_ A Deep Dive_files/styles.min.css" type="text/css" media="all"><style class="darkreader darkreader--sync" media="screen"></style>
+<link rel="stylesheet" id="jetpack_css-css" href="./PowerShell Multithreading_ A Deep Dive_files/jetpack.css" type="text/css" media="all"><style class="darkreader darkreader--sync" media="screen"></style>
+<script type="text/javascript" id="jetpack_related-posts-js-extra">
+/* <![CDATA[ */
+var related_posts_js_options = {"post_heading":"h4"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./PowerShell Multithreading_ A Deep Dive_files/related-posts.min.js.download" id="jetpack_related-posts-js"></script>
+<script type="text/javascript" src="./PowerShell Multithreading_ A Deep Dive_files/novashare.min.js.download" id="novashare-js-js"></script>
+<link rel="https://api.w.org/" href="https://adamtheautomator.com/wp-json/"><link rel="alternate" type="application/json" href="https://adamtheautomator.com/wp-json/wp/v2/posts/321"><link rel="alternate" type="application/json+oembed" href="https://adamtheautomator.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fadamtheautomator.com%2Fpowershell-multithreading%2F">
+<link rel="alternate" type="text/xml+oembed" href="https://adamtheautomator.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fadamtheautomator.com%2Fpowershell-multithreading%2F&amp;format=xml">
+<script type="text/javascript">var PwpJsVars = {"AjaxURL":"https:\/\/adamtheautomator.com\/wp-admin\/admin-ajax.php","homeurl":"https:\/\/adamtheautomator.com\/","installprompt":{"mode":"normal","pageloads":"2","onclick":""}};</script> <script type="text/javascript" id="serviceworker-unregister">
+			if ('serviceWorker' in navigator) {
+				navigator.serviceWorker.getRegistrations().then(function (registrations) {
+					registrations.forEach(function (registration) {
+						if (registration.active.scriptURL === window.location.origin + '/pwp-serviceworker.js') {
+							registration.unregister();
+						}
+					});
+				});
+			}
+		</script>
+<script type="text/javascript" id="serviceworker">
+			if (navigator.serviceWorker) {
+				window.addEventListener('load', function () {
+					navigator.serviceWorker.register(
+						"https:\/\/adamtheautomator.com\/?wp_service_worker=1", {"scope": "\/"}
+					);
+				});
+			}
+		</script>
+<link rel="manifest" href="https://adamtheautomator.com/wp-json/app/v1/pwp-manifest"><meta name="theme-color" content="#000000"><style type="text/css">img#wpstats{display:none}</style><style class="darkreader darkreader--sync" media="screen"></style>
+<script type="text/javascript">var postAuthor = "tyler";</script><link rel="icon" href="https://adamtheautomator.com/wp-content/uploads/2020/06/cropped-favicon-32x32.png" sizes="32x32">
+<link rel="icon" href="https://adamtheautomator.com/wp-content/uploads/2020/06/cropped-favicon-192x192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="https://adamtheautomator.com/wp-content/uploads/2020/06/cropped-favicon-180x180.png">
+<meta name="msapplication-TileImage" content="https://adamtheautomator.com/wp-content/uploads/2020/06/cropped-favicon-270x270.png">
+<script id="cls-disable-ads-05259ec">var cls_disable_ads=function(t){"use strict";function e(t){var e=window.location.href;return t.some((function(t){return new RegExp(t,"i").test(e)}))}var i=function(){function t(t){this.adthrive=t,this.all=!1,this.content=!1,this.recipe=!1,this.video=!1,this.locations=new Set,this.reasons=new Set,(this.urlHasEmail(window.location.href)||this.urlHasEmail(window.document.referrer))&&(this.all=!0,this.reasons.add("all_email"));try{this.checkCommandQueue(),null!==document.querySelector(".tag-novideo")&&(this.video=!0,this.locations.add("Video"),this.reasons.add("video_tag"))}catch(t){console.log(t)}}return t.prototype.checkCommandQueue=function(){var t=this;this.adthrive&&this.adthrive.cmd&&this.adthrive.cmd.forEach((function(e){var i=e.toString(),a=t.extractAPICall(i,"disableAds");a&&t.disableAllAds(t.extractPatterns(a));var n=t.extractAPICall(i,"disableContentAds");n&&t.disableContentAds(t.extractPatterns(n));var s=t.extractAPICall(i,"disablePlaylistPlayers");s&&t.disablePlaylistPlayers(t.extractPatterns(s))}))},t.prototype.extractPatterns=function(t){var e=t.match(/\'(.*?)\'/g);if(null!==e)return e.map((function(t){return t.replace(/'/g,"")}))},t.prototype.extractAPICall=function(t,e){var i=new RegExp(e+"\\((.*?)\\)","g"),a=t.match(i);return null!==a&&a[0]},t.prototype.disableAllAds=function(t){t&&!e(t)||(this.all=!0,this.reasons.add("all_page"))},t.prototype.disableContentAds=function(t){t&&!e(t)||(this.content=!0,this.recipe=!0,this.locations.add("Content"),this.locations.add("Recipe"),this.reasons.add("content_plugin"))},t.prototype.disablePlaylistPlayers=function(t){t&&!e(t)||(this.video=!0,this.locations.add("Video"),this.reasons.add("video_page"))},t.prototype.urlHasEmail=function(t){if(!t)return!1;return null!==t.match(/([A-Z0-9._%+-]+(@|%(25)*40)[A-Z0-9.-]+\.[A-Z]{2,})/i)},t}();return window.adthriveCLS&&(window.adthriveCLS.disableAds=new i(window.adthrive)),t.ClsDisableAds=i,t}({});
+</script> <style type="text/css" id="wp-custom-css">
+			code[class*="language-"], pre[class*="language-"] {
+	font-size: 0.9rem;
+}		</style><style class="darkreader darkreader--sync" media="screen"></style>
+<style type="text/css">.adthrive-ad{margin-top:10px;margin-bottom:10px;text-align:center;overflow-x:visible;clear:both;line-height:0}.jw-flag-small-player #next-stay-container{margin:0}.jw-flag-small-player #next-video,.jw-flag-small-player #stay-video{width:75px;height:30px;line-height:30px}#next-stay-container{bottom:25%;right:0;margin:12px;position:absolute}#next-video,#stay-video{box-shadow:0 0 10px rgba(0,0,0,.5);opacity:.9;width:100px;height:40px;line-height:40px;text-align:center;cursor:pointer;background-color:#333;color:#fff;margin:10px}#next-video{box-shadow:inset 0 0 0 0 #333;transition:box-shadow 5s linear}#next-stay-container.loaded #next-video{box-shadow:inset 100px 0 0 0 red}.adthrive-ad-cls{display:flex;justify-content:center;align-items:center;flex-wrap:wrap}.adthrive-ad-cls>div,.adthrive-ad-cls>iframe{flex-basis:100%}.adthrive-interstitial{margin-top:0;margin-bottom:0}.adthrive-native-recipe{display:inline-block}.adthrive-stuck.adthrive-sticky.adthrive-header,.adthrive-stuck.adthrive-sticky.adthrive-sidebar{position:fixed;top:0;z-index:9999}.adthrive-stuck.adthrive-header{margin-top:0}.adthrive-sticky.adthrive-footer{text-align:center;margin:0;width:100%;overflow:hidden;position:fixed;left:0;bottom:0;z-index:99999;background-color:hsla(0,0%,100%,.8);border-top:2px solid hsla(0,0%,88.2%,.8)}.adthrive-sticky.adthrive-footer>.adthrive-close{cursor:pointer;color:#b2b2b2;border:1px solid #b2b2b2;border-radius:20px;background:#fff;line-height:20px;display:inline-block;font-size:20px;font-family:arial,sans-serif;padding:0 5px;position:absolute;top:5px;right:5px}.adthrive-device-desktop .adthrive-sticky.adthrive-footer>.adthrive-close{top:10px;right:10px}#_inv_voicefive___{display:none}.adthrive-ccpa-link,.adthrive-footer-message,.adthrive-privacy-preferences{text-align:center;margin-top:5px}.adthrive-ccpa-link,.adthrive-ccpa-link span,.adthrive-footer-message span,.adthrive-privacy-preferences a{font-family:Arial,Helvetica Neue,Helvetica,sans-serif;font-size:13px;color:#b2b2b2}.adthrive-ccpa-link a{text-decoration:underline;cursor:pointer}.adthrive-device-phone .adthrive-footer-message{margin-bottom:60px}.adthrive-footer-message{margin-bottom:100px}.adthrive-footer-message>span{text-transform:uppercase;border-top:1px solid #b2b2b2;padding-top:5px}.adthrive-collapse-player{width:90%;border-top:1px solid #dbdbdb;border-bottom:1px solid #dbdbdb;padding:8px!important;margin-left:auto;margin-right:auto}.adthrive-player-position.adthrive-collapse-float{position:fixed;width:300px;z-index:2147483644}h3.adthrive-player-title{margin:10px 0}.adthrive-player-position.adthrive-collapse-float.adthrive-collapse-right{top:0;right:5px}.adthrive-player-position.adthrive-collapse-float.adthrive-collapse-bottom-right{bottom:100px;right:5px}.adthrive-player-position.adthrive-collapse-float.adthrive-collapse-bottom-left{bottom:100px;left:5px}.adthrive-player-position.adthrive-collapse-float>.adthrive-player-title{display:none}.adthrive-player-position.adthrive-collapse-sticky{padding-top:20px;padding-bottom:20px;position:fixed;z-index:9999}.adthrive-player-position.adthrive-collapse-sticky>.adthrive-player-title{display:none}.adthrive-player-position.adthrive-collapse-mobile{position:fixed;width:300px;z-index:99998}.adthrive-player-position.adthrive-collapse-mobile.adthrive-collapse-medium,.adthrive-player-position.adthrive-collapse-mobile.adthrive-collapse-small{width:272px}.adthrive-player-position.adthrive-collapse-mobile.adthrive-collapse-top-right{top:26px;right:10px}.adthrive-player-position.adthrive-collapse-mobile.adthrive-collapse-top-left{top:26px;left:5px}.adthrive-player-position.adthrive-collapse-mobile.adthrive-collapse-bottom-left{bottom:52px;left:5px}.adthrive-player-position.adthrive-collapse-mobile.adthrive-collapse-bottom-right{bottom:52px;right:10px}.adthrive-player-position.adthrive-collapse-mobile>.adthrive-player-title{display:none}.adthrive-sekindo-mobile-center{display:flex;flex-direction:row;justify-content:center;text-align:center}.adthrive-wrapper-close{margin-left:auto;margin-right:0;height:36px;min-width:36px;justify-content:center;align-items:center;font-size:36px;color:#fff}.adthrive-wrapper-float-close{float:right;display:none;margin-bottom:5px;cursor:pointer}.adthrive-wrapper-bar{display:none;background-color:#595959;font-family:Arial,Helvetica,sans-serif;border-top-left-radius:5px;border-top-right-radius:5px;height:36px}.adthrive-video-title{font-size:13px;font-weight:700;text-decoration:none;color:#fff}.adthrive-wrapper-title-wrapper{display:inline-flex;min-width:0;margin-left:10px;margin-right:10px;justify-content:center;align-items:center}.adthrive-video-text-cutoff{text-overflow:ellipsis;overflow:hidden;white-space:nowrap;color:#fff}.adthrive-wrapper-title-wrapper>a>svg,.adthrive-wrapper-title-wrapper>div>svg{vertical-align:middle;fill:#fff;margin-right:5px}.adthrive-wrapper-title-wrapper>a{text-decoration:none}</style><style class="darkreader darkreader--sync" media="screen"></style></head>
+<body data-rsssl="1" class="post-template-default single single-post postid-321 single-format-standard wp-embed-responsive bg-gray-100 font-sans leading-normal tracking-normal flex flex-col min-h-screen relative">
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K6C7SP6"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<input type="checkbox" id="offcanvas" class="toggle hidden">
+<div class="w-full bg-black h-12 sm:hidden fixed shadow-lg z-50">
+<label for="offcanvas" class="toggler text-white inline-block no-underline text-center avatar flex items-center h-full ml-6">
+<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="fill-current h-6" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z" data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;"></path></svg>
+<h1 class="inline-block text-white ml-20 font-bold">Adam the Automator</h1>
+</label>
+</div>
+<div class="nav-container fixed flex flex-col top-0 left-0 h-full sm:h-auto mx-0 z-50 sm:relative w-64 -ml-64 sm:w-auto sm:block bg-gray-700 sm:top-0 sm:bg-black sm:ml-0 sm:sticky">
+<label for="offcanvas" class="toggler text-white inline-block no-underline text-center avatar flex items-center p-4 sm:hidden">
+<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="fill-current h-6" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z" data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;"></path></svg>
+<span class="inline-block pl-4">Tap to hide</span>
+</label>
+<nav class="navigation-bar sm:mx-auto sm:max-w-screen-xl" role="navigation">
+<div class="flex flex-wrap sm:items-center w-full sm:mx-auto sm:rounded sm:shadow-lg pl-2 sm:pl-4 pr-2 sm:pr-4">
+<div class="flex text-md mr-auto w-full md:w-auto">
+<ul id="main-menu" class="list-reset flex flex-1 md:flex-none flex-col sm:flex-row sm:items-center"><li id="menu-item-2678" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-2678"><a href="https://adamtheautomator.com/" class="inline-block text-gray-300 no-underline hover:text-white hover:no-underline py-2 px-2 w-full md:w-auto">Home</a></li>
+<li id="menu-item-8599" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8599"><a href="https://adamtheautomator.com/the-ata-team/" class="inline-block text-gray-300 no-underline hover:text-white hover:no-underline py-2 px-2 w-full md:w-auto">The ATA Team</a></li>
+<li id="menu-item-2681" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2681"><a href="https://adamtheautomator.com/friends/" class="inline-block text-gray-300 no-underline hover:text-white hover:no-underline py-2 px-2 w-full md:w-auto">Get Paid to Write</a></li>
+<li id="menu-item-2679" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2679"><a href="https://adamtheautomator.com/advertising/" class="inline-block text-gray-300 no-underline hover:text-white hover:no-underline py-2 px-2 w-full md:w-auto">Advertising</a></li>
+<li id="menu-item-3686" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-3686"><a href="https://adamtheautomator.com/privacy/" class="inline-block text-gray-300 no-underline hover:text-white hover:no-underline py-2 px-2 w-full md:w-auto">Privacy Policy</a></li>
+<li id="menu-item-7408" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7408"><a href="https://adamtheautomator.com/sponsors/" class="inline-block text-gray-300 no-underline hover:text-white hover:no-underline py-2 px-2 w-full md:w-auto">Our Sponsors</a></li>
+<li id="menu-item-7325" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7325"><a href="https://adamtheautomator.com/resources/" class="inline-block text-gray-300 no-underline hover:text-white hover:no-underline py-2 px-2 w-full md:w-auto">Recommended Resources</a></li>
+</ul> </div>
+<form class="flex items-center pl-2 md:pl-0 pt-4 md:pt-0" role="search" method="get" action="https://adamtheautomator.com/">
+<label for="search-form-1">
+<span class="sr-only">Search for:</span>
+<input type="search" id="search-form-1" class="flex-1 appearance-none rounded-sm p-1 text-gray-600 focus:outline-none" placeholder="Search …" value="" name="s">
+</label>
+<input type="submit" class="sr-only" value="Search">
+</form>
+<div class="flex sm:justify-end content-center mr-2 pt-4 md:pt-0">
+<a class="inline-block text-gray-500 no-underline hover:text-white hover:text-underline text-center h-10 p-2 md:h-auto md:p-4 avatar flex items-center mr-2 md:mr-0" aria-label="Adam the Automator on Twitter" href="https://twitter.com/adbertram" target="_blank" rel="nofollow noopener">
+<svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="twitter" class="fill-current h-4" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z" data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;"></path></svg>
+</a>
+<a class="inline-block text-gray-500 no-underline hover:text-white hover:text-underline text-center h-10 p-2 md:h-auto md:p-4 avatar flex items-center mr-2 md:mr-0" aria-label="Adam the Automator on GitHub" href="https://github.com/adbertram" target="_blank" rel="nofollow noopener">
+<svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" class="fill-current h-4" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z" data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;"></path></svg>
+</a>
+<a class="inline-block text-gray-500 no-underline hover:text-white hover:text-underline text-center h-10 p-2 md:h-auto md:p-4 avatar flex items-center" aria-label="Adam the Automator on LinkedIn" href="https://linkedin.com/in/adambertram" target="_blank" rel="nofollow noopener">
+<svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="linkedin-in" class="fill-current h-4" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;"></path></svg>
+</a>
+<a class="inline-block text-gray-500 no-underline hover:text-white hover:text-underline text-center h-10 p-2 md:h-auto md:p-4 avatar flex items-center" aria-label="Adam the Automator RSS Feed" href="https://adamtheautomator.com/feed/" target="_blank">
+<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="rss" class="fill-current h-4" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z" data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;"></path></svg>
+</a>
+</div>
+</div>
+</nav>
+</div> <div id="wrapper" role="document" class="container max-w-screen-xl lg:max-w-screen-xl xl:max-w-screen-xl 2xl:max-w-screen-xl mx-auto flex-grow">
+<main role="main" id="main" class="w-full">
+<section class="flex flex-wrap flex-col">
+<header class="flex flex-col justify-center pt-6 sm:pt-0">
+<div class="post-meta m-auto pt-12 md:pt-24 text-sm uppercase tracking-wide text-blue-700 divide-x divide-blue-600 flex flex-wrap justify-center">
+<span class="post-meta__publish-date pr-2 pl-2">14 November 2019</span><a class="pl-2 pr-2" href="https://adamtheautomator.com/tag/powershell/">PowerShell</a> </div>
+<h2 class="text-2xl md:text-4xl font-bold text-center pb-12 md:pb-24 text-gray-900">PowerShell Multithreading: A Deep Dive</h2>
+<div class="post-header container h-full w-full mb-4 relative lg:w-full lg:h-auto">
+<figure class="post-header__cover-image lg:flex lg:flex-col lg:items-center lg:overflow-hidden lg:rounded-sm lg:w-full lg:h-auto">
+<link rel="preload" href="./PowerShell Multithreading_ A Deep Dive_files/juggler-1216853_1920-768x494.jpg" as="image" imagesrcset="https://adamtheautomator.com/wp-content/uploads/2019/11/juggler-1216853_1920-300x193.jpg 300w,
+                                        https://adamtheautomator.com/wp-content/uploads/2019/11/juggler-1216853_1920-768x494.jpg 600w,
+                                        https://adamtheautomator.com/wp-content/uploads/2019/11/juggler-1216853_1920-1024x658.jpg 1000w,
+                                        https://adamtheautomator.com/wp-content/uploads/2019/11/juggler-1216853_1920-1024x658.jpg 2000w" imagesizes="(max-width: 800px) 400px,
+                                        (max-width: 1170px) 700px,
+                                        1400px">
+<img class="post-header__image object-cover w-full" srcset="https://adamtheautomator.com/wp-content/uploads/2019/11/juggler-1216853_1920-300x193.jpg 300w,
+                                        https://adamtheautomator.com/wp-content/uploads/2019/11/juggler-1216853_1920-768x494.jpg 600w,
+                                        https://adamtheautomator.com/wp-content/uploads/2019/11/juggler-1216853_1920-1024x658.jpg 1000w,
+                                        https://adamtheautomator.com/wp-content/uploads/2019/11/juggler-1216853_1920-1024x658.jpg 2000w" sizes="(max-width: 800px) 400px,
+                                        (max-width: 1170px) 700px,
+                                        1400px" width="768" height="494" src="./PowerShell Multithreading_ A Deep Dive_files/juggler-1216853_1920-768x494.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+</figure>
+<div class="post-header__meta bg-gray-100 m-auto relative">
+<section class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-4 pl-4 pr-4 pb-6 lg:pl-24 pt-12 lg:pb-12 lg:pr-24 lg:-mt-24">
+<div class="author-card-author-container flex items-center">
+<img class="rounded-full avatar shadow-xl mr-4" loading="lazy" width="96" height="96" src="./PowerShell Multithreading_ A Deep Dive_files/09bd0e606f52451c1978d574f1788345.jpeg" alt="" decoding="async">
+<section class="author-card-content">
+<h3 class="author-card-name text-xl font-bold text-gray-800"><a href="https://adamtheautomator.com/author/tyler/">Tyler Muir</a></h3>
+<p class="author-card-readmore text-gray-700">Read <a href="https://adamtheautomator.com/author/tyler/">more posts</a> by this author.</p>
+</section>
+</div>
+<div class="author-card-meta flex items-start flex-col justify-center sm:m-auto">
+<div class="author-meta-details mb-2">
+<a class="flex flex-row items-center text-gray-900" href="https://twitter.com/ps_tylerm" target="_blank" rel="nofollow noopener"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="twitter" class="w-6 h-6 mr-4 svg-inline--fa fa-twitter fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z" data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;"></path></svg><span>ps_tylerm</span></a>
+</div>
+</div>
+</section>
+</div>
+</div>
+</header>
+<article id="post-321" class="post-content w-full grid leading-relaxed text-lg text-gray-600 font-serif p-2 mb-12 z-40 post-321 post type-post status-publish format-standard has-post-thumbnail hentry category-it-ops tag-powershell wp-sticky">
+<div class="article__container">
+<div class="article__content">
+<style>@media (max-width: 1200px) {
+							
+							
+						}</style><style class="darkreader darkreader--sync" media="screen"></style><style>body .novashare-buttons.novashare-inline .novashare-button-icon { width: 100%; }</style><style class="darkreader darkreader--sync" media="screen"></style><div class="novashare-buttons novashare-inline novashare-no-print"><div class="novashare-buttons-wrapper"><a href="https://twitter.com/intent/tweet?text=PowerShell%20Multithreading%3A%20A%20Deep%20Dive&amp;url=https%3A%2F%2Fadamtheautomator.com%2Fpowershell-multithreading%2F%3Futm_source%3Dtwitter%26utm_medium%3Dsocial%26utm_campaign%3Datawebsite&amp;via=adbertram" aria-label="Twitter" target="_blank" class="novashare-button twitter" rel="nofollow noopener noreferrer"><span class="novashare-button-wrapper novashare-button-block"><span class="novashare-button-icon novashare-button-block"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z" data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;"></path></svg></span><span class="novashare-button-label novashare-button-block novashare-hide"><span class="novashare-button-label-wrapper">Twitter</span></span></span></a><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fadamtheautomator.com%2Fpowershell-multithreading%2F%3Futm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Datawebsite" aria-label="Facebook" target="_blank" class="novashare-button facebook" rel="nofollow noopener noreferrer"><span class="novashare-button-wrapper novashare-button-block"><span class="novashare-button-icon novashare-button-block"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z" data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;"></path></svg></span><span class="novashare-button-label novashare-button-block novashare-hide"><span class="novashare-button-label-wrapper">Facebook</span></span></span></a><a href="https://www.linkedin.com/shareArticle?title=PowerShell%20Multithreading%3A%20A%20Deep%20Dive&amp;url=https%3A%2F%2Fadamtheautomator.com%2Fpowershell-multithreading%2F%3Futm_source%3Dlinkedin%26utm_medium%3Dsocial%26utm_campaign%3Datawebsite&amp;mini=true" aria-label="LinkedIn" target="_blank" class="novashare-button linkedin" rel="nofollow noopener noreferrer"><span class="novashare-button-wrapper novashare-button-block"><span class="novashare-button-icon novashare-button-block"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;"></path></svg></span><span class="novashare-button-label novashare-button-block novashare-hide"><span class="novashare-button-label-wrapper">LinkedIn</span></span></span></a></div></div>
+<p>At some point, most people will run into a problem that a basic PowerShell script is just too slow to solve. This could be collecting data from lots of computers on your network or perhaps creating a ton of new users in Active Directory at once. These are both great examples of where using more processing power would get your code to run faster. Let’s get into how to solve this using PowerShell multithreading!</p>
+<p>The default PowerShell session is single-threaded. It runs one command and when it finishes, it moves to the next command. This is nice as it keeps everything repeatable and does not use many resources. But what if the actions it’s performing aren’t dependent on one another and you have the CPU resources to spare? In that case, it’s time to start thinking about multithreading.</p>
+<p>In this article, you’re going to learn how to understand and use various PowerShell multithreading techniques to process multiple data streams at the same time but managed through the same console.</p>
+<div id="ez-toc-container" class="ez-toc-v2_0_17 counter-hierarchy counter-decimal ez-toc-transparent">
+<div class="ez-toc-title-container">
+<p class="ez-toc-title">Table of Contents</p>
+<span class="ez-toc-title-toggle"></span></div>
+<nav><ul class="ez-toc-list ez-toc-list-level-1"><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-1" href="https://adamtheautomator.com/powershell-multithreading/#Understanding_PowerShell_Multithreading" title="Understanding PowerShell Multithreading">Understanding PowerShell Multithreading</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-2" href="https://adamtheautomator.com/powershell-multithreading/#Prerequisites_for_PowerShell_Multithreading" title="Prerequisites for PowerShell Multithreading">Prerequisites for PowerShell Multithreading</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-3" href="https://adamtheautomator.com/powershell-multithreading/#Priority_1_Fix_Your_Code" title="Priority #1: Fix Your Code!">Priority #1: Fix Your Code!</a><ul class="ez-toc-list-level-3"><li class="ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-4" href="https://adamtheautomator.com/powershell-multithreading/#Identify_Bottlenecks" title="Identify Bottlenecks">Identify Bottlenecks</a></li><li class="ez-toc-page-1 ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-5" href="https://adamtheautomator.com/powershell-multithreading/#Using_Thread-Safe_Code" title="Using Thread-Safe Code">Using Thread-Safe Code</a></li></ul></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-6" href="https://adamtheautomator.com/powershell-multithreading/#Parallel_Execution_with_PSJobs" title="Parallel Execution with PSJobs">Parallel Execution with PSJobs</a><ul class="ez-toc-list-level-3"><li class="ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-7" href="https://adamtheautomator.com/powershell-multithreading/#Keeping_Track_of_Your_Jobs" title="Keeping Track of Your Jobs">Keeping Track of Your Jobs</a></li><li class="ez-toc-page-1 ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-8" href="https://adamtheautomator.com/powershell-multithreading/#Creating_New_Jobs" title="Creating New Jobs">Creating New Jobs</a></li><li class="ez-toc-page-1 ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-9" href="https://adamtheautomator.com/powershell-multithreading/#Retrieving_Job_Output" title="Retrieving Job Output">Retrieving Job Output</a></li><li class="ez-toc-page-1 ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-10" href="https://adamtheautomator.com/powershell-multithreading/#Creating_Scheduled_Jobs" title="Creating Scheduled Jobs">Creating Scheduled Jobs</a><ul class="ez-toc-list-level-4"><li class="ez-toc-heading-level-4"><a class="ez-toc-link ez-toc-heading-11" href="https://adamtheautomator.com/powershell-multithreading/#Job_Triggers" title="Job Triggers">Job Triggers</a></li><li class="ez-toc-page-1 ez-toc-heading-level-4"><a class="ez-toc-link ez-toc-heading-12" href="https://adamtheautomator.com/powershell-multithreading/#Demo" title="Demo">Demo</a></li></ul></li><li class="ez-toc-page-1 ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-13" href="https://adamtheautomator.com/powershell-multithreading/#Leveraging_the_AsJob_Parameter" title="Leveraging the AsJob Parameter">Leveraging the AsJob Parameter</a></li></ul></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-14" href="https://adamtheautomator.com/powershell-multithreading/#Runspaces_Kinda_Like_Jobs_but_Faster" title="Runspaces: Kinda Like Jobs but Faster!">Runspaces: Kinda Like Jobs but Faster!</a><ul class="ez-toc-list-level-3"><li class="ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-15" href="https://adamtheautomator.com/powershell-multithreading/#Runspace_vs_PSJobs" title="Runspace vs PSJobs">Runspace vs PSJobs</a></li><li class="ez-toc-page-1 ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-16" href="https://adamtheautomator.com/powershell-multithreading/#Running_Runspaces_A_Walkthrough" title="Running Runspaces: A Walkthrough">Running Runspaces: A Walkthrough</a><ul class="ez-toc-list-level-4"><li class="ez-toc-heading-level-4"><a class="ez-toc-link ez-toc-heading-17" href="https://adamtheautomator.com/powershell-multithreading/#Create_the_Runspace" title="Create the Runspace">Create the Runspace</a></li><li class="ez-toc-page-1 ez-toc-heading-level-4"><a class="ez-toc-link ez-toc-heading-18" href="https://adamtheautomator.com/powershell-multithreading/#Execute_the_Runspace" title="Execute the Runspace">Execute the Runspace</a></li></ul></li><li class="ez-toc-page-1 ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-19" href="https://adamtheautomator.com/powershell-multithreading/#Using_Runspace_Pools" title="Using Runspace Pools">Using Runspace Pools</a><ul class="ez-toc-list-level-4"><li class="ez-toc-heading-level-4"><a class="ez-toc-link ez-toc-heading-20" href="https://adamtheautomator.com/powershell-multithreading/#Runspace_Pool_Speed_Demonstration" title="Runspace Pool Speed Demonstration">Runspace Pool Speed Demonstration</a></li></ul></li><li class="ez-toc-page-1 ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-21" href="https://adamtheautomator.com/powershell-multithreading/#Creating_Runspace_Pools" title="Creating Runspace Pools">Creating Runspace Pools</a></li><li class="ez-toc-page-1 ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-22" href="https://adamtheautomator.com/powershell-multithreading/#Comparing_Runspaces_and_Runspace_Pools_for_Speed" title="Comparing Runspaces and Runspace Pools for Speed">Comparing Runspaces and Runspace Pools for Speed</a></li></ul></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-23" href="https://adamtheautomator.com/powershell-multithreading/#Easing_into_Runspaces_with_PoshRSJob" title="Easing into Runspaces with PoshRSJob">Easing into Runspaces with PoshRSJob</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-24" href="https://adamtheautomator.com/powershell-multithreading/#Foreach-Object_-Parallel" title="Foreach-Object -Parallel">Foreach-Object -Parallel</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-25" href="https://adamtheautomator.com/powershell-multithreading/#Challenges_with_Multi-Threading" title="Challenges with Multi-Threading">Challenges with Multi-Threading</a><ul class="ez-toc-list-level-3"><li class="ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-26" href="https://adamtheautomator.com/powershell-multithreading/#Using_Variables" title="Using Variables">Using Variables</a></li><li class="ez-toc-page-1 ez-toc-heading-level-3"><a class="ez-toc-link ez-toc-heading-27" href="https://adamtheautomator.com/powershell-multithreading/#Logging" title="Logging">Logging</a></li></ul></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-28" href="https://adamtheautomator.com/powershell-multithreading/#Summary" title="Summary">Summary</a></li><li class="ez-toc-page-1 ez-toc-heading-level-2"><a class="ez-toc-link ez-toc-heading-29" href="https://adamtheautomator.com/powershell-multithreading/#Further_Reading" title="Further Reading">Further Reading</a></li></ul></nav></div>
+<h2 id="understanding-powershell-multithreading"><span class="ez-toc-section" id="Understanding_PowerShell_Multithreading"></span>Understanding PowerShell Multithreading<span class="ez-toc-section-end"></span></h2>
+<p>Multithreading is a way to run more than one command at a time. Where PowerShell normally uses a single thread, there are many ways to use more than one to parallelize your code.</p>
+<p>The primary benefit of multithreading is to decrease the runtime of the code. This time decrease is at the tradeoff a higher processing power requirement. When multithreading, many actions are being performed at once thus requiring more system resources.</p>
+<p>For example, what if you wanted to create one new user in Active Directory? In this example, there isn’t anything to multithread because only one command is being run. This all changes when you want to create 1000 new users.</p>
+<p>Without multithreading, you would run the <code><a class="wpil_keyword_link" href="https://adamtheautomator.com/new-aduser/" title="New-ADUser" data-wpil-keyword-link="linked">New-ADUser</a></code> command 1000 times to create all of the users. Perhaps it takes three seconds to create a new user. To create all 1000 users, it would take just under an hour. Instead of using one thread for 1000 commands, you could instead use 100 threads each running ten commands each. Now instead of taking about 50 minutes, you are down to under a minute!</p>
+<blockquote class="wp-block-quote"><p><em>Note that you will not see perfect scaling. The act of spinning up and tearing down items in code, will take some time. Using a single thread, PowerShell needs to run the code and it’s done. With multiple threads, the original thread used to run your console will be used to manage the other threads. At a certain point that original thread will be maxed out just keeping all of the other threads in line.</em></p></blockquote>
+<h2 id="prerequisites-for-multithreading"><span class="ez-toc-section" id="Prerequisites_for_PowerShell_Multithreading"></span>Prerequisites for PowerShell Multithreading<span class="ez-toc-section-end"></span></h2>
+<p>You’re going to learn how PowerShell multithreading works hands-on in this article. If you’d like to follow along, below are a few things that you will need and some details about the environment that is being used.</p>
+<ul><li>Windows <a href="https://adamtheautomator.com/powershell-version/">PowerShell version</a> 3 or higher – Everything unless explicitly stated, all code demonstrated will work in Windows PowerShell version 3 or higher. Windows PowerShell version 5.1 will be used for the examples.</li><li>Spare CPU and memory – You will need at least a little extra CPU and memory to parallelize with PowerShell. If you do not have this available, you may not see any performance benefit.</li></ul>
+<h2 id="priority-1-fix-your-code-"><span class="ez-toc-section" id="Priority_1_Fix_Your_Code"></span>Priority #1: Fix Your Code!<span class="ez-toc-section-end"></span></h2>
+<p>Before you dive into speeding up your scripts with PowerShell multithreading, there are a few pieces of prep work you will want to complete. First is to optimize your code.</p>
+<p>While you can throw more resources at your code to get it running faster, multithreading does bring a lot of extra complexity. If there are ways for you to speed up your code before multithreading, they should be done first.</p>
+<h3 id="identify-bottlenecks"><span class="ez-toc-section" id="Identify_Bottlenecks"></span>Identify Bottlenecks<span class="ez-toc-section-end"></span></h3>
+<p>One of the first steps in parallelizing your code is to find out what is slowing it down. The code could be slow because of bad logic or extra loops where you can make some modifications to allow for faster execution before multithreading.</p>
+<p>An example of a common way to speed up your code is to shift your filtering left. If you are interacting with a bunch of data, any filtering you want to allow to lessen the amount of data should be done as early as possible. Below is an example of some code to get the amount of CPU used by the <em>svchost</em> process.</p>
+<p>The below example is reading all running processes then filtering out a single process (<em>svchost</em>). It is then selecting the CPU property and then ensuring that value is not null.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell">PS51&gt; <span class="token function">Get-Process</span> <span class="token punctuation">|</span> <span class="token function">Where-Object</span> <span class="token punctuation">{</span><span class="token variable">$_</span><span class="token punctuation">.</span>ProcessName <span class="token operator">-eq</span> <span class="token string">'svchost'</span><span class="token punctuation">}</span> <span class="token punctuation">|</span> 
+	<span class="token function">Select-Object</span> CPU <span class="token punctuation">|</span> <span class="token function">Where-Object</span> <span class="token punctuation">{</span><span class="token variable">$_</span><span class="token punctuation">.</span>CPU <span class="token operator">-ne</span> <span class="token variable">$null</span><span class="token punctuation">}</span></code></pre>
+<p>Compare the code above to the below example. Below is another example of code that has the same output but is arranged differently. Notice that the code below is simpler and shift all of the logic possible to the left of the pipe symbol. This prevents <code>Get-Process</code> from returning processes you don’t care about.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell">PS51&gt; <span class="token function">Get-Process</span> <span class="token operator">-</span>Name <span class="token string">'svchost'</span> <span class="token punctuation">|</span> <span class="token function">Where-Object</span> <span class="token punctuation">{</span><span class="token variable">$_</span><span class="token punctuation">.</span>CPU <span class="token operator">-ne</span> <span class="token variable">$null</span><span class="token punctuation">}</span> <span class="token punctuation">|</span> 
+	<span class="token function">Select-Object</span> CPU</code></pre>
+<p>Below is the time difference for running the two lines from above. While the 117ms difference won’t be noticeable if you only ran this code once, it would start to add up if run thousands of times.</p>
+<div class="wp-block-image"><figure class="aligncenter size-large"><img loading="lazy" width="1024" height="624" src="./PowerShell Multithreading_ A Deep Dive_files/thousand-of-times-1024x624.png" alt="time difference for running the two lines from above" class="wp-image-3230" srcset="https://adamtheautomator.com/wp-content/uploads/2020/06/thousand-of-times-1024x624.png 1024w, https://adamtheautomator.com/wp-content/uploads/2020/06/thousand-of-times-300x183.png 300w, https://adamtheautomator.com/wp-content/uploads/2020/06/thousand-of-times-768x468.png 768w, https://adamtheautomator.com/wp-content/uploads/2020/06/thousand-of-times-1536x936.png 1536w, https://adamtheautomator.com/wp-content/uploads/2020/06/thousand-of-times.png 1567w" sizes="(max-width: 1024px) 100vw, 1024px"><figcaption>time difference for running the two lines from above</figcaption></figure></div>
+<h3 id="using-thread-safe-code"><span class="ez-toc-section" id="Using_Thread-Safe_Code"></span>Using Thread-Safe Code<span class="ez-toc-section-end"></span></h3>
+<p>Next, make sure your code is “thread-safe”. The term “thread-safe” refers to if one thread is running code, another thread can be running the same code at the same time and not cause a conflict.</p>
+<p>For example, writing to the same file in two different threads is not thread-safe since it will not know what to add to the file first. Whereas two threads reading from a file is thread-safe since the file isn’t being changed. Both threads get the same output.</p>
+<p>The problem with PowerShell multithreading code that is not thread-safe is that you may get inconsistent results. Sometimes it may work fine due to the threads just happening to time it right to not cause a conflict. Other times, you will have a conflict and it will make troubleshooting the issue difficult due to the inconsistent errors.</p>
+<p>If you are only running two or three jobs at a time they may just happen to line up just right where they are all writing to the file at different times. Then when you scale the code up to 20 or 30 jobs, the likelihood of not having at least two of the jobs try to write at the same time goes way down.</p>
+<h2 id="parallel-execution-with-psjobs"><span class="ez-toc-section" id="Parallel_Execution_with_PSJobs"></span>Parallel Execution with PSJobs<span class="ez-toc-section-end"></span></h2>
+<p>One of the easiest ways to multithread a script is with <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_jobs" target="_blank" rel="noopener">PSJobs</a>. PSJobs have cmdlets built into the <em>Microsoft.PowerShell.Core</em> module. The <em>Microsoft.PowerShell.Core</em> module is included in all versions of PowerShell since version 3. Commands in this module allow you to run code in the background while continuing to run different code in the foreground. You can see all of the available commands below.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell">PS51&gt; <span class="token function">Get-Command</span> <span class="token operator">*</span><span class="token operator">-</span>Job</code></pre>
+<div class="wp-block-image"><figure class="aligncenter size-large"><img loading="lazy" width="1024" height="302" src="./PowerShell Multithreading_ A Deep Dive_files/commands-below-1024x302.png" alt="Get-Command *-Job output" class="wp-image-3231" srcset="https://adamtheautomator.com/wp-content/uploads/2020/06/commands-below-1024x302.png 1024w, https://adamtheautomator.com/wp-content/uploads/2020/06/commands-below-300x88.png 300w, https://adamtheautomator.com/wp-content/uploads/2020/06/commands-below-768x227.png 768w, https://adamtheautomator.com/wp-content/uploads/2020/06/commands-below.png 1407w" sizes="(max-width: 1024px) 100vw, 1024px"><figcaption>Get-Command *-Job output</figcaption></figure></div>
+<h3 id="keeping-track-of-your-jobs"><span class="ez-toc-section" id="Keeping_Track_of_Your_Jobs"></span>Keeping Track of Your Jobs<span class="ez-toc-section-end"></span></h3>
+<p>All PSJobs are in one of <a href="https://docs.microsoft.com/en-us/dotnet/api/system.management.automation.jobstate" target="_blank" rel="noopener">eleven states</a>. These states are how PowerShell manages the jobs.</p>
+<p>Below you’ll find a list of the most common states a job can be in.</p>
+<ul><li><strong>Completed</strong> – The job has finished and the output data can be retrieved or the job can be removed.</li><li><strong>Running</strong> – The job is currently running and cannot be removed without force stopping the job. Output also cannot be retrieved yet.</li><li><strong>Blocked</strong> – The job is still running, but the host is being prompted for information before it can proceed.</li><li><strong>Failed</strong> – A terminating error occurred during the execution of the job.</li></ul>
+<p>To get the status of a job that has been started, you use the <code>Get-Job</code> command. This command gets all of the attributes of your jobs.</p>
+<p>Below is the output for a job where you can see the state is <em>Completed.</em> The example below is executing the code <code><a href="https://adamtheautomator.com/start-sleep/">Start-Sleep</a> 5</code> within a job using the <code>Start-Job</code> command. The status of that job is then being returned using the <code>Get-Job</code> command.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell">PS51&gt; <span class="token function">Start-Job</span> <span class="token operator">-</span>Scriptblock <span class="token punctuation">{</span><span class="token function">Start-Sleep</span> 5<span class="token punctuation">}</span>
+PS51&gt; <span class="token function">Get-Job</span></code></pre>
+<div class="wp-block-image"><figure class="aligncenter size-large"><img loading="lazy" width="1024" height="126" src="./PowerShell Multithreading_ A Deep Dive_files/using-the-command-1024x126.png" alt="Get-Job output" class="wp-image-3232" srcset="https://adamtheautomator.com/wp-content/uploads/2020/06/using-the-command-1024x126.png 1024w, https://adamtheautomator.com/wp-content/uploads/2020/06/using-the-command-300x37.png 300w, https://adamtheautomator.com/wp-content/uploads/2020/06/using-the-command-768x95.png 768w, https://adamtheautomator.com/wp-content/uploads/2020/06/using-the-command.png 1419w" sizes="(max-width: 1024px) 100vw, 1024px"><figcaption>Get-Job output</figcaption></figure></div>
+<p>When the job status returns <em>Completed</em>, this means that the code in the scriptblock run and is finished executing. You can also see that the <code>HasMoreData</code> property is <code>False</code>. This means there was no output to provide after the job finished.</p>
+<p>Below is an example of some of the other states used for describing jobs. You can see from the <code>Command</code> column that what may have caused some of these jobs to not complete such as trying to sleep for <em><code>abc</code></em> seconds resulted in a failed job.</p>
+<div class="wp-block-image"><figure class="aligncenter size-large"><img loading="lazy" width="1024" height="182" src="./PowerShell Multithreading_ A Deep Dive_files/failed-job-1024x182.png" alt="All jobs" class="wp-image-3233" srcset="https://adamtheautomator.com/wp-content/uploads/2020/06/failed-job-1024x182.png 1024w, https://adamtheautomator.com/wp-content/uploads/2020/06/failed-job-300x53.png 300w, https://adamtheautomator.com/wp-content/uploads/2020/06/failed-job-768x136.png 768w, https://adamtheautomator.com/wp-content/uploads/2020/06/failed-job.png 1481w" sizes="(max-width: 1024px) 100vw, 1024px"><figcaption>All jobs</figcaption></figure></div>
+<h3 id="creating-new-jobs"><span class="ez-toc-section" id="Creating_New_Jobs"></span>Creating New Jobs<span class="ez-toc-section-end"></span></h3>
+<p>As you saw above, the <code>Start-Job</code> command allows you to create a new job that start executing code in the job. When you create a job, you provide a scriptblock that is used for the job. The PSJob then creates a job with a unique ID number and starts running the job.</p>
+<p>The main benefit here is that it takes less time to run the <code>Start-Job</code> command than it does to run the scriptblock we are using. You can see in the below image that instead of the command taking five seconds to complete, it only took .15 seconds to start the job.</p>
+<div class="wp-block-image"><figure class="aligncenter size-large"><img loading="lazy" width="1024" height="372" src="./PowerShell Multithreading_ A Deep Dive_files/start-the-job-1024x372.png" alt="How long it takes to create a job" class="wp-image-3234" srcset="https://adamtheautomator.com/wp-content/uploads/2020/06/start-the-job-1024x372.png 1024w, https://adamtheautomator.com/wp-content/uploads/2020/06/start-the-job-300x109.png 300w, https://adamtheautomator.com/wp-content/uploads/2020/06/start-the-job-768x279.png 768w, https://adamtheautomator.com/wp-content/uploads/2020/06/start-the-job.png 1187w" sizes="(max-width: 1024px) 100vw, 1024px"><figcaption>How long it takes to create a job</figcaption></figure></div>
+<p>The reason that it was able to run the same code in a fraction of the time was because it was running in the background as a PSJob. It took .15 seconds to set up and start running the code in the background instead of running it in the foreground and actually sleeping for five seconds.</p>
+<h3 id="retrieving-job-output"><span class="ez-toc-section" id="Retrieving_Job_Output"></span>Retrieving Job Output<span class="ez-toc-section-end"></span></h3>
+<p>Sometimes the code inside of the job returns output. You can retrieve the output of that code using the &nbsp;<code>Receive-Job</code> command. The <code>Receive-Job</code> command accepts a PSJob as the input and then writes the output of the job to the console. Anything that was output by the job while it was running has been stored so that when the job is retrieved it outputs all of what was stored at that time.</p>
+<p>An example of this would be running the code below. This will create and start a job that will write <em>Hello World</em> to the output. It then retrieves the output from the job and outputs it to the console.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token variable">$Job</span> = <span class="token function">Start-Job</span> <span class="token operator">-</span>ScriptBlock <span class="token punctuation">{</span><span class="token function">Write-Output</span> <span class="token string">'Hello World'</span><span class="token punctuation">}</span>
+<span class="token function">Receive-Job</span> <span class="token variable">$Job</span></code></pre>
+<div class="wp-block-image"><figure class="aligncenter size-large"><img loading="lazy" width="1024" height="93" src="./PowerShell Multithreading_ A Deep Dive_files/into-the-console-1024x93.png" alt="Receive-Job output" class="wp-image-3235" srcset="https://adamtheautomator.com/wp-content/uploads/2020/06/into-the-console-1024x93.png 1024w, https://adamtheautomator.com/wp-content/uploads/2020/06/into-the-console-300x27.png 300w, https://adamtheautomator.com/wp-content/uploads/2020/06/into-the-console-768x70.png 768w, https://adamtheautomator.com/wp-content/uploads/2020/06/into-the-console.png 1261w" sizes="(max-width: 1024px) 100vw, 1024px"><figcaption>Receive-Job output</figcaption></figure></div>
+<h3 id="creating-scheduled-jobs"><span class="ez-toc-section" id="Creating_Scheduled_Jobs"></span>Creating Scheduled Jobs<span class="ez-toc-section-end"></span></h3>
+<p>Another way you can interact with PSJobs is through a <a href="https://docs.microsoft.com/en-us/powershell/module/psscheduledjob/about/about_scheduled_jobs" target="_blank" rel="noopener">scheduled job</a>. Scheduled jobs are similar to a Windows scheduled task that can be configured with <em>Task Scheduler</em>. Scheduled jobs create a way to schedule complex PowerShell scriptblocks easily in a scheduled task. Using a scheduled job, you can run a PSJob in the background based on triggers.</p>
+<h4 id="job-triggers"><span class="ez-toc-section" id="Job_Triggers"></span>Job Triggers<span class="ez-toc-section-end"></span></h4>
+<p>Job triggers can be things like a specific time, when a user logs on, when the system boots and many others. You can also have the triggers repeat at intervals. All of these triggers are defined with the <code>New-JobTrigger</code> command. This command is used to specify a trigger that will run the scheduled job. A scheduled job without a trigger has to be run manually, but each job can have many triggers.</p>
+<p>In addition to having a trigger, you would still have a script block just like what is used with a normal PSJob. One you have both the trigger and script block, you’d use the <code>Register-ScheduledJob</code> command to create the job like what is shown in the next section. This command is used to specify attributes of the scheduled job like the scriptblock that is going to be run and triggers created with the <code>New-JobTrigger</code> command.</p>
+<h4 id="demo"><span class="ez-toc-section" id="Demo"></span>Demo<span class="ez-toc-section-end"></span></h4>
+<p>Perhaps you need some PowerShell code to run every time someone logs into a computer. You can create a scheduled job for this.</p>
+<p>To do this, you’d first define a trigger using <code>New-JobTrigger</code> and define the scheduled job like what is shown below. This scheduled job will write a line to a log file every time someone logs in.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token variable">$Trigger</span> = <span class="token function">New-JobTrigger</span> <span class="token operator">-</span>AtLogon
+<span class="token variable">$Script</span> = <span class="token punctuation">{</span><span class="token string">"User <span class="token variable">$env</span>:USERNAME logged in at <span class="token function">$<span class="token punctuation">(</span><span class="token function">Get-Date</span> <span class="token operator">-</span>Format <span class="token string">'y-M-d H:mm:ss'</span><span class="token punctuation">)</span></span>"</span> <span class="token punctuation">|</span> <span class="token function">Out-File</span> <span class="token operator">-</span>FilePath C:\Temp\Login<span class="token punctuation">.</span>log <span class="token operator">-</span>Append<span class="token punctuation">}</span>
+
+<span class="token function">Register-ScheduledJob</span> <span class="token operator">-</span>Name Log_Login <span class="token operator">-</span>ScriptBlock <span class="token variable">$Script</span> <span class="token operator">-</span>Trigger <span class="token variable">$Trigger</span></code></pre>
+<p>Once you run the above commands you will get an output similar to when creating a new job that will show the job ID, the scriptblock and some other attributes as shown below.</p>
+<div class="wp-block-image"><figure class="aligncenter size-large"><img loading="lazy" width="1024" height="190" src="./PowerShell Multithreading_ A Deep Dive_files/as-shown-below-1024x190.png" alt="Registering a scheduled job" class="wp-image-3236" srcset="https://adamtheautomator.com/wp-content/uploads/2020/06/as-shown-below-1024x190.png 1024w, https://adamtheautomator.com/wp-content/uploads/2020/06/as-shown-below-300x56.png 300w, https://adamtheautomator.com/wp-content/uploads/2020/06/as-shown-below-768x143.png 768w, https://adamtheautomator.com/wp-content/uploads/2020/06/as-shown-below-1536x286.png 1536w, https://adamtheautomator.com/wp-content/uploads/2020/06/as-shown-below.png 1565w" sizes="(max-width: 1024px) 100vw, 1024px"><figcaption>Registering a scheduled job</figcaption></figure></div>
+<p>After a few login attempts, you can see from the below screenshot that it has logged the attempts.</p>
+<div class="wp-block-image"><figure class="aligncenter size-large"><img loading="lazy" width="829" height="295" src="./PowerShell Multithreading_ A Deep Dive_files/logged-the-attempts.png" alt="Example login.log text file" class="wp-image-3237" srcset="https://adamtheautomator.com/wp-content/uploads/2020/06/logged-the-attempts.png 829w, https://adamtheautomator.com/wp-content/uploads/2020/06/logged-the-attempts-300x107.png 300w, https://adamtheautomator.com/wp-content/uploads/2020/06/logged-the-attempts-768x273.png 768w" sizes="(max-width: 829px) 100vw, 829px"><figcaption>Example login.log text file</figcaption></figure></div>
+<h3 id="leveraging-the-asjob-parameter"><span class="ez-toc-section" id="Leveraging_the_AsJob_Parameter"></span>Leveraging the <code>AsJob</code> Parameter<span class="ez-toc-section-end"></span></h3>
+<p>Another way to use jobs is to use the <code>AsJob</code> parameter that is built in to many PowerShell commands. Since there are many different commands, you can find all of them using <code>Get-Command</code> as shown below.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell">PS51&gt; <span class="token function">Get-Command</span> <span class="token operator">-</span>ParameterName AsJob</code></pre>
+<p>One of the most prevalent commands is <code><a href="https://adamtheautomator.com/invoke-command/">Invoke-Command</a></code>. Normally, when you run this command it will start executing a command immediately. While some commands will immediately return, allowing you to continue on with what you were doing, some will wait until the command is finished.</p>
+<p>Using the <code>AsJob</code> parameter does exactly what it sounds like and runs the executed command as a job instead of running it synchronously in the console.</p>
+<p>While most of the time <code>AsJob</code> can be used with the local machine, <code>Invoke-Command</code> does not have a native option to run on local machine. There is a workaround by using <em>Localhost</em> as the <code>ComputerName</code> parameter value. Below is an example of this workaround.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell">PS51&gt; <span class="token function">Invoke-Command</span> <span class="token operator">-</span>ScriptBlock <span class="token punctuation">{</span><span class="token function">Start-Sleep</span> 5<span class="token punctuation">}</span> <span class="token operator">-</span>ComputerName localhost</code></pre>
+<p>To show the <code>AsJob</code> &nbsp;parameter in action, the below example uses <code>Invoke-Command</code> to sleep for five seconds and then repeat the same command using <code>AsJob</code> to show the difference in execution times.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell">PS51&gt; <span class="token function">Measure-Command</span> <span class="token punctuation">{</span><span class="token function">Invoke-Command</span> <span class="token operator">-</span>ScriptBlock <span class="token punctuation">{</span><span class="token function">Start-Sleep</span> 5<span class="token punctuation">}</span><span class="token punctuation">}</span>
+PS51&gt; <span class="token function">Measure-Command</span> <span class="token punctuation">{</span><span class="token function">Invoke-Command</span> <span class="token operator">-</span>ScriptBlock <span class="token punctuation">{</span><span class="token function">Start-Sleep</span> 5<span class="token punctuation">}</span> <span class="token operator">-</span>AsJob <span class="token operator">-</span>ComputerName localhost<span class="token punctuation">}</span></code></pre>
+<div class="wp-block-image"><figure class="aligncenter"><img src="./PowerShell Multithreading_ A Deep Dive_files/image6_-1-.webp" alt="Comparing speed of jobs"><figcaption>Comparing speed of jobs</figcaption></figure></div>
+<h2 id="runspaces-kinda-like-jobs-but-faster-"><span class="ez-toc-section" id="Runspaces_Kinda_Like_Jobs_but_Faster"></span>Runspaces: Kinda Like Jobs but Faster!<span class="ez-toc-section-end"></span></h2>
+<p>Up until now, you have been learning about ways to use additional threads with PowerShell only using the built in commands. Another option to multithread your script is to use a separate runspace.</p>
+<p><a href="https://docs.microsoft.com/en-us/dotnet/api/system.management.automation.runspaces.runspace" target="_blank" rel="noopener">Runspaces</a> are the enclosed area that the thread(s) running PowerShell operate within. While the runspace that is used with the PowerShell console is restricted to a single thread, you can use additional runspaces to allow for use of additional threads.</p>
+<h3 id="runspace-vs-psjobs"><span class="ez-toc-section" id="Runspace_vs_PSJobs"></span>Runspace vs PSJobs<span class="ez-toc-section-end"></span></h3>
+<p>While a runspace and a PSJob share many similarities, there are some big differences in performance. The biggest difference in runspaces and PSjobs is the time it takes to set up and break down each one.</p>
+<p>In the example from the previous section, the PSjob created took about 150ms to bring up. This is about a best-case since the scriptblock for the job didn’t include much code at all and there were no additional variables being passed to the job.</p>
+<p>In contrast to the PSJob creation, a runspace is created ahead of time. The majority of the time it takes to spin up a runspace job is handled before any code has been added.</p>
+<p>Below is an example of running the same command that we used for the PSjob in the runspace instead.</p>
+<div class="wp-block-image"><figure class="aligncenter"><img src="./PowerShell Multithreading_ A Deep Dive_files/image1_-2-.webp" alt="Measuring speed of job creation"><figcaption>Measuring speed of job creation</figcaption></figure></div>
+<p>By contrast, below is the code used for the runspace version. You can see there is much more code to execute the same task. But the benefit of the extra code shaves off nearly 3/4 of the time allowing the command to begin running in 36ms vs 148ms.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token variable">$Runspace</span> = <span class="token namespace">[runspacefactory]</span>::CreateRunspace<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token variable">$PowerShell</span> = <span class="token namespace">[powershell]</span>::Create<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token variable">$PowerShell</span><span class="token punctuation">.</span>Runspace = <span class="token variable">$Runspace</span>
+<span class="token variable">$Runspace</span><span class="token punctuation">.</span>Open<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token variable">$PowerShell</span><span class="token punctuation">.</span>AddScript<span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token function">Start-Sleep</span> 5<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token variable">$PowerShell</span><span class="token punctuation">.</span>BeginInvoke<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<div class="wp-block-image"><figure class="aligncenter size-large"><img loading="lazy" width="951" height="617" src="./PowerShell Multithreading_ A Deep Dive_files/vs.-48-mins.png" alt="Measuring speed of creating a runspace" class="wp-image-3238" srcset="https://adamtheautomator.com/wp-content/uploads/2020/06/vs.-48-mins.png 951w, https://adamtheautomator.com/wp-content/uploads/2020/06/vs.-48-mins-300x195.png 300w, https://adamtheautomator.com/wp-content/uploads/2020/06/vs.-48-mins-768x498.png 768w" sizes="(max-width: 951px) 100vw, 951px"><figcaption>Measuring speed of creating a runspace</figcaption></figure></div>
+<h3 id="running-runspaces-a-walkthrough"><span class="ez-toc-section" id="Running_Runspaces_A_Walkthrough"></span>Running Runspaces: A Walkthrough<span class="ez-toc-section-end"></span></h3>
+<p>Using runspaces can be a daunting task at first since there is no more PowerShell command hand-holding. You will have to deal with .NET classes directly. In this section, let’s break down what it takes to create a runspace in PowerShell.</p>
+<p>In this walkthrough, you are going to create a separate runspace from your PowerShell console and a separate PowerShell instance. Then you will assign the new runspace to the new PowerShell instance and add code to that instance.</p>
+<h4 id="create-the-runspace"><span class="ez-toc-section" id="Create_the_Runspace"></span>Create the Runspace<span class="ez-toc-section-end"></span></h4>
+<p>The first thing you need to do is create your new runspace. You do this using the <code>runspacefactory</code> class. Store this to a variable, like what is shown below, so that it can be referenced later.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"> <span class="token variable">$Runspace</span> = <span class="token namespace">[runspacefactory]</span>::CreateRunspace<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>Now that the runspace is created, assign it to a PowerShell instance to run PowerShell code. For this, you’ll use the <code>powershell</code> class and similar to the runspace, you will need to store this to a variable like what is shown below.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"> <span class="token variable">$PowerShell</span> = <span class="token namespace">[powershell]</span>::Create<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>Next, add the runspace to your PowerShell instance, open the runspace to be able to run code and add your scriptblock. This is shown below with a scriptblock to sleep for five seconds.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"> <span class="token variable">$PowerShell</span><span class="token punctuation">.</span>Runspace = <span class="token variable">$Runspace</span>
+ <span class="token variable">$Runspace</span><span class="token punctuation">.</span>Open<span class="token punctuation">(</span><span class="token punctuation">)</span>
+ <span class="token variable">$PowerShell</span><span class="token punctuation">.</span>AddScript<span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token function">Start-Sleep</span> 5<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<h4 id="execute-the-runspace"><span class="ez-toc-section" id="Execute_the_Runspace"></span>Execute the Runspace<span class="ez-toc-section-end"></span></h4>
+<p>So far, the scriptblock still has not been run. All that has been done so far is to define everything for the runspace. To start running the scriptblock, you have two options.</p>
+<ul><li><strong>Invoke()</strong> – The <code>Invoke()</code> method runs the scriptblock in the runspace, but it waits to return to the console until the runspace returns. This is good for testing to make sure that your code is executing properly before letting it loose.</li><li><strong>BeginInvoke()</strong> – Using the <code>BeginInvoke()</code> method is what you will want to actually see a performance gain. This will start the scriptblock running in the runspace and immediately return you to the console.</li></ul>
+<p>When using <code>BeginInvoke()</code>, store the output to a variable as it will be required to see the status of the scriptblock in the runspace as shown below.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token variable">$Job</span> = <span class="token variable">$PowerShell</span><span class="token punctuation">.</span>BeginInvoke<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>Once you have the output from the <code>BeginInvoke()</code> stored to a variable, you can check that variable to see the status of the job as seen below in the <code>IsCompleted</code> property.</p>
+<div class="wp-block-image"><figure class="aligncenter"><img src="./PowerShell Multithreading_ A Deep Dive_files/image11_-1-.webp" alt="the job is completed"><figcaption>the job is completed</figcaption></figure></div>
+<p>Another reason you will need to store the output in a variable is because unlike the <code>Invoke()</code> method, <code>BeginInvoke()</code> will not automatically return the output when the code is finished. To do this, you must use the <code>EndInvoke()</code> method once it has been completed.</p>
+<p>In this example, there would be no output but to end the invoke you would use the command below.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token variable">$PowerShell</span><span class="token punctuation">.</span>EndInvoke<span class="token punctuation">(</span><span class="token variable">$Job</span><span class="token punctuation">)</span></code></pre>
+<p>Once all of the tasks that you queued in the runspace are finished you should always close the runspace. This will allow PowerShell’s automated garbage collection process to cleanup unused resources. Below is the command you would use to do this.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token variable">$Runspace</span><span class="token punctuation">.</span>Close<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<h3 id="using-runspace-pools"><span class="ez-toc-section" id="Using_Runspace_Pools"></span>Using Runspace Pools<span class="ez-toc-section-end"></span></h3>
+<p>While using a runspace does improve performance, it encounters a major limitation of a single thread. This is where runspace pools shine in their use of multiple threads.</p>
+<p>In the previous section, you were only using with two runspaces. You only used one for the PowerShell console itself and the one that you had created manually. Runspace pools allow you to have multiple runspaces managed in the background using a single variable.</p>
+<p>While this multi-runspace behavior can be done with multiple runspace objects, using a runspace pool makes management much easier.</p>
+<p>Runspace pools differ from single runspaces in how they are set up. One of the key differences is that you define the maximum amount of threads that can be used for the runspace pool. With a single runspace, it is limited to a single thread, but with a pool you specify the maximum amount of threads the pool can scale up to.</p>
+<p>The recommended amount of threads in a runspace pool depends on the amount of tasks being performed, and the machine that is running the code. While increasing the maximum amount of threads won’t negatively affect speed in most cases, you may also see no benefit.</p>
+<h4 id="runspace-pool-speed-demonstration"><span class="ez-toc-section" id="Runspace_Pool_Speed_Demonstration"></span>Runspace Pool Speed Demonstration<span class="ez-toc-section-end"></span></h4>
+<p>To show an example of where a runspace pool will beat a single runspace, perhaps you want to create ten new files. If you’d use a single runspace for this task, you would create the first file, then move to the second, and then on to the third, and so on until all ten were created. The scriptblock for this example may look something below. You would feed this scriptblock ten file names in a loop and they would all be created.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token variable">$Scriptblock</span> = <span class="token punctuation">{</span>
+    <span class="token keyword">param</span><span class="token punctuation">(</span><span class="token variable">$Name</span><span class="token punctuation">)</span>
+    <span class="token function">New-Item</span> <span class="token operator">-</span>Name <span class="token variable">$Name</span> <span class="token operator">-</span>ItemType File
+<span class="token punctuation">}</span></code></pre>
+<p>In the below example, a script block is defined that contains a short script that accepts a name and creates a file with that name. A runspace pool is created with a maximum of 5 threads.</p>
+<p>Next, a loop cycles ten times and each time it will assign the number of the iteration to <code>$_</code>. So it would have 1 on the first iteration, 2 on the second and so on.</p>
+<p>The loop creates a PowerShell object, assigns the script block, and the argument for the script and start the process.</p>
+
+<p>Finally, at the end of the loop, it will wait for all of the queue tasks to finish.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token variable">$Scriptblock</span> = <span class="token punctuation">{</span>
+    <span class="token keyword">param</span><span class="token punctuation">(</span><span class="token variable">$Name</span><span class="token punctuation">)</span>
+    <span class="token function">New-Item</span> <span class="token operator">-</span>Name <span class="token variable">$Name</span> <span class="token operator">-</span>ItemType File
+<span class="token punctuation">}</span>
+
+<span class="token variable">$MaxThreads</span> = 5
+<span class="token variable">$RunspacePool</span> = <span class="token namespace">[runspacefactory]</span>::CreateRunspacePool<span class="token punctuation">(</span>1<span class="token punctuation">,</span> <span class="token variable">$MaxThreads</span><span class="token punctuation">)</span>
+<span class="token variable">$RunspacePool</span><span class="token punctuation">.</span>Open<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token variable">$Jobs</span> = @<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+1<span class="token punctuation">.</span><span class="token punctuation">.</span>10 <span class="token punctuation">|</span> <span class="token function">Foreach-Object</span> <span class="token punctuation">{</span>
+	<span class="token variable">$PowerShell</span> = <span class="token namespace">[powershell]</span>::Create<span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token variable">$PowerShell</span><span class="token punctuation">.</span>RunspacePool = <span class="token variable">$RunspacePool</span>
+	<span class="token variable">$PowerShell</span><span class="token punctuation">.</span>AddScript<span class="token punctuation">(</span><span class="token variable">$ScriptBlock</span><span class="token punctuation">)</span><span class="token punctuation">.</span>AddArgument<span class="token punctuation">(</span><span class="token variable">$_</span><span class="token punctuation">)</span>
+	<span class="token variable">$Jobs</span> <span class="token operator">+=</span> <span class="token variable">$PowerShell</span><span class="token punctuation">.</span>BeginInvoke<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token variable">$Jobs</span><span class="token punctuation">.</span>IsCompleted <span class="token operator">-contains</span> <span class="token boolean">$false</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token function">Start-Sleep</span> 1
+<span class="token punctuation">}</span></code></pre>
+<p>Now instead of creating threads one at a time, it will create five at a time. Without runspace pools, you would have to create and manage five separate runspaces and five separate <code>Powershell</code> instances. This management quickly becomes a mess.</p>
+<p>Instead, you can create a runspace pool, a PowerShell instance, use the same code block and the same loop. The difference is that the runspace will scale up to use all five of those threads all on its own.</p>
+<h3 id="creating-runspace-pools"><span class="ez-toc-section" id="Creating_Runspace_Pools"></span>Creating Runspace Pools<span class="ez-toc-section-end"></span></h3>
+<p>The creation of a runspace pool is very similar to the runspace that was created in a prior section. Below is an example of how to do it. The addition of a scriptblock and the invoke process is identical to a runspace. As you can see below, the runspace pool is getting created with a maximum of five threads.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token variable">$MaxThreads</span> = 5
+<span class="token variable">$RunspacePool</span> = <span class="token namespace">[runspacefactory]</span>::CreateRunspacePool<span class="token punctuation">(</span>1<span class="token punctuation">,</span> <span class="token variable">$MaxThreads</span><span class="token punctuation">)</span>
+<span class="token variable">$PowerShell</span> = <span class="token namespace">[powershell]</span>::Create<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token variable">$PowerShell</span><span class="token punctuation">.</span>RunspacePool = <span class="token variable">$RunspacePool</span>
+<span class="token variable">$RunspacePool</span><span class="token punctuation">.</span>Open<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<h3 id="comparing-runspaces-and-runspace-pools-for-speed"><span class="ez-toc-section" id="Comparing_Runspaces_and_Runspace_Pools_for_Speed"></span>Comparing Runspaces and Runspace Pools for Speed<span class="ez-toc-section-end"></span></h3>
+<p>To show off the difference between a runspace and runspace pool, create a runspace and run the <code>Start-Sleep</code> command from earlier. This time, however, it has to be run 10 times. As you can see in the below code, a runspace is being created that will sleep for 5 seconds.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token variable">$Runspace</span> = <span class="token namespace">[runspacefactory]</span>::CreateRunspace<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token variable">$PowerShell</span> = <span class="token namespace">[powershell]</span>::Create<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token variable">$PowerShell</span><span class="token punctuation">.</span>Runspace = <span class="token variable">$Runspace</span>
+<span class="token variable">$Runspace</span><span class="token punctuation">.</span>Open<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token variable">$PowerShell</span><span class="token punctuation">.</span>AddScript<span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token function">Start-Sleep</span> 5<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+1<span class="token punctuation">.</span><span class="token punctuation">.</span>10 <span class="token punctuation">|</span> <span class="token function">Foreach-Object</span> <span class="token punctuation">{</span>
+    <span class="token variable">$Job</span> = <span class="token variable">$PowerShell</span><span class="token punctuation">.</span>BeginInvoke<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token variable">$Job</span><span class="token punctuation">.</span>IsCompleted <span class="token operator">-eq</span> <span class="token boolean">$false</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token function">Start-Sleep</span> <span class="token operator">-</span>Milliseconds 100<span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<blockquote class="wp-block-quote"><p><em>Note that since you are using a single runspace, that you will have to wait until it is completed before another invoke can be started. This is why there is a 100ms sleep added until the job is completed. While this can be reduced, you will see diminishing returns as you will be spending more time checking if the job is done than waiting for the job to finish.</em></p></blockquote>
+<p>From the below example, you can see that it took about 51 seconds to complete 10 sets of 5 second sleeps.</p>
+<div class="wp-block-image"><figure class="aligncenter"><img src="./PowerShell Multithreading_ A Deep Dive_files/image5_-1-.webp" alt="Measuring performance of creating runspaces"><figcaption>Measuring performance of creating runspaces</figcaption></figure></div>
+<p>Now instead of using a single runspace, change over to a runspace pool. Below is the code that is going to be run. You can see that there are a few differences between the use of the two in the below code when using a runspace pool.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token variable">$RunspacePool</span> = <span class="token namespace">[runspacefactory]</span>::CreateRunspacePool<span class="token punctuation">(</span>1<span class="token punctuation">,</span> 5<span class="token punctuation">)</span>
+<span class="token variable">$RunspacePool</span><span class="token punctuation">.</span>Open<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token variable">$Jobs</span> = @<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+1<span class="token punctuation">.</span><span class="token punctuation">.</span>10 <span class="token punctuation">|</span> <span class="token function">Foreach-Object</span> <span class="token punctuation">{</span>
+    <span class="token variable">$PowerShell</span> = <span class="token namespace">[powershell]</span>::Create<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token variable">$PowerShell</span><span class="token punctuation">.</span>RunspacePool = <span class="token variable">$RunspacePool</span>
+    <span class="token variable">$PowerShell</span><span class="token punctuation">.</span>AddScript<span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token function">Start-Sleep</span> 5<span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token variable">$Jobs</span> <span class="token operator">+=</span> <span class="token variable">$PowerShell</span><span class="token punctuation">.</span>BeginInvoke<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token variable">$Jobs</span><span class="token punctuation">.</span>IsCompleted <span class="token operator">-contains</span> <span class="token boolean">$false</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token function">Start-Sleep</span> <span class="token operator">-</span>Milliseconds 100<span class="token punctuation">}</span></code></pre>
+<p>As you can see below, this completes in just over 10 seconds which is much improved over the 51 seconds for the single runspace.</p>
+<div class="wp-block-image"><figure class="aligncenter"><img src="./PowerShell Multithreading_ A Deep Dive_files/image4_-1-.webp" alt="Comparing runspaces vs. runspace pools"><figcaption>Comparing runspaces vs. runspace pools</figcaption></figure></div>
+<p>Below is a breakdown summary of the difference between a runspace and runspace pool in these examples.</p>
+<figure class="wp-block-table table table-bordered table-hover table-condensed"><table><thead><tr><th>Property</th><th>Runspace</th><th>Runspace Pool</th></tr></thead><tbody><tr><td>Wait Delay</td><td>Waiting for each job to finish before continuing to the next.</td><td>Starting all of the jobs and then waiting until they have all finished.</td></tr><tr><td>Amount of Threads</td><td>One</td><td>Five</td></tr><tr><td>Runtime</td><td>50.8 Seconds</td><td>10.1 Seconds</td></tr></tbody></table></figure>
+<h2 id="easing-into-runspaces-with-poshrsjob"><span class="ez-toc-section" id="Easing_into_Runspaces_with_PoshRSJob"></span>Easing into Runspaces with PoshRSJob<span class="ez-toc-section-end"></span></h2>
+<p>A frequent occurrence when programming is that you will do what is more comfortable and accept the small loss in performance. This could be because it makes the code easier to write or easier to read, or it could just be your preference.</p>
+<p>This same thing happens with PowerShell where some people will use PSJobs instead of runspaces because of the ease of use. There are a few things that can be done to split the difference and get the better performance without making it too much more difficult to use.</p>
+<p>There is a widely used module called <a href="https://github.com/proxb/PoshRSJob" target="_blank" rel="noopener">PoshRSJob</a> that contains modules that match the style of normal PSJobs but with the added benefit of using runspaces. Instead of having to specify all of the code to create the runspace and the powershell object, the PoshRSJob module handles doing all of that when you run the commands.</p>
+<p>To install the module, run the below command in an administrative PowerShell session.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token function">Install-Module</span> PoshRSJob</code></pre>
+<p>Once the module is installed, you can see the commands are the same as the PSJob commands with a <em>RS</em> prefix. Instead of <code>Start-Job</code> it is <code>Start-RSJob</code>. Instead of <code>Get-Job</code> it is <code>Get-RSJob</code>.</p>
+<p>Below is an example of how to run the same command in a PSJob and then again in an RSJob. As you can see, they have very similar syntax and output, but they are not quite identical.</p>
+<div class="wp-block-image"><figure class="aligncenter"><img src="./PowerShell Multithreading_ A Deep Dive_files/image15--1-.webp" alt="run the same command in a PSJob and then again in an RSJob"><figcaption>run the same command in a PSJob and then again in an RSJob</figcaption></figure></div>
+<p>Below is some code that can be used to compare the difference in speed between a PSJob and an RSJob.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token function">Measure-Command</span> <span class="token punctuation">{</span><span class="token function">Start-Job</span> <span class="token operator">-</span>ScriptBlock <span class="token punctuation">{</span><span class="token function">Start-Sleep</span> 5<span class="token punctuation">}</span><span class="token punctuation">}</span>
+<span class="token function">Measure-Command</span> <span class="token punctuation">{</span><span class="token function">Start-RSJob</span> <span class="token operator">-</span>ScriptBlock <span class="token punctuation">{</span><span class="token function">Start-Sleep</span> 5<span class="token punctuation">}</span><span class="token punctuation">}</span></code></pre>
+<p>As you can see below there is a large speed difference since the RSJobs are still using runspaces below the covers.</p>
+<div class="wp-block-image"><figure class="aligncenter"><img src="./PowerShell Multithreading_ A Deep Dive_files/Untitled--42-.webp" alt="large speed difference since the RSJobs are still using runspaces below the covers"><figcaption>large speed difference since the RSJobs are still using runspaces below the covers</figcaption></figure></div>
+<h2 id="foreach-object-parallel"><span class="ez-toc-section" id="Foreach-Object_-Parallel"></span>Foreach-Object -Parallel<span class="ez-toc-section-end"></span></h2>
+<p>The PowerShell community has been wanting an easier and built-in way to quickly multithread a process. The parallel switch is what has come out of that.</p>
+<p>As of writing this, PowerShell 7 is still in preview, but they have added a <code>Parallel</code> parameter to the <code>Foreach-Object</code> command. This process uses runspaces to parallelize the code and uses the scriptblock used for the <code>Foreach-Object</code> as the scriptblock for the runspace.</p>
+<p>While the details are still being worked out, this may be an easier way to use runspaces in the future. As you can see below, you can quickly loop through many sets of sleeps.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token function">Measure-Command</span> <span class="token punctuation">{</span>1<span class="token punctuation">.</span><span class="token punctuation">.</span>10 <span class="token punctuation">|</span> <span class="token function">Foreach-Object</span> <span class="token punctuation">{</span><span class="token function">Start-Sleep</span> 5<span class="token punctuation">}</span><span class="token punctuation">}</span>
+<span class="token function">Measure-Command</span> <span class="token punctuation">{</span>1<span class="token punctuation">.</span><span class="token punctuation">.</span>10 <span class="token punctuation">|</span> <span class="token function">Foreach-Object</span> <span class="token operator">-</span><span class="token keyword">Parallel</span> <span class="token punctuation">{</span><span class="token function">Start-Sleep</span> 5<span class="token punctuation">}</span><span class="token punctuation">}</span></code></pre>
+<div class="wp-block-image"><figure class="aligncenter size-large"><img loading="lazy" width="1024" height="580" src="./PowerShell Multithreading_ A Deep Dive_files/sets-of-sleeps-1024x580.png" alt="Looping through and measuring commands" class="wp-image-3240" srcset="https://adamtheautomator.com/wp-content/uploads/2020/06/sets-of-sleeps-1024x580.png 1024w, https://adamtheautomator.com/wp-content/uploads/2020/06/sets-of-sleeps-300x170.png 300w, https://adamtheautomator.com/wp-content/uploads/2020/06/sets-of-sleeps-768x435.png 768w, https://adamtheautomator.com/wp-content/uploads/2020/06/sets-of-sleeps-1536x871.png 1536w, https://adamtheautomator.com/wp-content/uploads/2020/06/sets-of-sleeps.png 1600w" sizes="(max-width: 1024px) 100vw, 1024px"><figcaption>Looping through and measuring commands</figcaption></figure></div>
+<h2 id="challenges-with-multi-threading"><span class="ez-toc-section" id="Challenges_with_Multi-Threading"></span><strong>Challenges with Multi-Threading</strong><span class="ez-toc-section-end"></span></h2>
+<p>While multithreading has sounded like nothing but amazing so far, this isn’t quite the case. There are many challenges that come along with multithreading any code.</p>
+<h3 id="using-variables"><span class="ez-toc-section" id="Using_Variables"></span>Using Variables<span class="ez-toc-section-end"></span></h3>
+<p>One of the biggest and most obvious challenges with multithreading is that you cannot share variables without passing them as arguments. There is the one exception of a <a href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.hashtable.synchronized" target="_blank" rel="noopener">synchronized hashtable</a>, but that is a talk for another day.</p>
+<p>Both PSJobs and runspaces operate without any access to existing variables and there is no way to interact with variables used in different runspaces from your console.</p>
+<p>This poses a huge challenge for dynamically passing information to these jobs. The answer is different depending on which kind of multithreading you are using.</p>
+<p>For <code>Start-Job</code> and <code>Start-RSJob</code> from the PoshRSJob module, you can use the <code>ArgumentList</code> parameter to provide a list of objects that will be passed as parameters to the scriptblock in the order you list them. Below are examples of the commands used for PSJobs and RSJobs.</p>
+<p>PSJob:</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token function">Start-Job</span> <span class="token operator">-</span>Scriptblock <span class="token punctuation">{</span><span class="token keyword">param</span> <span class="token punctuation">(</span><span class="token variable">$Text</span><span class="token punctuation">)</span> <span class="token function">Write-Output</span> <span class="token variable">$Text</span><span class="token punctuation">}</span> <span class="token operator">-</span>ArgumentList <span class="token string">"Hello world!"</span></code></pre>
+<p>RSJob:</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token function">Start-RSJob</span> <span class="token operator">-</span>Scriptblock <span class="token punctuation">{</span><span class="token keyword">param</span> <span class="token punctuation">(</span><span class="token variable">$Text</span><span class="token punctuation">)</span> <span class="token function">Write-Output</span> <span class="token variable">$Text</span><span class="token punctuation">}</span> <span class="token operator">-</span>ArgumentList <span class="token string">"Hello world!"</span></code></pre>
+<p>Navtive runspaces do not give you the same ease. Instead, you have to use the <code>AddArgument()</code> method on the PowerShell object. Below is an example of what it would look like for each.</p>
+<p>Runspace:</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token variable">$Runspace</span> = <span class="token namespace">[runspacefactory]</span>::CreateRunspace<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token variable">$PowerShell</span> = <span class="token namespace">[powershell]</span>::Create<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token variable">$PowerShell</span><span class="token punctuation">.</span>Runspace = <span class="token variable">$Runspace</span>
+<span class="token variable">$Runspace</span><span class="token punctuation">.</span>Open<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token variable">$PowerShell</span><span class="token punctuation">.</span>AddScript<span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token keyword">param</span> <span class="token punctuation">(</span><span class="token variable">$Text</span><span class="token punctuation">)</span> <span class="token function">Write-Output</span> <span class="token variable">$Text</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token variable">$PowerShell</span><span class="token punctuation">.</span>AddArgument<span class="token punctuation">(</span><span class="token string">"Hello world!"</span><span class="token punctuation">)</span>
+<span class="token variable">$PowerShell</span><span class="token punctuation">.</span>BeginInvoke<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>While runspace pools work the same, below is an example of how to add an argument to a runspace pool.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token variable">$MaxThreads</span> = 5
+<span class="token variable">$RunspacePool</span> = <span class="token namespace">[runspacefactory]</span>::CreateRunspacePool<span class="token punctuation">(</span>1<span class="token punctuation">,</span> <span class="token variable">$MaxThreads</span><span class="token punctuation">)</span>
+<span class="token variable">$PowerShell</span> = <span class="token namespace">[powershell]</span>::Create<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token variable">$PowerShell</span><span class="token punctuation">.</span>RunspacePool = <span class="token variable">$RunspacePool</span>
+<span class="token variable">$RunspacePool</span><span class="token punctuation">.</span>Open<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token variable">$PowerShell</span><span class="token punctuation">.</span>AddScript<span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token keyword">param</span> <span class="token punctuation">(</span><span class="token variable">$Text</span><span class="token punctuation">)</span> <span class="token function">Write-Output</span> <span class="token variable">$Text</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token variable">$PowerShell</span><span class="token punctuation">.</span>AddArgument<span class="token punctuation">(</span><span class="token string">"Hello world!"</span><span class="token punctuation">)</span>
+<span class="token variable">$PowerShell</span><span class="token punctuation">.</span>BeginInvoke<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<h3 id="logging"><span class="ez-toc-section" id="Logging"></span>Logging<span class="ez-toc-section-end"></span></h3>
+<p>Multithreading also introduces logging challenges. Since each thread is operating independently of each other, they all can’t log to the same place. If you did try to log to say a file with multiple threads, whenever one thread was writing to the file, no other threads could. This could slow down your code, or cause it to fail outright.</p>
+<p>As an example, below is some code to attempt to log 100 times to a single file using 5 threads in a runspace pool.</p>
+<pre class="wp-block-code  language-powershell"><code lang="powershell" class="  language-powershell"><span class="token variable">$RunspacePool</span> = <span class="token namespace">[runspacefactory]</span>::CreateRunspacePool<span class="token punctuation">(</span>1<span class="token punctuation">,</span> 5<span class="token punctuation">)</span>
+<span class="token variable">$RunspacePool</span><span class="token punctuation">.</span>Open<span class="token punctuation">(</span><span class="token punctuation">)</span>
+1<span class="token punctuation">.</span><span class="token punctuation">.</span>100 <span class="token punctuation">|</span> <span class="token function">Foreach-Object</span> <span class="token punctuation">{</span>
+	<span class="token variable">$PowerShell</span> = <span class="token namespace">[powershell]</span>::Create<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>AddScript<span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token string">'Hello'</span> <span class="token punctuation">|</span> <span class="token function">Out-File</span> <span class="token operator">-</span>Append <span class="token operator">-</span>FilePath <span class="token punctuation">.</span>\Test<span class="token punctuation">.</span>txt<span class="token punctuation">}</span><span class="token punctuation">)</span>
+	<span class="token variable">$PowerShell</span><span class="token punctuation">.</span>RunspacePool = <span class="token variable">$RunspacePool</span>
+	<span class="token variable">$PowerShell</span><span class="token punctuation">.</span>BeginInvoke<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token variable">$RunspacePool</span><span class="token punctuation">.</span>Close<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>From the output you won’t see any errors, but if you look at the size of the text file, you can see below that not all 100 jobs finished correctly.</p>
+<div class="wp-block-image"><figure class="aligncenter size-large"><img src="./PowerShell Multithreading_ A Deep Dive_files/finished-correctly.webp" alt="(&lt;a class=" wpil_keyword_link"="" href="https://adamtheautomator.com/powershell-get-content/" title="Get-Content" data-wpil-keyword-link="linked">Get-Content -Path .\Test.txt).Count” class=”wp-image-3241″/&gt;<figcaption>(<a class="wpil_keyword_link" href="https://adamtheautomator.com/powershell-get-content/" title="Get-Content" data-wpil-keyword-link="linked">Get-Content</a> -Path .\Test.txt).Count</figcaption></figure></div>
+<p>Some ways around this is to log to separate files. This removes the file locking problem, but then you have many log files that you would have to sort through to figure out everything that happened.</p>
+<p>Another alternative is that you allow the timing of some of the output to be off and you only log what a job did once it finished. This allows you to have everything serialized through your original session, but you lose some of the details because you don’t necessarily know what order everything occurred in.</p>
+<h2 id="summary"><span class="ez-toc-section" id="Summary"></span>Summary<span class="ez-toc-section-end"></span></h2>
+<p>While multithreading can provide huge performance gains, it may also provide headaches. While some workloads with greatly benefit, others may not at all. There are many pros and cons to using multithreading, but if used correctly, you can drastically reduce the runtime of your code.</p>
+<h2 id="further-reading"><span class="ez-toc-section" id="Further_Reading"></span>Further Reading<span class="ez-toc-section-end"></span></h2>
+<ul><li><a href="https://devblogs.microsoft.com/powershell/powershell-7-preview-3/" target="_blank" rel="noopener"><em><strong>PowerShell 7 Preview 3 – When -Parallel Was Born</strong></em></a></li><li><a href="https://adamtheautomator.com/powershell-gui/"><em><strong>How to Build a PowerShell GUI for your Scripts</strong></em></a></li></ul>
+</div>
+<script>(function() {
+	window.mc4wp = window.mc4wp || {
+		listeners: [],
+		forms: {
+			on: function(evt, cb) {
+				window.mc4wp.listeners.push(
+					{
+						event   : evt,
+						callback: cb
+					}
+				);
+			}
+		}
+	}
+})();
+</script><form id="mc4wp-form-1" class="mc4wp-form mc4wp-form-3522" method="post" data-id="3522" data-name="Subscribe"><div class="mc4wp-form-fields"><div class="container font-sans bg-gray-300 rounded mt-8 p-4 mb-12 md:p-24 text-center">
+<h2 class="font-bold break-normal text-2xl md:text-4xl text-black">Subscribe to Stay in Touch</h2>
+<h3 class="font-bold break-normal font-normal text-gray-700 text-base md:text-xl">Never miss out on your favorite ATA posts and our latest announcements!</h3>
+<div class="w-full text-center pt-4">
+<div class="mx-auto p-1 pr-0">
+<label class="block" for="subscribe-1000">
+<span class="sr-only">Subscribe to Adam the Automator for updates:</span>
+<input class="pl-10 pr-10 sm:pl-3 sm:pr-3 flex-1 appearance-none rounded shadow p-3 text-gray-800 sm:mr-2 focus:outline-none w-full max-w-sm mb-4" id="subscribe-1000" type="email" name="EMAIL" placeholder="Your email address" required="">
+</label>
+<input class="mt-6 pl-20 pr-20 sm:pl-3 sm:pr-3 flex-col sm:flex-row flex-1 sm:mt-0 block md:inline-block appearance-none bg-blue-500 text-white text-base font-semibold tracking-wider uppercase py-3 rounded shadow hover:bg-teal-400 m-auto" type="submit" value="Subscribe">
+</div>
+</div>
+</div>
+</div><label style="display: none !important;">Leave this field empty if you're human: <input type="text" name="_mc4wp_honeypot" value="" tabindex="-1" autocomplete="off"></label><input type="hidden" name="_mc4wp_timestamp" value="1633445611"><input type="hidden" name="_mc4wp_form_id" value="3522"><input type="hidden" name="_mc4wp_form_element_id" value="mc4wp-form-1"><div class="mc4wp-response"></div></form> <div class="mt-8 mb-8">
+<p class="font-bold mb-8 font-sans text-2xl text-center md:text-left">More from Adam The Automator &amp; Friends</p>
+<ul class="list-none m-0 p-0 flex flex-col md:flex-row w-full shadow-lg rounded-lg bg-white font-sans font-normal leading-tight text-gray-500">
+<li class="flex w-full md:border-gray-500 md:border-r md:border-solid md:border-opacity-10 hover:text-gray-800">
+<a href="https://adamtheautomator.com/advertising/" target="_blank" class="w-full ad-related__link" rel="noopener nofollow">
+<img style="height: 200px;" class="object-cover w-full md:rounded-tl-lg" height="576" width="1024" src="./PowerShell Multithreading_ A Deep Dive_files/Advertising-1024x576.webp">
+<p class="p-4 pt-4 pb-6 text-center">With an ever-increasing visitor base searching for solutions to their problems, we can help you connect with and reach the right kind of audience and generate targeted sales leads.</p>
+</a>
+</li>
+<li class="flex w-full md:border-gray-500 md:border-r md:border-solid md:border-opacity-10 hover:text-gray-800">
+<a href="https://adamtheautomator.com/resources/" target="_blank" class="w-full ad-related__link" rel="noopener nofollow">
+<img style="height: 200px;" class="object-cover w-full" height="576" width="1024" loading="lazy" src="./PowerShell Multithreading_ A Deep Dive_files/Resources-1024x576.jpg">
+<p class="p-4 pt-4 pb-6 text-center">We’ve put together a list of the resources we, at ATA, can wholeheartedly recommend!</p>
+</a>
+</li>
+<li class="flex w-full hover:text-gray-800">
+<a href="https://adamtheautomator.com/friends/" target="_blank" class="w-full ad-related__link" rel="noopener nofollow">
+<img style="height: 200px;" class="object-cover w-full md:rounded-tr-lg" height="314" width="600" loading="lazy" src="./PowerShell Multithreading_ A Deep Dive_files/siteheaderimage-twitter-related.jpg">
+<p class="p-4 pt-4 pb-6 text-center">Why not write on a platform with an existing audience and share your knowledge with the world?</p>
+</a>
+</li>
+</ul>
+</div>
+<div id="jp-relatedposts" class="jp-relatedposts" style="display: block;">
+<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+<div class="jp-relatedposts-items jp-relatedposts-items-visual jp-relatedposts-grid "><div class="jp-relatedposts-post jp-relatedposts-post0 jp-relatedposts-post-thumbs" data-post-id="303" data-post-format="false"><a class="jp-relatedposts-post-a" href="https://adamtheautomator.com/powershell-logging/" title="Logging Done Right with PowerShell and the PSFramework Module" data-origin="321" data-position="0"><img class="jp-relatedposts-post-img" src="./PowerShell Multithreading_ A Deep Dive_files/list-2389219_1280.png" width="350" height="200" alt=""></a><h4 class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="https://adamtheautomator.com/powershell-logging/" title="Logging Done Right with PowerShell and the PSFramework Module" data-origin="321" data-position="0">Logging Done Right with PowerShell and the PSFramework Module</a></h4><p class="jp-relatedposts-post-excerpt">Learning to establish clear Powershell logging guidelines with informative and actionable logs coupled with understanding logging options.</p></div><div class="jp-relatedposts-post jp-relatedposts-post1 jp-relatedposts-post-thumbs" data-post-id="7433" data-post-format="false"><a class="jp-relatedposts-post-a" href="https://adamtheautomator.com/what-is-powershell/" title="What is PowerShell and Why Use It?" data-origin="321" data-position="1"><img class="jp-relatedposts-post-img" src="./PowerShell Multithreading_ A Deep Dive_files/What-is-PowerShell-and-Why-Use-It_.jpg" width="350" height="200" alt="what is powershell"></a><h4 class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="https://adamtheautomator.com/what-is-powershell/" title="What is PowerShell and Why Use It?" data-origin="321" data-position="1">What is PowerShell and Why Use It?</a></h4><p class="jp-relatedposts-post-excerpt">What is PowerShell? It's a shell and scripting language capable of automating just about anything. Learn more in this article.</p></div><div class="jp-relatedposts-post jp-relatedposts-post2 jp-relatedposts-post-thumbs" data-post-id="5758" data-post-format="false"><a class="jp-relatedposts-post-a" href="https://adamtheautomator.com/powershell-download-file/" title="Download a File with an Alternative PowerShell wget Command" data-origin="321" data-position="2"><img class="jp-relatedposts-post-img" src="./PowerShell Multithreading_ A Deep Dive_files/How-to-Download-a-File-with-PowerShell-from-the-Web.jpg" width="350" height="200" alt="powershell download file"></a><h4 class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="https://adamtheautomator.com/powershell-download-file/" title="Download a File with an Alternative PowerShell wget Command" data-origin="321" data-position="2">Download a File with an Alternative PowerShell wget Command</a></h4><p class="jp-relatedposts-post-excerpt">Learn how to use PowerShell to download a file from a URL many different ways in this step-by-step demo tutorial.</p></div></div></div> <div id="hyvor-talk-view" style="max-width: 100%;"><iframe src="./PowerShell Multithreading_ A Deep Dive_files/iframe.html" id="hyvor-talk-iframe" name="hyvor-talk-iframe" allowtranparency="true" tabindex="0" scrolling="no" frameborder="0" style="width: 1px; min-width: 100%; border: none; user-select: none; --darkreader-inline-border-top: initial; --darkreader-inline-border-right: initial; --darkreader-inline-border-bottom: initial; --darkreader-inline-border-left: initial; visibility: visible; height: 753px;" data-darkreader-inline-border-top="" data-darkreader-inline-border-right="" data-darkreader-inline-border-bottom="" data-darkreader-inline-border-left=""></iframe></div>
+<script type="text/javascript">
+  var HYVOR_TALK_WEBSITE = 3647;
+  var HYVOR_TALK_CONFIG = {
+    url: false,
+    id: 321,
+    title: "PowerShell Multithreading: A Deep Dive",
+    authorEmail: "dHlsZXJnbXVpckBnbWFpbC5jb20="
+  };
+</script>
+<script async="" type="text/javascript" src="./PowerShell Multithreading_ A Deep Dive_files/embed.js.download"></script>
+</div>
+<div class="sidebar flex flex-col p-3 bg-gray-200 items-center w-full rounded-lg">
+<div class="sponsors__container mb-6 flex flex-col items-center">
+<h3 class="mb-8 w-full pb-4 text-center text-gray-700 border-solid border-gray-400 border-b text-gray-900 text-xl font-bold break-words">Meet Our Sponsors</h3>
+<div class="ad-placeholder"></div>
+<a href="https://pesterbook.com/" target="_blank" rel="noopener nofollow">
+<img class="mb-2" loading="lazy" width="293" height="390" src="./PowerShell Multithreading_ A Deep Dive_files/pesterbook" alt="The Pester Book" decoding="async">
+</a>
+<a href="https://writingtecharticles.com/" target="_blank" rel="noopener nofollow">
+<img class="mb-2" loading="lazy" width="293" height="467" src="./PowerShell Multithreading_ A Deep Dive_files/articlesbook" alt="Teach Me: How to Write How-To Technical Articles that Make Money" decoding="async">
+</a>
+<a href="https://leanpub.com/powershelltool" target="_blank" rel="noopener nofollow">
+<img class="mb-2" loading="lazy" width="293" height="468" src="./PowerShell Multithreading_ A Deep Dive_files/powershelltoolbook" alt="Building a PowerShell Tool: Mini-Course" decoding="async">
+</a>
+<a href="https://powershellforsysadmins.com/" target="_blank" rel="noopener nofollow">
+<img class="mb-0" loading="lazy" width="293" height="386" src="./PowerShell Multithreading_ A Deep Dive_files/powershell_for_sysadmins" alt="PowerShell for SysAdmins" decoding="async">
+</a>
+<a href="https://pluralsight.pxf.io/c/1454808/480964/7490" rel="noopener nofollow" aria-label="PluralSight Ad">
+<img loading="lazy" width="293" height="244" src="./PowerShell Multithreading_ A Deep Dive_files/7490-480964" border="0" alt="" decoding="async">
+</a>
+<img height="0" width="0" src="./PowerShell Multithreading_ A Deep Dive_files/7490" style="position:absolute;visibility:hidden;" border="0" alt="" decoding="async">
+</div>
+<div class="pluralsight__container mb-6">
+<h3 class="mb-8 w-full pb-4 text-center text-gray-700 border-solid border-gray-400 border-b text-gray-900 text-xl font-bold break-words">PluralSight Courses</h3>
+<ul class="list-none m-0 p-0 text-left">
+<li>
+<a class="block mb-4 text-base" href="https://pluralsight.pxf.io/Pv5EM" target="_blank" rel="noopener nofollow">Microsoft Cognitive Services: Azure Custom Text to Speech</a>
+</li>
+<li>
+<a class="block mb-4 text-base" href="https://pluralsight.pxf.io/0M46Y" target="_blank" rel="noopener nofollow">Building PowerShell Security Tools in a Windows Environment</a>
+</li>
+<li>
+<a class="block mb-4 text-base" href="https://pluralsight.pxf.io/OvPDK" target="_blank" rel="noopener nofollow">Infrastructure Testing with Pester</a>
+</li>
+<li>
+<a class="block mb-4 text-base" href="https://pluralsight.pxf.io/RNer2" target="_blank" rel="noopener nofollow">Building a Client Troubleshooting Tool in PowerShell</a>
+</li>
+<li>
+<a class="block mb-4 text-base" href="https://pluralsight.pxf.io/yPVKB" target="_blank" rel="noopener nofollow">Building Advanced PowerShell Functions and Modules</a>
+</li>
+<li>
+<a class="block mb-4 text-base" href="https://pluralsight.pxf.io/79Y6V" target="_blank" rel="noopener nofollow">PowerShell Toolmaking Fundamentals</a>
+</li>
+<li>
+<a class="block mb-4 text-base" href="https://pluralsight.pxf.io/ogrKe" target="_blank" rel="noopener nofollow">Client-Side PowerShell Scripting for Reliable SCCM Deployments</a>
+</li>
+<li>
+<a class="block mb-4 text-base" href="https://pluralsight.pxf.io/qLPKq" target="_blank" rel="noopener nofollow">Planning &amp; Creating Applications in System Center ConfigMgr 2012</a>
+</li>
+<li>
+<a class="block mb-4 text-base" href="https://pluralsight.pxf.io/EPdWK" target="_blank" rel="noopener nofollow">PowerShell DevOps Playbook</a>
+</li>
+</ul>
+</div>
+</div>
+</article>
+</section>
+</main>
+</div>
+
+<footer role="contentinfo" id="footer" class="bg-gray-900">
+<div class="w-full py-4">
+<div class="container mx-auto flex justify-between flex-col md:flex-row w-full text-white p-6">
+<div id="custom_html-2" class="widget_text widget widget_custom_html"><div class="textwidget custom-html-widget">Adam the Automator © 2021</div></div> </div>
+</div>
+</footer>
+<script id="cls-insertion-05259ec">var cls_insertion=function(e){"use strict";var t=function(){return(t=Object.assign||function(e){for(var t,i=1,n=arguments.length;i<n;i++)for(var o in t=arguments[i])Object.prototype.hasOwnProperty.call(t,o)&&(e[o]=t[o]);return e}).apply(this,arguments)};function i(e){var t="function"==typeof Symbol&&Symbol.iterator,i=t&&e[t],n=0;if(i)return i.call(e);if(e&&"number"==typeof e.length)return{next:function(){return e&&n>=e.length&&(e=void 0),{value:e&&e[n++],done:!e}}};throw new TypeError(t?"Object is not iterable.":"Symbol.iterator is not defined.")}function n(e,t){var i="function"==typeof Symbol&&e[Symbol.iterator];if(!i)return e;var n,o,a=i.call(e),r=[];try{for(;(void 0===t||t-- >0)&&!(n=a.next()).done;)r.push(n.value)}catch(e){o={error:e}}finally{try{n&&!n.done&&(i=a.return)&&i.call(a)}finally{if(o)throw o.error}}return r}function o(){for(var e=[],t=0;t<arguments.length;t++)e=e.concat(n(arguments[t]));return e}function a(e,t){return null==e||e!=e?t:e}function r(e){var t=e.offsetHeight,i=e.offsetWidth,n=e.getBoundingClientRect(),o=document.body,a=document.documentElement,r=window.pageYOffset||a.scrollTop||o.scrollTop,s=window.pageXOffset||a.scrollLeft||o.scrollLeft,l=a.clientTop||o.clientTop||0,d=a.clientLeft||o.clientLeft||0,c=Math.round(n.top+r-l),p=Math.round(n.left+s-d);return{top:c,left:p,bottom:c+t,right:p+i,width:i,height:t}}function s(){try{return Math.round(window.performance.now())}catch(e){return 0}}function l(e){try{return{valid:!0,elements:document.querySelectorAll(e)}}catch(e){return t({valid:!1},e)}}var d=function(){function e(e){this.adthriveCLS=e,this._supportedSizes=[[728,90],[300,250],[300,600],[320,50],[970,250],[160,600],[300,1050],[336,280],[970,90],[300,50],[320,100],[468,60],[250,250],[120,240],[1,1],[300,300],[552,334],[300,420],[728,250],[320,300],[300,390]],this.locationMaxLazySequence=new Map([["Recipe",5],["Below_Post",1]]),this.locationToMinHeight={Content:"250px",Recipe:"250px"};var t=this.adthriveCLS.siteAds.breakpoints,i=t.tablet,n=t.desktop;this._device=function(e,t){var i=window.innerWidth;return i>=t?"desktop":i>=e?"tablet":"phone"}(i,n)}return e.prototype.start=function(){var e=this,t=this.get().filter((function(t){return e.locationEnabled(t)})).filter((function(t){return e.forDevice(t,e._device)})).filter((function(t){return e.forPage(t)})),i=this.inject(t);this.adthriveCLS.injectedSlots=this.adthriveCLS.injectedSlots.concat(i)},e.prototype.inject=function(e,t){var n,a,s=this;void 0===t&&(t=document);var l=[],d=[];try{for(var c=i(e),p=c.next();!p.done;p=c.next()){var u=p.value,h=0,f=0,v=0;u.spacing>0&&(f=h=window.innerHeight*u.spacing);var g=this.repeatDynamicAds(u),y=this.getElements(u.elementSelector,t);u.skip;for(var m=u.skip;m<y.length&&!(v+1>g.length);m+=u.every){var S=y[m];if(h>0){var _=r(S).bottom;if(_<=f)continue;f=_+h}var C=m<y.length-1?1:Math.max(u.min-v,1);C>1&&(h=0);for(var b=function(){var e=g[v],i=e.location+"_"+e.sequence;if(l.some((function(e){return e.name===i})))return v+=1,"continue";var n=A.getDynamicElementId(e),a="adthrive-"+u.location.replace("_","-").toLowerCase(),r=o([a,a+"-"+u.sequence],u.classNames),s=A.addAd(S,n,u.position,r);if(s){var c=A.filterAdUnitSizes(e,s);if(c.length>0){var p={clsDynamicAd:u,dynamicAd:e,element:s,sizes:c,name:i,infinite:t!==document};l.push(p),d.push({location:e.location,element:s}),v+=1}S=s}},A=this;C>0;C--)b()}}}catch(e){n={error:e}}finally{try{p&&!p.done&&(a=c.return)&&a.call(c)}finally{if(n)throw n.error}}return d.forEach((function(e){var t=e.location;e.element.style.minHeight=s.locationToMinHeight[t]})),l},e.prototype.getDynamicElementId=function(e){return"AdThrive_"+e.location+"_"+e.sequence+"_"+this._device},e.prototype.getElements=function(e,t){return void 0===t&&(t=document),t.querySelectorAll(e)},e.prototype.addAd=function(e,t,i,n){if(void 0===n&&(n=[]),!document.getElementById(t)){var o='<div id="'+t+'" class="adthrive-ad '+n.join(" ")+'"></div>';e.insertAdjacentHTML(i,o)}return document.getElementById(t)},e.prototype.repeatDynamicAds=function(e){for(var i=[],n=e.lazy?a(this.locationMaxLazySequence.get(e.location),0):0,o=Math.max(e.min,e.max),r=0===n&&e.lazy?o+e.lazyMax:Math.min(Math.max(n-e.sequence+1,0),o+e.lazyMax),s=Math.max(o,r),l=0;l<s;l++){var d=e.sequence+l,c=e.lazy&&l>=o;i.push(t(t({},e),{sequence:d,lazy:c}))}return i},e.prototype.get=function(){var e=this;return this.adthriveCLS.siteAds.adUnits.filter((function(e){return void 0!==e.dynamic&&e.dynamic.enabled})).map((function(t){return{location:t.location.replace(/\s+/g,"_"),sequence:a(t.sequence,1),sizes:e.onlySupportedAdSizes(t.adSizes,t.location),devices:t.devices,pageSelector:a(t.dynamic.pageSelector,"").trim(),elementSelector:a(t.dynamic.elementSelector,"").trim(),position:a(t.dynamic.position,"beforebegin"),min:Math.floor(a(t.dynamic.min,0)),max:Math.floor(a(t.dynamic.max,0)),spacing:a(t.dynamic.spacing,0),skip:Math.floor(a(t.dynamic.skip,0)),every:Math.max(Math.floor(a(t.dynamic.every,1)),1),classNames:t.dynamic.classNames||[],sticky:"Footer"===t.location||t.sticky,stickyOverlapSelector:a(t.stickyOverlapSelector,"").trim(),autosize:t.autosize,special:a(t.targeting,[]).filter((function(e){return"special"===e.key})).reduce((function(e,t){return e.concat.apply(e,o(t.value))}),[]),lazy:a(t.dynamic.lazy,!1),lazyMax:a(t.dynamic.lazyMax,2)}}))},e.prototype.locationEnabled=function(e){var t=-1!==this.adthriveCLS.enabledLocations.indexOf(e.location),i=this.adthriveCLS.disableAds&&this.adthriveCLS.disableAds.all||document.body.classList.contains("adthrive-disable-all"),n="Recipe"!==e.location&&"Content"!==e.location||!document.body.classList.contains("adthrive-disable-content")&&!this.adthriveCLS.disableAds.reasons.has("content_plugin");return t&&!i&&n},e.prototype.forDevice=function(e,t){return-1!==e.devices.indexOf(t)},e.prototype.forPage=function(e){return 0===e.pageSelector.length||null!==document.querySelector(e.pageSelector)},e.prototype.onlySupportedAdSizes=function(e,t){var i=this;return this._supportedSizes.filter((function(o){var a=n(o,2),r=a[0],s=a[1];return("phone"!==i._device||"Footer"!==t||320!==r||100!==s)&&e.some((function(e){var t=n(e,2),i=t[0],o=t[1];return r===i&&s===o}))}))},e.prototype.filterAdUnitSizes=function(e,t){var i=function(e){var t=e.clientWidth;if(getComputedStyle){var i=getComputedStyle(e,null);t-=parseFloat(i.paddingLeft||"0")+parseFloat(i.paddingRight||"0")}return t}(t),n=e.sticky&&"Sidebar"===e.location;return e.sizes.filter((function(t){var o=!e.autosize||(t[0]<=i||t[0]<=320),a=!n||t[1]<=window.innerHeight-100;return o&&a}))},e}();function c(){return"classList"in document.createElement("_")&&!/Edg/i.test(navigator.userAgent)&&(/Chrome/.test(navigator.userAgent)||/Safari/.test(navigator.userAgent)||/[Pinterest/iOS]/.test(navigator.userAgent))}function p(e,t,i,n,a,r){var s=Math.round(r-a),l=[],d=[];l.push("(",i.map((function(){return"%o"})).join(", "),")"),d.push.apply(d,o(i)),void 0!==n&&(l.push(" => %o"),d.push(n)),l.push(" %c("+s+"ms)"),d.push("color: #999;")}function u(e,t,i){var n=void 0!==i.get?i.get:i.value;return function(){for(var e=[],t=0;t<arguments.length;t++)e[t]=arguments[t];try{var i=s(),o=n.apply(this,e);if(o instanceof Promise)return o.then((function(t){var n=s();return p(0,0,e,t,i,n),Promise.resolve(t)})).catch((function(e){throw e.logged||(e.logged=!0),e}));var a=s();return p(0,0,e,o,i,a),o}catch(e){throw e.logged||(e.logged=!0),e}}}var h=function(){function e(){}var o;return e.getScrollTop=function(){return(window.pageYOffset||document.documentElement.scrollTop)-(document.documentElement.clientTop||0)},e.shufflePlaylist=function(e){for(var t,i,n=e.length;0!==n;)i=Math.floor(Math.random()*e.length),t=e[n-=1],e[n]=e[i],e[i]=t;return e},e.getPlacementElement=function(e){var t,i=""===(t=e.pageSelector)?{valid:!0}:l(t),n=l(e.elementSelector);return i.valid?e.pageSelector&&!i.elements.length?null:n.valid&&n.elements.length>e.skip?n.elements[e.skip]:null:null},e.createQueryString=function(e){return Object.keys(e).map((function(t){return t+"="+e[t]})).join("&")},e.createEncodedQueryString=function(e){return Object.keys(e).map((function(t){return t+"="+encodeURIComponent(e[t])})).join("&")},e=function(e,t,i,n){var o,a=arguments.length,r=a<3?t:null===n?n=Object.getOwnPropertyDescriptor(t,i):n;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)r=Reflect.decorate(e,t,i,n);else for(var s=e.length-1;s>=0;s--)(o=e[s])&&(r=(a<3?o(r):a>3?o(t,i,r):o(t,i))||r);return a>3&&r&&Object.defineProperty(t,i,r),r}([(void 0===o&&(o=!1),function(e){var a,r,s=Object.getOwnPropertyNames(e.prototype).filter((function(e){return o||0!==e.indexOf("_")})).map((function(t){return[t,Object.getOwnPropertyDescriptor(e.prototype,t)]}));try{for(var l=i(s),d=l.next();!d.done;d=l.next()){var c=n(d.value,2),p=c[0],h=c[1];void 0!==h&&"function"==typeof h.value?e.prototype[p]=u(0,0,h):void 0!==h&&void 0!==h.get&&"function"==typeof h.get&&Object.defineProperty(e.prototype,p,t(t({},h),{get:u(0,0,h)}))}}catch(e){a={error:e}}finally{try{d&&!d.done&&(r=l.return)&&r.call(l)}finally{if(a)throw a.error}}})],e)}(),f=function(){function e(e,t){this._config=e,this.adthriveCLS=t,this._players=[],this._autoplayPlayerAdded=!1,this._IN_POST_SELECTOR=".adthrive-video-player",this._WRAPPER_BAR_HEIGHT=36,this._device=/Windows NT|Macintosh/i.test(navigator.userAgent)?"desktop":"mobile"}return e.prototype.init=function(){this._initializePlayers()},e.prototype._initializePlayers=function(){this._initializeInPostPlayers(),this._shouldRunVideo()&&(this._autoplayPlayerAdded,"desktop"===this._device?this._config.video.desktopCollapseSettings&&this._config.video.desktopCollapseSettings.enabled?this._initializeAutoplayCollapsePlayer(this._config.video.desktopCollapseSettings):this._config.video.sekindoDesktopSettings&&this._config.video.sekindoDesktopSettings.enabled&&this._initializeSekindo(this._config.video.sekindoDesktopSettings,250):this._config.video.mobileCollapseSettings&&this._config.video.mobileCollapseSettings.enabled?this._initializeAutoplayCollapsePlayer(this._config.video.mobileCollapseSettings):this._config.video.sekindoMobileSettings&&this._config.video.sekindoMobileSettings.enabled&&this._initializeSekindo(this._config.video.sekindoMobileSettings,260))},e.prototype._initializeInPostPlayers=function(){var e=document.querySelectorAll(this._IN_POST_SELECTOR),t="static";this._config.video.contextualSettings&&(t=this._config.video.contextualSettings.defaultPlayerType);for(var i=0;i<e.length;i++){var n=e[i],o=n.getAttribute("data-video-id");if(!o||-1===this._players.indexOf(o)){var a=n.getAttribute("data-player-type")||t;"default"===a&&(a=t),this._autoplayPlayerAdded&&(a="static");var r=this._config.video.playerId;if(o&&r)switch(a){case"collapse":if(this._config.video.desktopCollapseSettings){var s=!1,l=n.getAttribute("override-embed");"true"===l||"false"===l?s="true"===l:this._config.video.contextualSettings&&(s=this._config.video.contextualSettings.overrideEmbedLocation);var d=n;if(s)if("desktop"===this._device){if(this._config.video.desktopContextualCollapseSettings&&this._config.video.desktopContextualCollapseSettings.elementSelector&&h.getPlacementElement(this._config.video.desktopContextualCollapseSettings)){d=h.getPlacementElement(this._config.video.desktopContextualCollapseSettings);var c=document.createElement("div");d.insertAdjacentElement(this._config.video.desktopContextualCollapseSettings.position,c),d=c}else if(this._config.video.desktopCollapseSettings.elementSelector&&h.getPlacementElement(this._config.video.desktopCollapseSettings)){d=h.getPlacementElement(this._config.video.desktopCollapseSettings);c=document.createElement("div");d.insertAdjacentElement(this._config.video.desktopCollapseSettings.position,c),d=c}}else if(this._config.video.mobileContextualCollapseSettings&&this._config.video.mobileContextualCollapseSettings.elementSelector&&h.getPlacementElement(this._config.video.mobileContextualCollapseSettings)){d=h.getPlacementElement(this._config.video.mobileContextualCollapseSettings);c=document.createElement("div");d.insertAdjacentElement(this._config.video.mobileContextualCollapseSettings.position,c),d=c}else if(this._config.video.mobileCollapseSettings&&this._config.video.mobileCollapseSettings.elementSelector&&h.getPlacementElement(this._config.video.mobileCollapseSettings)){d=h.getPlacementElement(this._config.video.mobileCollapseSettings);c=document.createElement("div");d.insertAdjacentElement(this._config.video.mobileCollapseSettings.position,c),d=c}this._wrapJWPlayerWithCLS(d,o,this._WRAPPER_BAR_HEIGHT),this._players.push(o),this._autoplayPlayerAdded=!0}break;case"static":this._wrapJWPlayerWithCLS(n,o),this._players.push(o)}}}},e.prototype._initializeSekindo=function(e,t){if(!this._autoplayPlayerAdded){var i=h.getPlacementElement(e),n=this._config.video.playlistId;if(i&&n){var o=this._createSekindoCLSWrapper(t,n);i.insertAdjacentElement(e.position,o)}}},e.prototype._initializeAutoplayCollapsePlayer=function(e){if(!this._autoplayPlayerAdded){var t=h.getPlacementElement(e),i=this._config.video,n=i.collapsePlayerId,o=i.playlistId;if(t&&n&&o){var a=document.createElement("div");t.insertAdjacentElement(e.position,a);var r=document.createElement("h3");r.style.margin="10px 0";var s=this._getTitleHeight(r);this._wrapJWPlayerWithCLS(a,o,this._WRAPPER_BAR_HEIGHT+s),this._players.push(o)}}},e.prototype._isVideoAllowedOnPage=function(){return this.adthriveCLS.disableAds&&this.adthriveCLS.disableAds.video?(this.adthriveCLS.disableAds.reasons.has("video_tag")||this.adthriveCLS.disableAds.reasons.has("video_plugin")||this.adthriveCLS.disableAds.reasons.has("video_page"),!1):!this.adthriveCLS.videoDisabledFromPlugin},e.prototype._shouldRunVideo=function(){return!(!this._isVideoAllowedOnPage()||!(this._config.video.desktopCollapseSettings&&this._config.video.desktopCollapseSettings.enabled||this._config.video.mobileCollapseSettings&&this._config.video.mobileCollapseSettings.enabled||this._config.video.sekindoDesktopSettings&&this._config.video.sekindoDesktopSettings.enabled||this._config.video.sekindoMobileSettings&&this._config.video.sekindoMobileSettings.enabled))},e.prototype._wrapJWPlayerWithCLS=function(e,t,i){if(void 0===i&&(i=0),e.parentNode){var n=e.offsetWidth*(9/16),o=this._createGenericCLSWrapper(n,t,i);e.parentNode.insertBefore(o,e),o.appendChild(e)}},e.prototype._createSekindoCLSWrapper=function(e,t){var i=this._getTitleHeight(document.createElement("h4"));return this._createGenericCLSWrapper(e,t,i)},e.prototype._createGenericCLSWrapper=function(e,t,i){var n=document.createElement("div");return n.id="cls-video-container-"+t,n.className="adthrive",n.style.minHeight=e+i+"px",n},e.prototype._getTitleHeight=function(e){e.innerText="Title",e.style.visibility="hidden",document.body.appendChild(e);var t=window.getComputedStyle(e),i=parseInt(t.height,10),n=parseInt(t.marginTop,10),o=parseInt(t.marginBottom,10);return document.body.removeChild(e),Math.min(i+o+n,50)},e}(),v=function(e){this.video=e},g=function(e){this.adthriveCLS=e;var t=this.adthriveCLS.siteAds.video.collapsible;this.playerId=this.adthriveCLS.siteAds.video.jwPlayerId,this.collapsePlayerId=this.adthriveCLS.siteAds.video.jwCollapsiblePlayerId,this.playlistId=this.adthriveCLS.siteAds.video.jwPlaylistId,this.contextualSettings=this.adthriveCLS.siteAds.video.contextual,this.desktopContextualCollapseSettings=this.adthriveCLS.siteAds.video.contextualAutoplayCollapsibleDesktop,this.mobileContextualCollapseSettings=this.adthriveCLS.siteAds.video.contextualAutoplayCollapsibleMobile,this.collapseSettings=t,this.desktopCollapseSettings=this.adthriveCLS.siteAds.video.autoplayPlaylistCollapsibleDesktop,this.mobileCollapseSettings=this.adthriveCLS.siteAds.video.autoplayPlaylistCollapsibleMobile,this.sekindoDesktopSettings=this.adthriveCLS.siteAds.video.sekindoDesktopPlaylist,this.sekindoMobileSettings=this.adthriveCLS.siteAds.video.sekindoMobilePlaylist},y=function(){function e(){}return e.prototype.start=function(){if(c()&&window.adthriveCLS&&window.adthriveCLS.siteAds&&(new d(window.adthriveCLS).start(),!window.adthriveVideosInjected)){var e=new v(new g(window.adthriveCLS));new f(e,window.adthriveCLS).init()}},e}();return window.adthriveCLS&&window.adthriveCLS.injectedFromPlugin&&(new y).start(),e.ClsInsertion=y,e}({});
+</script><script>(function () {var clsElements = document.querySelectorAll("script[id^='cls-']"); window.adthriveCLS && clsElements && clsElements.length === 0 ? window.adthriveCLS.injectedFromPlugin = false : ""; })();</script><div class="offline-indicator offline-indicator--bottom" style="background-color: rgb(0, 0, 0); --darkreader-inline-bgcolor:#000000;" data-darkreader-inline-bgcolor=""><p style="color: rgb(255, 255, 255); --darkreader-inline-color:#e8e6e3;" data-darkreader-inline-color="">Looks like you're offline!</p></div><script>(function() {function maybePrefixUrlField() {
+	if (this.value.trim() !== '' && this.value.indexOf('http') !== 0) {
+		this.value = "http://" + this.value;
+	}
+}
+
+var urlFields = document.querySelectorAll('.mc4wp-form input[type="url"]');
+if (urlFields) {
+	for (var j=0; j < urlFields.length; j++) {
+		urlFields[j].addEventListener('blur', maybePrefixUrlField);
+	}
+}
+})();</script><script type="text/javascript" id="mkaz-code-syntax-prism-js-js-extra">
+/* <![CDATA[ */
+var prism_settings = {"pluginUrl":"https:\/\/adamtheautomator.com\/wp-content\/plugins\/code-syntax-block\/"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./PowerShell Multithreading_ A Deep Dive_files/prism.js.download" id="mkaz-code-syntax-prism-js-js"></script>
+<script type="text/javascript" id="wpil-frontend-script-js-extra">
+/* <![CDATA[ */
+var wpilFrontend = {"ajaxUrl":"\/wp-admin\/admin-ajax.php","postId":"321","postType":"post","openInternalInNewTab":"0","openExternalInNewTab":"0","disableClicks":"0","openLinksWithJS":"0","trackAllElementClicks":"0","clicksI18n":{"imageNoText":"Image in link: No Text","imageText":"Image Title: ","noText":"No Anchor Text Found"}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./PowerShell Multithreading_ A Deep Dive_files/frontend.js.download" id="wpil-frontend-script-js"></script>
+<script type="text/javascript" src="./PowerShell Multithreading_ A Deep Dive_files/ui-offline.js.download" id="pwp-offline-script-js"></script>
+<script type="text/javascript" src="./PowerShell Multithreading_ A Deep Dive_files/ui-installprompt.js.download" id="pwp-installprompt-script-js"></script>
+<script type="text/javascript" src="./PowerShell Multithreading_ A Deep Dive_files/wp-embed.min.js.download" id="wp-embed-js"></script>
+<script type="text/javascript" src="./PowerShell Multithreading_ A Deep Dive_files/jquery.min.js.download" id="jquery-core-js"></script>
+<script type="text/javascript" src="./PowerShell Multithreading_ A Deep Dive_files/jquery-migrate.min.js.download" id="jquery-migrate-js"></script>
+<script type="text/javascript" src="./PowerShell Multithreading_ A Deep Dive_files/jquery.smooth-scroll.min.js.download" id="jquery-smooth-scroll-js"></script>
+<script type="text/javascript" src="./PowerShell Multithreading_ A Deep Dive_files/js.cookie.min.js.download" id="js-cookie-js"></script>
+<script type="text/javascript" src="./PowerShell Multithreading_ A Deep Dive_files/jquery.sticky-kit.min.js.download" id="jquery-sticky-kit-js"></script>
+<script type="text/javascript" id="ez-toc-js-js-extra">
+/* <![CDATA[ */
+var ezTOC = {"smooth_scroll":"1","scroll_offset":"30"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./PowerShell Multithreading_ A Deep Dive_files/front.min.js.download" id="ez-toc-js-js"></script>
+<script type="text/javascript" defer="" src="./PowerShell Multithreading_ A Deep Dive_files/forms.js.download" id="mc4wp-forms-api-js"></script>
+<script src="./PowerShell Multithreading_ A Deep Dive_files/e-202140.js.download" defer=""></script>
+<script>
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:10.1',blog:'186782181',post:'321',tz:'-5',srv:'adamtheautomator.com'} ]);
+	_stq.push([ 'clickTrackerInit', '186782181', '321' ]);
+</script>
+<script>!function(){"use strict";!function(e){if(-1===e.cookie.indexOf("__adblocker")){e.cookie="__adblocker=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";var t=new XMLHttpRequest;t.open("GET","https://www.npttech.com/advertising.js",!0),t.onreadystatechange=function(){if(XMLHttpRequest.DONE===t.readyState)if(200===t.status){var n=e.createElement("script");n.innerHTML=t.responseText,e.getElementsByTagName("head")[0].appendChild(n)}else{var a=new Date;a.setTime(a.getTime()+3e5),e.cookie="__adblocker=true; expires="+a.toUTCString()+"; path=/"}},t.send()}}(document)}();
+</script><script>!function(){"use strict";var e;e=document,function(){var t,n;function r(){var t=e.createElement("script");t.src="https://cafemedia-com.videoplayerhub.com/galleryplayer.js",e.head.appendChild(t)}function a(){var t=e.cookie.match("(^|[^;]+)\\s*__adblocker\\s*=\\s*([^;]+)");return t&&t.pop()}function c(){clearInterval(n)}return{init:function(){var e;"true"===(t=a())?r():(e=0,n=setInterval((function(){100!==e&&"false"!==t||c(),"true"===t&&(r(),c()),t=a(),e++}),50))}}}().init()}();
+</script> 
+<script>
+                  window.adthrive.cmd.push(function () {
+                    window.adthrive.disableAds(['/tag']);
+                  });
+                </script>
+
+<script defer="" src="./PowerShell Multithreading_ A Deep Dive_files/beacon.min.js.download" data-cf-beacon="{&quot;rayId&quot;:&quot;69aa8f4e4a7ee62c&quot;,&quot;token&quot;:&quot;99e66a6ed30b42709a6a67d3f7f557ba&quot;,&quot;version&quot;:&quot;2021.9.0&quot;,&quot;si&quot;:100}"></script>
+
+
+<img src="./PowerShell Multithreading_ A Deep Dive_files/g.gif" alt=":)" width="6" height="5" id="wpstats"><iframe name="__tcfapiLocator" style="display: none;" src="./PowerShell Multithreading_ A Deep Dive_files/saved_resource.html"></iframe></body></html>
