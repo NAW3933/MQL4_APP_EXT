@@ -67,6 +67,9 @@ enum ProcessStatus {
 enum CollectionNo {
    ForexCollection2020  = 0
 }
+
+
+
 #Job1
     $ZipSource = $PSScriptRoot+'\_3rdPartyMT4Code\forexcollection\2020'
     $TrgtRt = $PSScriptRoot + '\..\_MQL4_PREBUILD'
