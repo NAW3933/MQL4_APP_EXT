@@ -3,7 +3,7 @@
 #Get-ExecutionPolicy -List
 #Install-Module -Name SqlServer -RequiredVersion 21.1.18256
 
-#import SQL Server module
+
 chdir C:\CODE\_MQL4_PREBUILD
 
 # Loads the SQL Server Management Objects (SMO)  
@@ -49,11 +49,7 @@ foreach ($asm in $assemblylist)
     $asm = [Reflection.Assembly]::LoadWithPartialName($asm)  
 }  
 
- 
-##Push-Location  
-#cd $sqlpsPath  
-##update-FormatData -prependpath SQLProvider.Format.ps1xml
-#Pop-Location  
+
 
 $machine = "$env:COMPUTERNAME"
 $server  = New-Object Microsoft.Sqlserver.Management.Smo.Server("$machine")
